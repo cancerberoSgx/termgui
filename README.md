@@ -2,7 +2,7 @@ WIP
 
 ## concepts
 
-Screen: contains document, renderer, InputEmitter
+Screen: contains document, renderer, buffer, Input
 
 Renderer: responsible of drawing given pixels to the terminal
 
@@ -14,18 +14,21 @@ Node: DOM like representation analog to html's (children, attributes)
 
 Element: Node subclass analog to html's (border, margin, padding)
 
+Input: responsible of user input - notifies screen - emitter
+
 
 ## example prototypes
 
-### example (high level no layout)
+### layout & styles
+
+TODO
+
+### high level no layout
 
 s=Screen.new
 b=Button.new(parent: s.document, width: .3, height: .3, left: 0, top: 0, label: 'click me', onClick: { |e| alert "#{e.target.label} clicked!" })
 s.render()
 
-### example (layout & styles)
-
-TODO
 
 ### example low level
 
@@ -37,7 +40,7 @@ renderer.text(3,4,'click me', {fg: 'lightblue',bg: 'black' bold: true})
 
 s=Screen.new
 s.document.addListener('key', {|e| exit 0 if e.key=='q'})
-renderer.text(3,4,'click me', {fg: 'blue', bold: true})
+renderer.text(text: 'press q to exit')
 
 
 ## Notes
