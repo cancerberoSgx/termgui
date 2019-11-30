@@ -1,3 +1,16 @@
+class EventEmitter
+  @listeners = []
+  def addListener(name, &block)
+    @listeners[name] = @listeners[name] || []
+    @listeners[name].push(block)
+    self
+  end
+  def removeListener(name, &block)
+    throw 'Not implemented'
+    self
+  end
+end
+
 class Node < EventEmitter
   attr :attributes, :children
   def initialize
@@ -21,18 +34,5 @@ class Attributes
   end
   def getAttribute(name)
     @attrs[name]
-  end
-end
-
-def EventEmitter
-  @listeners = []
-  def addListener(name, &block)
-    @listeners[name] = @listeners[name] || []
-    @listeners[name].push(block)
-    self
-  end
-  def removeListener(name, &block)
-    throw 'Not implemented'
-    self
   end
 end
