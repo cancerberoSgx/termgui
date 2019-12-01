@@ -1,25 +1,26 @@
 require_relative 'emitter'
 
-SLEEP=0.001
-
 class Input < Emitter
-  # attr :sleep, :stdin
-  def initialize(stdin=$stdin, sleep=0.01)
-    # @sleep = sleep
+  attr :interval, :stdin, :stopped
+  def initialize(stdin=$stdin, interval=0.01)
+    @interval = interval
     @stdin = stdin
+    @stopped=true
     # enables the 'key' event
     on(:key)
   end
+  def stop
+    @stopped=true
+  end
   def start
+    if !@stopped
+      return self
+    end
     @stdin.raw do |io|
-      # last_read = Time.now
-      # prompted  = false
+      @stopped=false
       loop do
         char = get_char_or_sequence(io)
         if char
-          # last_read = Time.now
-          # prompted  = false
-          # print char
           key=char.inspect
           key=key[1..key.length-2]
           event={
@@ -28,19 +29,27 @@ class Input < Emitter
             raw: char
           }
           self.emit('key', event)
-          # $stdout.write inspected
-          break if char == ?q
+          break if @stopped
 
         else
-          # if !prompted && Time.now - last_read > 3
-          #   puts "Please type a character.\r\n"
-          #   prompted = true
-          # end
-          sleep 0.1
+          sleep @interval
         end
       end
     end
   end
+  def defaultExitKeys
+    @input.subscribe('key', Proc.new {|e| 
+      if e.key=='q'
+        @input.stop
+      end
+    })
+  end
+  # TODO: implement setTimeout
+  # @timer=0
+  # def timeout(block, sec)
+  #   timer=@timer++
+  #   throw 'not impl'
+  # end
 end
 
 require "io/console"

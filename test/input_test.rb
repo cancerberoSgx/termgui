@@ -1,13 +1,17 @@
-# require "test/unit"
-# include Test::Unit::Assertions
-# require_relative '../src/input'
+require "test/unit"
+include Test::Unit::Assertions
+require_relative '../src/input'
+require 'timeout'
 
-# class MainTest < Test::Unit::TestCase
-#   def test_children
-#     input = Input.new
-#     # assert_equal s, 'ring ring ring'
-#     input.subscribe(:key, {|e|puts 'key!'})
-#     input.start
-#   end  
-# end
+class InputTest < Test::Unit::TestCase
+  def test_subscribe
+    i=Input.new
+    i.subscribe('key', Proc.new {|e| 
+      puts e[:key]
+    })
+    i.start
+    status = Timeout::timeout(0.3) {
+      
+    }
+end
  

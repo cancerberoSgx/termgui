@@ -85,6 +85,10 @@ add features from npm.org/flor:
  * a xmlish syntax for defining GUI. 
   * support function attributes for event handlers
 
+## Side projects
+
+ * cli/driver for ruby : for properly testing termgui we need cli-driver for ruby. see probes/stdin.rb for working exec and writing to process stdin async 
+
 ## Notes
 
 ### html canvas for renderer
