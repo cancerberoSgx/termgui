@@ -23,11 +23,12 @@ class Input < Emitter
         if char
           key=char.inspect
           key=key[1..key.length-2]
-          event={
-            name: 'key',
-            key: key,
-            raw: char
-          }
+          event = KeyEvent.new 'key', key, char
+          # event={
+          #   name: 'key',
+          #   key: key,
+          #   raw: char
+          # }
           self.emit('key', event)
           break if @stopped
 
@@ -50,6 +51,15 @@ class Input < Emitter
   #   timer=@timer++
   #   throw 'not impl'
   # end
+end
+
+class KeyEvent
+  attr :name, :key, :raw
+  def initialize(name, key, raw)
+    @name=name
+    @key=key
+    @raw=raw
+  end
 end
 
 require "io/console"

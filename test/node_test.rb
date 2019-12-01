@@ -9,6 +9,7 @@ class NodeTest < Test::Unit::TestCase
     c=Node.new
     n.appendChild c
     assert_equal n.children, [c]
+    assert_equal c.children, []
   end  
 end
  

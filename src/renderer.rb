@@ -8,11 +8,27 @@ CSI = "\e["
 #  * manages current applied style
 class Renderer
   attr :width, :height, :buffer, :style
-  @width=@height=0
-  @buffer=[@height.times{@width.times {Pixel.new}}]
-  @style=Style.new
+  def initialize(width=80, height=20)
+    @width=width
+    @height=height
+    # @width=@height=0
+    @buffer=[@height.times{@width.times {Pixel.new ' ', {} }}]
+    @style=Style.new
+  end
+  # all writing must be done using me
   def write(x,y,ch)
+    # @buffer[y][x].ch=ch
     "#{move x, y}#{ch}"
+  end
+  def print
+    s=''
+    @buffer.each_index{|y|
+      @buffer[y].each{|p|
+        s=s+p.ch
+      }
+      s=s+'\n'
+    }
+    s
   end
   def move(x, y)
     "#{CSI}#{y};#{x}H"    
@@ -29,4 +45,8 @@ end
 
 class Pixel
   attr :ch, :style
+  def initialize(ch, style)
+    @ch=ch
+    @style=style
+  end
 end
