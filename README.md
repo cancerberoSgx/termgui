@@ -1,23 +1,17 @@
+termui
+
+Command line user interface Ruby toolkit. Create desktop-like interfaces in the command line.
+
 WIP
 
-## concepts
+## development
 
-Screen: contains document, renderer, buffer, Input
-
-Renderer: responsible of drawing given pixels to the terminal
-
-Buffer: maintains screen as bitmap structure (so users can read the current screen contents like a bitmap)
-
-Document: Node subclass analog to html's (access to parent screen)
-
-Node: DOM like representation analog to html's (children, attributes)
-
-Element: Node subclass analog to html's (border, margin, padding)
-
-Input: responsible of user input - notifies screen - emitter
+bundle install
+sh run test
+sh run watch
 
 
-## example prototypes
+## API example prototypes (WIP)
 
 ### layout & styles
 
@@ -43,9 +37,47 @@ s.document.addListener('key', {|e| exit 0 if e.key=='q'})
 renderer.text(text: 'press q to exit')
 
 
-## Notes
+## Design
 
-html canvas for renderer
+### concepts
+
+Screen: contains document, renderer, buffer, Input
+
+Renderer: responsible of drawing given pixels to the terminal
+
+Buffer: maintains screen as bitmap structure (so users can read the current screen contents like a bitmap)
+
+Document: Node subclass analog to html's (access to parent screen)
+
+Node: DOM like representation analog to html's (children, attributes)
+
+Element: Node subclass analog to html's (border, margin, padding)
+
+Input: responsible of user input - notifies screen - emitter
+
+## Summary
+
+I'm author of npm.org/flor that although has superior terminal support (tmux) I would like to re implement a similar library for ruby, writing it from scratch (currently learning ruby). 
+
+ * low level html-canvas like to set attributes and write strings
+ * renderer of styled strings supporting cursor management, 
+   *  responsible of translating user's `{bg: 'red', s: 'hello'}` into a string with ansi codes
+ * screen maintains a virtual Buffer so current drawn screen can be accessed like a bitmap
+ * a DOM like API for children, attributes, box model, style
+   * supports user input events also like html dom EventSource (element.addListener('key', ...))
+   * basic widget implementations: button,input,textarea
+ * style: fg, bg, ch, bold, etc. 
+
+## Future
+
+add features from npm.org/flor: 
+
+ * event manager
+ * focus manager
+ * scroll (element.scrollX=0.2) - dom support
+ * a xmlish syntax for defining GUI. support function attributes for event handlers
+
+### html canvas for renderer
  * try to stick to html canvas api for Renderer
  * user is responsible of setting the 'active style' like canvas' stroke-width - this simplifies renderer
 
