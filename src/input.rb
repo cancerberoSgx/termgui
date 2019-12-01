@@ -1,7 +1,11 @@
 require_relative 'emitter'
 
+SLEEP=0.001
+
 class Input < Emitter
-  def initialize(stdin)
+  # attr :sleep, :stdin
+  def initialize(stdin=$stdin, sleep=0.01)
+    # @sleep = sleep
     @stdin = stdin
     # enables the 'key' event
     on(:key)
@@ -9,14 +13,24 @@ class Input < Emitter
   def start
     @stdin.raw do |io|
       # last_read = Time.now
-      prompted  = false
+      # prompted  = false
       loop do
         char = get_char_or_sequence(io)
         if char
           # last_read = Time.now
-          prompted  = false
-          puts "You typed:  #{char.inspect}\r\n"
+          # prompted  = false
+          # print char
+          key=char.inspect
+          key=key[1..key.length-2]
+          event={
+            name: 'key',
+            key: key,
+            raw: char
+          }
+          self.emit('key', event)
+          # $stdout.write inspected
           break if char == ?q
+
         else
           # if !prompted && Time.now - last_read > 3
           #   puts "Please type a character.\r\n"

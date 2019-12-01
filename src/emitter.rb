@@ -36,9 +36,10 @@ class Emitter
 
   # emit the event
   # @param event_name [String, Symbol]
-  def emit(event_name)
+  def emit(event_name, event={name: event_name})
     events[event_name.to_sym]&.each do |h|
-      h[:proc].call(event_name.to_sym, self)
+      # Proc.new.call
+      h[:proc].call(event)
     end
   end
 

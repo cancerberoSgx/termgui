@@ -62,15 +62,17 @@ Input: responsible of user input - notifies screen - emitter
 
 ## Summary
 
-I'm author of npm.org/flor that although has superior terminal support (tmux) I would like to re implement a similar library for ruby, writing it from scratch (currently learning ruby). 
+I'm author of npm.org/flor that although has superior terminal support (tput) I would like to re implement a similar library for ruby, writing it from scratch (currently learning ruby). 
 
  * low level html-canvas like to set attributes and write strings
+  * try to stick to html canvas api for Renderer
+  * user is responsible of setting the 'active style' like canvas' stroke-width - this simplifies renderer
  * renderer of styled strings supporting cursor management, 
-   *  responsible of translating user's `{bg: 'red', s: 'hello'}` into a string with ansi codes
+  *  responsible of translating user's `{bg: 'red', s: 'hello'}` into a string with ansi codes
  * screen maintains a virtual Buffer so current drawn screen can be accessed like a bitmap
  * a DOM like API for children, attributes, box model, style
-   * supports user input events also like html dom EventSource (element.addListener('key', ...))
-   * basic widget implementations: button,input,textarea
+  * supports user input events also like html dom EventSource (element.addListener('key', ...))
+  * basic widget implementations: button,input,textarea
  * style: fg, bg, ch, bold, etc. 
 
 ## Future
@@ -80,7 +82,8 @@ add features from npm.org/flor:
  * event manager
  * focus manager
  * scroll (element.scrollX=0.2) - dom support
- * a xmlish syntax for defining GUI. support function attributes for event handlers
+ * a xmlish syntax for defining GUI. 
+  * support function attributes for event handlers
 
 ## Notes
 
