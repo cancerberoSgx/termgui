@@ -1,6 +1,6 @@
 require_relative 'style'
-
-CSI = "\e["
+require_relative 'key'
+# CSI = "\e["
 
 # Responsible of (TODO: we should split Renderer into several delegate classes
 #  * build charsequences to render text on a position. these are directly write to $stdout by screen

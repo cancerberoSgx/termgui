@@ -51,8 +51,7 @@ end
 
 require "io/console"
 require "io/wait"
-
-CSI = "\e["
+require_relative 'key'
 
 def get_char_or_sequence(io)
   if io.ready?
