@@ -11,21 +11,21 @@ class Renderer
   def initialize(width=80, height=20)
     @width=width
     @height=height
-    # @width=@height=0
-    # @buffer=[@height.times{@width.times {Pixel.new ' ', {} }}]
-    @buffer = (0...@height).to_a.map {|y|
-      (0...@width).to_a.map {|x|
-        Pixel.new ' ', {}
+    @buffer = (0...@height).to_a.map {
+      (0...@width).to_a.map {
+        Pixel.new '-', {}
       }
     }
-
     @style=Style.new
   end
   # all writing must be done using me
   def write(x,y,ch)
-    # @buffer[y][x].ch=ch
+    (x...[x+ch.length, @width].min).to_a.each{|i|
+      @buffer[y][i].ch=ch[i-x]
+    }
     "#{move x, y}#{ch}"
   end
+  # prints current buffer as string
   def print
     s=''
     @buffer.each_index{|y|
@@ -42,7 +42,6 @@ class Renderer
   def rect(x, y, w, h, ch)
     s=''
     h.times { |y_|
-      # s += "#{move(x, y + y_)}#{ch * w}"
       s += "#{write(x, y + y_, ch * w)}"
     }
     s
@@ -55,4 +54,10 @@ class Pixel
     @ch=ch
     @style=style
   end
+  def ch=(ch)
+    @ch = ch
+  end 
+  def style=(style)
+  @style = style
+end
 end

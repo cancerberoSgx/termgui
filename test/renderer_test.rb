@@ -1,5 +1,6 @@
 require_relative '../src/renderer'
-  require "test/unit"
+require_relative '../src/util'
+require "test/unit"   
 include Test::Unit::Assertions
 class RendererTest < Test::Unit::TestCase
   def test_rect_stub
@@ -16,13 +17,17 @@ class RendererTest < Test::Unit::TestCase
     r=Renderer.new 
     s=r.rect 2,1,3,2,'x'
     assert_equal s, "\e[1;2Hxxx\e[2;2Hxxx"
-    # print s
   end
-  def test_buffer
-    r=Renderer.new 
-    r.rect 2,1,3,2,'x'
-    # print r.buffer.inspect
+  def test_print
+    r2=Renderer.new 10, 7
+    r2.rect 2,1,3,2,'x'
+    assert_equal  r2.print, 
+    "----------\\n" +
+    "--xxx-----\\n" +
+    "--xxx-----\\n" +
+    "----------\\n" +
+    "----------\\n" +
+    "----------\\n" +
+    "----------\\n"
   end
 end
-
-  
