@@ -22,12 +22,12 @@ class RendererTest < Test::Unit::TestCase
     r2=Renderer.new 10, 7
     r2.rect 2,1,3,2,'x'
     assert_equal  r2.print, 
-    "----------\\n" +
-    "--xxx-----\\n" +
-    "--xxx-----\\n" +
-    "----------\\n" +
-    "----------\\n" +
-    "----------\\n" +
-    "----------\\n"
+    "          \\n" +
+    "  xxx     \\n" +
+    "  xxx     \\n" +
+    "          \\n" +
+    "          \\n" +
+    "          \\n" +
+    "          \\n"
   end
 end

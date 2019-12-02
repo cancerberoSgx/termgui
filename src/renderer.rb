@@ -13,7 +13,7 @@ class Renderer
     @height=height
     @buffer = (0...@height).to_a.map {
       (0...@width).to_a.map {
-        Pixel.new '-', {}
+        Pixel.new ' ', {}
       }
     }
     @style=Style.new
