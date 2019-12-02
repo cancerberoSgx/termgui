@@ -20,10 +20,14 @@ class Renderer
   end
   # all writing must be done using me
   def write(x,y,ch)
-    (x...[x+ch.length, @width].min).to_a.each{|i|
-      @buffer[y][i].ch=ch[i-x]
-    }
-    "#{move x, y}#{ch}"
+    if y<@buffer.length&&y>=0
+      (x...[x+ch.length, @width].min).to_a.each{|i|
+        @buffer[y][i].ch=ch[i-x]
+      }
+      "#{move x, y}#{ch}"
+    else
+      ''
+    end
   end
   # prints current buffer as string
   def print
@@ -46,6 +50,12 @@ class Renderer
     }
     s
   end 
+  def saveCursor
+    "#{CSI}s" 
+  end  
+  def restoreCursor
+  "#{CSI}u" 
+end
 end
 
 class Pixel
