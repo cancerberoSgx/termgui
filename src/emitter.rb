@@ -23,6 +23,7 @@ class Emitter
     )
     handler_id
   end
+  alias addListener subscribe
 
   # unsubscribe to event
   # @param event_name [String, Symbol]
@@ -33,15 +34,17 @@ class Emitter
       item[:id] == handler_id
     end
   end
+  alias removeListener unsubscribe
 
   # emit the event
-  # @param event_name [String, Symbol]
+  # @param event_name [String, Event]
   def emit(event_name, event={name: event_name})
     events[event_name.to_sym]&.each do |h|
       # Proc.new.call
       h[:proc].call(event)
     end
   end
+  alias trigger emit
 
   # get array of existing events
   # @return [Array<Symbols>]

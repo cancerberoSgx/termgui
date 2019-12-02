@@ -1,4 +1,5 @@
 require_relative 'emitter'
+require_relative 'event'
 
 class Input < Emitter
   attr :interval, :stdin, :stopped
@@ -23,12 +24,7 @@ class Input < Emitter
         if char
           key=char.inspect
           key=key[1..key.length-2]
-          event = KeyEvent.new 'key', key, char
-          # event={
-          #   name: 'key',
-          #   key: key,
-          #   raw: char
-          # }
+          event = KeyEvent.new  key, char
           self.emit('key', event)
           break if @stopped
 
@@ -39,9 +35,9 @@ class Input < Emitter
     end
   end
   def defaultExitKeys
-    @input.subscribe('key', Proc.new {|e| 
+    self.subscribe('key', Proc.new {|e| 
       if e.key=='q'
-        @input.stop
+        self.stop
       end
     })
   end
@@ -51,15 +47,6 @@ class Input < Emitter
   #   timer=@timer++
   #   throw 'not impl'
   # end
-end
-
-class KeyEvent
-  attr :name, :key, :raw
-  def initialize(name, key, raw)
-    @name=name
-    @key=key
-    @raw=raw
-  end
 end
 
 require "io/console"
