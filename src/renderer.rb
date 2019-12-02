@@ -12,7 +12,13 @@ class Renderer
     @width=width
     @height=height
     # @width=@height=0
-    @buffer=[@height.times{@width.times {Pixel.new ' ', {} }}]
+    # @buffer=[@height.times{@width.times {Pixel.new ' ', {} }}]
+    @buffer = (0...@height).to_a.map {|y|
+      (0...@width).to_a.map {|x|
+        Pixel.new ' ', {}
+      }
+    }
+
     @style=Style.new
   end
   # all writing must be done using me
