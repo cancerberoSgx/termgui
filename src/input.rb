@@ -1,5 +1,8 @@
 require_relative "emitter"
 require_relative "event"
+require "io/console"
+require "io/wait"
+require_relative "key"
 
 class Input < Emitter
   attr :interval, :stdin, :stopped
@@ -48,6 +51,21 @@ class Input < Emitter
     })
   end
 
+  protected
+
+  def get_char_or_sequence(io)
+    if io.ready?
+      result = io.sysread(1)
+      while (CSI.start_with?(result) ||
+            (result.start_with?(CSI) &&
+              !result.codepoints[-1].between?(64, 126))) &&
+            (next_char = get_char_or_sequence(io))
+        result << next_char
+      end
+      result
+    end
+  end
+
   # TODO: implement setTimeout
   # @timer=0
   # def timeout(block, sec)
@@ -56,19 +74,3 @@ class Input < Emitter
   # end
 end
 
-require "io/console"
-require "io/wait"
-require_relative "key"
-
-def get_char_or_sequence(io)
-  if io.ready?
-    result = io.sysread(1)
-    while (CSI.start_with?(result) ||
-           (result.start_with?(CSI) &&
-            !result.codepoints[-1].between?(64, 126))) &&
-          (next_char = get_char_or_sequence(io))
-      result << next_char
-    end
-    result
-  end
-end

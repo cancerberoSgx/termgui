@@ -1,6 +1,6 @@
 require_relative "style"
 require_relative "key"
-# CSI = "\e["
+EMPTY = " "
 
 # Responsible of (TODO: we should split Renderer into several delegate classes
 #  * build charsequences to render text on a position. these are directly write to $stdout by screen
@@ -14,7 +14,7 @@ class Renderer
     @height = height
     @buffer = (0...@height).to_a.map {
       (0...@width).to_a.map {
-        Pixel.new " ", {}
+        Pixel.new EMPTY, {}
       }
     }
     @style = Style.new
@@ -63,12 +63,22 @@ class Renderer
   def restoreCursor
     "#{CSI}u"
   end
+
+  def clear
+    @buffer.each_index { |y|
+      @buffer[y].each { |p|
+        p.ch = EMPTY
+        p.style = {}
+      }
+    }
+    "#{CSI}2J"
+  end
 end
 
 class Pixel
   attr :ch, :style
 
-  def initialize(ch, style = nil)
+  def initialize(ch = EMPTY, style = {})
     @ch = ch
     @style = style
   end

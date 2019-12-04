@@ -29,6 +29,12 @@ def nextTick
   sleep 0.0000001
 end
 
+CHARS = ('a'..'z').to_a.concat(('A'..'Z').to_a).push('_', '-', '@', '!', '#', '$', '%', '^', '&', '*', '=', '+')
+
+def randomChar
+  CHARS.sample
+end
+
 # def setTimeout(ms, proc)
 #   sleep ms
 # end

@@ -6,7 +6,7 @@ require_relative "event"
 class Screen < Node
   attr :width, :height, :inputStream, :outputStream, :renderer, :input, :event
 
-  def initialize(width = $stdout.winsize[0], height = $stdout.winsize[1])
+  def initialize(width = $stdout.winsize[1], height = $stdout.winsize[0])
     super "screen"
     @height, @width = $stdout.winsize
     @width = width || @width
@@ -16,9 +16,6 @@ class Screen < Node
     @renderer = Renderer.new(@width, @height)
     @input = Input.new
     @event = EventManager.new @input
-    # @input.subscribe('key', {|e|
-    #   self.handleKey e
-    # })
   end
 
   def start
@@ -29,9 +26,15 @@ class Screen < Node
     @input.stop
   end
 
-  # protected
+  def write(s)
+    @outputStream.write s
+  end
 
-  # def handleKey(e)
+  def rect(x, y, w, h, ch)
+    write @renderer.rect x, y, w, h, ch
+  end
 
-  # end
+  def clear
+    write @renderer.clear
+  end
 end

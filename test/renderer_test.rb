@@ -24,14 +24,31 @@ class RendererTest < Test::Unit::TestCase
   def test_print
     r2 = Renderer.new 10, 7
     r2.rect 2, 1, 3, 2, "x"
+    assert_equal r2.print,
+                  "          \\n" +
+                  "  xxx     \\n" +
+                  "  xxx     \\n" +
+                  "          \\n" +
+                  "          \\n" +
+                  "          \\n" +
+                  "          \\n"
     r2.rect 4, 2, 2, 3, "y"
     assert_equal r2.print,
-                 "          \\n" +
-                 "  xxx     \\n" +
-                 "  xxyy    \\n" +
-                 "    yy    \\n" +
-                 "    yy    \\n" +
-                 "          \\n" +
-                 "          \\n"
+                  "          \\n" +
+                  "  xxx     \\n" +
+                  "  xxyy    \\n" +
+                  "    yy    \\n" +
+                  "    yy    \\n" +
+                  "          \\n" +
+                  "          \\n"
+    r2.clear
+    assert_equal r2.print,
+                  "          \\n" +
+                  "          \\n" +
+                  "          \\n" +
+                  "          \\n" +
+                  "          \\n" +
+                  "          \\n" +
+                  "          \\n"
   end
 end
