@@ -1,14 +1,14 @@
 require "test/unit"
 include Test::Unit::Assertions
-require_relative '../src/emitter'
-require_relative '../src/util'
+require_relative "../src/emitter"
+require_relative "../src/util"
 
 class EmitterTest < Test::Unit::TestCase
   def test_children
     event_emitter = Emitter.new
-    s=''
+    s = ""
     ring_bell = lambda do |object|
-      s= 'ring ring ring'
+      s = "ring ring ring"
     end
     # create an event 'doorOpen'
     event_emitter.on(:doorOpen)
@@ -17,13 +17,12 @@ class EmitterTest < Test::Unit::TestCase
     # to trigger event
     event_emitter.emit(:doorOpen)
     nextTick
-    assert_equal s, 'ring ring ring'
+    assert_equal s, "ring ring ring"
 
-    s=''
-    event_emitter.subscribe(:doorOpen, Proc.new {|e| s=e[:msg]})
-    event_emitter.emit(:doorOpen, {msg: 'hello'})
+    s = ""
+    event_emitter.subscribe(:doorOpen, Proc.new { |e| s = e[:msg] })
+    event_emitter.emit(:doorOpen, { msg: "hello" })
     nextTick
-    assert_equal s, 'hello'
-  end  
+    assert_equal s, "hello"
+  end
 end
- 

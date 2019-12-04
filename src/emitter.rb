@@ -1,6 +1,6 @@
 # from https://medium.com/@kopilov.vlad/use-event-emitter-in-ruby-6b289fe2e7b4
 class Emitter
-   # turn on the event
+  # turn on the event
   # @param event_name [String, Symbol]
   def on(event_name)
     events[event_name.to_sym] ||= []
@@ -23,6 +23,7 @@ class Emitter
     )
     handler_id
   end
+
   alias addListener subscribe
 
   # unsubscribe to event
@@ -34,16 +35,18 @@ class Emitter
       item[:id] == handler_id
     end
   end
+
   alias removeListener unsubscribe
 
   # emit the event
   # @param event_name [String, Event]
-  def emit(event_name, event={name: event_name})
+  def emit(event_name, event = { name: event_name })
     events[event_name.to_sym]&.each do |h|
       # Proc.new.call
       h[:proc].call(event)
     end
   end
+
   alias trigger emit
 
   # get array of existing events
