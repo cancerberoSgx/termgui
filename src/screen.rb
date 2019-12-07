@@ -35,6 +35,16 @@ class Screen < Node
   end
 
   def clear
+    @renderer.style = Style.new
+    write @renderer.style.print
     write @renderer.clear
   end
+
+  def style=(style)
+    if !@renderer.style.equals style
+      @renderer.style = style
+      write @renderer.style.print
+    end
+  end
+
 end
