@@ -12,21 +12,21 @@ COLORS = {
 }
 
 def colorNames
-  ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white']
+  ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
 end
 
 # https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_parameters
 ATTRIBUTES = {
-  normal: 0, 
-  
-  bold: 1, 
+  normal: 0,
+
+  bold: 1,
   boldOff: 22,
 
   faint: 2,
   faintOff: 22,
 
   italic: 3,
-  italicOff: 23, 
+  italicOff: 23,
 
   underline: 4,
   underlineOff: 24,
@@ -37,8 +37,8 @@ ATTRIBUTES = {
   blinkOff: 25,
   slowBlinkOff: 25,
   rapidBlinkOff: 25,
-  
-  inverse: 7, 
+
+  inverse: 7,
   inverseOff: 27,
 
   defaultForeground: 39,
@@ -46,16 +46,16 @@ ATTRIBUTES = {
 
   invisible: 8,
   invisibleOff: 28,
-  
+
   fraktur: 20,
   frakturOff: 23,
 
-  framed: 51, 
-  encircled: 52, 
+  framed: 51,
+  encircled: 52,
   ovelrined: 53,
 
-  framedOff: 54, 
-  encircledOff: 54, 
+  framedOff: 54,
+  encircledOff: 54,
 }
 
 def randomColor

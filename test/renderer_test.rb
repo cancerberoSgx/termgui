@@ -25,30 +25,30 @@ class RendererTest < Test::Unit::TestCase
     r2 = Renderer.new 10, 7
     r2.rect x: 2, y: 1, width: 3, height: 2, ch: "x"
     assert_equal r2.print,
-                  "          \\n" +
-                  "  xxx     \\n" +
-                  "  xxx     \\n" +
-                  "          \\n" +
-                  "          \\n" +
-                  "          \\n" +
-                  "          \\n"
+                 "          \\n" +
+                 "  xxx     \\n" +
+                 "  xxx     \\n" +
+                 "          \\n" +
+                 "          \\n" +
+                 "          \\n" +
+                 "          \\n"
     r2.rect x: 4, y: 2, width: 2, height: 3, ch: "y"
     assert_equal r2.print,
-                  "          \\n" +
-                  "  xxx     \\n" +
-                  "  xxyy    \\n" +
-                  "    yy    \\n" +
-                  "    yy    \\n" +
-                  "          \\n" +
-                  "          \\n"
+                 "          \\n" +
+                 "  xxx     \\n" +
+                 "  xxyy    \\n" +
+                 "    yy    \\n" +
+                 "    yy    \\n" +
+                 "          \\n" +
+                 "          \\n"
     r2.clear
     assert_equal r2.print,
-                  "          \\n" +
-                  "          \\n" +
-                  "          \\n" +
-                  "          \\n" +
-                  "          \\n" +
-                  "          \\n" +
-                  "          \\n"
+                 "          \\n" +
+                 "          \\n" +
+                 "          \\n" +
+                 "          \\n" +
+                 "          \\n" +
+                 "          \\n" +
+                 "          \\n"
   end
 end

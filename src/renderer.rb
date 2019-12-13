@@ -79,9 +79,9 @@ class Renderer
   end
 
   def style=(style)
-      @style = style
+    @style = style
   end
-  
+
   def mergeStyle(style)
     @style.assign(style)
   end
@@ -91,7 +91,7 @@ class Pixel
   attr :ch, :style
 
   def self.EMPTY_CH
-    ' '
+    " "
   end
 
   def initialize(ch = Pixel.EMPTY_CH, style = Style.new)

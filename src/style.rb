@@ -5,7 +5,7 @@ require_relative "color"
 class Style
   attr :fg, :bg
 
-  def initialize(fg=nil, bg=nil)
+  def initialize(fg: nil, bg: nil)
     @fg = fg
     @bg = bg
   end

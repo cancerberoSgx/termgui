@@ -11,8 +11,8 @@ class Screen < Document
   def initialize(width: $stdout.winsize[1], height: $stdout.winsize[0])
     super name: "screen"
     # @height, @width = $stdout.winsize
-    @width = width 
-    @height = height  
+    @width = width
+    @height = height
     @inputStream = $stdin
     @outputStream = $stdout
     @renderer = Renderer.new(@width, @height)

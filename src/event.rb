@@ -35,7 +35,6 @@ class EventManager
     @keyListeners[key].delete(listener)
   end
 
-  # protected
   def handleKey(e)
     key = e.key
     @keyListeners[key] = @keyListeners[key] || []

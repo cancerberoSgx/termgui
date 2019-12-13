@@ -9,5 +9,4 @@ class ScreenTest < Test::Unit::TestCase
     assert_equal r.buffer.length, 6
     assert_equal r.buffer[0].length, 5
   end
-
 end

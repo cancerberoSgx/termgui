@@ -10,8 +10,8 @@ s = Screen.new
 s.event.addKeyListener("q", Proc.new { |e| s.destroy })
 draw = Proc.new { |e|
   s.clear
-  s.style = Style.new randomColor, randomColor
-  s.rect(rand(s.width / N), rand(s.height / N), rand(s.width / N) + 1, rand(s.height / N) + 1, randomChar)
+  s.style = Style.new bg: randomColor, fg: randomColor
+  s.rect x: rand(s.width / N), y: rand(s.height / N), width: rand(s.width / N) + 1, height: rand(s.height / N) + 1, ch: randomChar
 }
 s.event.addKeyListener("s", draw)
 print "press q to exit and 's' to render"
