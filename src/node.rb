@@ -23,9 +23,12 @@ class Node < EventEmitter
     @textContent = ""
   end
 
+  # returns child so something like the following is possible:
+  # `@text = appendChild(Textarea.new model.text)`
+
   def appendChild(child)
     @children.push(child)
-    self
+    child
   end
 
   def queryByAttr(attr, value)
@@ -34,11 +37,20 @@ class Node < EventEmitter
   end
 
   def render(screen)
-    throw 'Abstract method node:render'
+    renderSelf screen
+    renderChildren screen
+  end
+
+  def renderSelf(screen)
+    throw "Abstract method"
+  end
+
+  def renderChildren(screen)
+    @children.each { |c| c.render screen }
   end
 
   def setAttributes(attrs)
-    attrs.each_key {|key| setAttribute(key.to_s, attrs[key])}
+    attrs.each_key { |key| setAttribute(key.to_s, attrs[key]) }
     self
   end
 
@@ -53,7 +65,7 @@ class Node < EventEmitter
 end
 
 class Attributes
-  def initialize(attrs={})
+  def initialize(attrs = {})
     @attrs = attrs
   end
 
@@ -72,17 +84,15 @@ class Attributes
 end
 
 class Element < Node
-end
-
-class Rect < Element
-  def initialize(x=0,y=0,width=0,height=0,ch=Pixel.EMPTY_CH)
-    super 'rect'
+  def initialize(x = 0, y = 0, width = 0, height = 0, ch = Pixel.EMPTY_CH)
+    super "element"
     setAttributes({
-      x: x, y: y, width: width, height: height, ch: ch
+      x: x, y: y, width: width, height: height, ch: ch,
     })
   end
-  def render(screen)
-    screen.rect(getAttribute('x'), getAttribute('y'), getAttribute('width'), getAttribute('height'), getAttribute('ch'))
+
+  def renderSelf(screen)
+    screen.rect(getAttribute("x"), getAttribute("y"), getAttribute("width"), getAttribute("height"), getAttribute("ch"))
   end
 end
 

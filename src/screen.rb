@@ -3,7 +3,9 @@ require_relative "renderer"
 require_relative "input"
 require_relative "event"
 
-class Screen < Node
+# main user API entry point
+# manages instances of Input, Event, Renderer
+class Screen < Document
   attr :width, :height, :inputStream, :outputStream, :renderer, :input, :event
 
   def initialize(width = $stdout.winsize[1], height = $stdout.winsize[0])
@@ -18,6 +20,8 @@ class Screen < Node
     @event = EventManager.new @input
   end
 
+  # start listening for user input. This starts an user input event loop
+  # that ends when screen.destroy is called
   def start
     @input.start
   end
@@ -47,4 +51,7 @@ class Screen < Node
     end
   end
 
+  def render(element)
+    element.render self
+  end
 end

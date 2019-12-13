@@ -1,8 +1,62 @@
 # termui
 
-Command line user interface Ruby toolkit. Create desktop-like interfaces in the command line.
+ * Command line graphical user interface Ruby toolkit. 
+ * Create desktop-like interfaces in the command line.
+ * Personal ruby-learning project right now
+ * ncurses like library 100% ruby
+ * some ideas taken from npm.org/blessed
 
-WIP
+## Status
+
+ * WIP
+ * drawing, styles, colors
+ * input manager
+ * renderer screen buffer (access screen like a bitmap)
+ * no high level api yet
+
+## Motivation
+
+ * I didn't found ncurses/blessed library gem implemented 100% in ruby (only ncursed which is C BTW)
+ * I'm the author of npm.org/accursed which is a similar library so I can of already implemented this in JavaScript
+ * I'm getting started with ruby and I want to master it
+ * Many helpers, mappings can be reused from npm.org since js objects are valid ruby maps {}
+   * boxes: json
+   * color names / mapping (js objects)
+   * easing: simple js math-related functions easily to translate to ruby
+
+## Usage
+```
+gem install termgui # TODO
+```
+
+// low level (working) example
+```
+require 'termgui'
+
+screen = Screen.new
+
+# install exit keys, by default 'q' will quit the program
+screen.input.install_exit_keys
+
+# when user press 's' we clear the screen and paint a rectangle full with 's' char
+screen.event.addKeyListener("s", Proc.new { |e| 
+  rect=Element.new 2,3,4,3,'S'
+  screen.clear
+  rect.render screen
+})
+
+# starts reading user input. 
+screen.start
+```
+
+
+## Development commands
+
+cd termui
+bundler install
+sh bin/test
+sh bin/dev   # rails server
+sh bin/watch # tests in watch mode
 
 ## development
 
@@ -17,30 +71,52 @@ sh run watch
 ### layout & styles
 
 TODO
+```
+require 'termgui'
+class AppExplorer < Column
+  def initialize(model)
+    super
+    @model=model
+    @text=appendChild(Textarea.new model.text)
+    @text.onChange {|e| print e.key}
+  end
+end
+screen = Screen.new
+main = Row.new
+left = main.appendChild(Column.new 0.3)
+right = main.appendChild(Column.new 0.7)
+explorer = left.appendChild(AppExplorer.new model)
+editor = right.appendChild(AppEditor.new model)
+screen start
+```
 
 ### high level no layout
 
+TODO
+
 ```
 s=Screen.new
-b=Button.new(parent: s.document, width: .3, height: .3, left: 0, top: 0, label: 'click me', onClick: { |e| alert "#{e.target.label} clicked!" })
-s.render()
+b=Button.new(parent: s.document, width: 0.3, height: 0.3, left: 0, top: 0, label: 'click me', onClick: { |e| alert "#{e.target.label} clicked!" })
+s.start
 ```
 
 ### example low level
 
 ```
-screen, renderer = Screen.create
-renderer.rect(2,3,9,3,'-', {fg: 'yellow', bg: 'gray'})
-renderer.text(3,4,'click me', {fg: 'lightblue',bg: 'black' bold: true})
+screen = Screen.new
+screen.renderer.rect(2,3,9,3,'-', {fg: 'yellow', bg: 'gray'})
+screen.renderer.text(3,4,'click me', {fg: 'lightblue',bg: 'black' bold: true})
 ```
 
 ### events
 
 ```
-s=Screen.new
-s.document.addListener('key', {|e| exit 0 if e.key=='q'})
+screen=Screen.new
+screen.event.addListener('key', {|e| exit 0 if e.key=='q'})
 renderer.text(text: 'press q to exit')
 ```
+
+
 
 ## Design
 

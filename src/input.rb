@@ -4,6 +4,7 @@ require "io/console"
 require "io/wait"
 require_relative "key"
 
+# responsible of listening stdin and event loop
 class Input < Emitter
   attr :interval, :stdin, :stopped
 
@@ -18,6 +19,7 @@ class Input < Emitter
     @stopped = true
   end
 
+  # starts listening for user input. Implemented like an event loop reading from @inputStream each @interval
   def start
     if !@stopped
       return self
@@ -43,7 +45,7 @@ class Input < Emitter
     @stdin.write s
   end
 
-  def defaultExitKeys
+  def install_exit_keys
     self.subscribe("key", Proc.new { |e|
       if e.key == "q"
         self.stop
@@ -57,7 +59,7 @@ class Input < Emitter
     if io.ready?
       result = io.sysread(1)
       while (CSI.start_with?(result) ||
-            (result.start_with?(CSI) &&
+             (result.start_with?(CSI) &&
               !result.codepoints[-1].between?(64, 126))) &&
             (next_char = get_char_or_sequence(io))
         result << next_char
@@ -73,4 +75,3 @@ class Input < Emitter
   #   throw 'not impl'
   # end
 end
-

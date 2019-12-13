@@ -1,6 +1,6 @@
 require_relative "color"
 
-# refers only to properties direct=ly implemented using ansi escape codes
+# refers to properties directly implemented using ansi escape codes
 # responsible of printing escape ansi codes for style
 class Style
   attr :fg, :bg

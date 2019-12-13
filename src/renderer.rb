@@ -75,21 +75,15 @@ class Renderer
         p.style.reset
       }
     }
-    "#{CSI}2J"
+    "#{CSI}0m#{CSI}2J"
   end
 
   def style=(style)
-  #   if ! @style.equals style
       @style = style
-  #     @style.print
-  #   else
-  #     ''
-  #   end
   end
   
   def mergeStyle(style)
     @style.assign(style)
-    # @style.print
   end
 end
 

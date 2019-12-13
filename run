@@ -1,1 +1,1 @@
-source "scripts/$1.sh"
+source "bin/$1"

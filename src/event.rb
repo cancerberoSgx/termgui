@@ -18,8 +18,8 @@ class KeyEvent < Event
   end
 end
 
+# responsible of observe/emit user input events (KeyEvent)
 class EventManager
-  # attr_accessor :keyListeners
   def initialize(input = Input.new)
     @keyListeners = {}
     input.addListener("key", Proc.new { |e| handleKey e })

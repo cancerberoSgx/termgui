@@ -1,3 +1,5 @@
+# color enumerations and utilities
+
 COLORS = {
   black: 0,
   red: 1,
