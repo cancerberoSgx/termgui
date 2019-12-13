@@ -1,66 +1,65 @@
 class EventEmitter # TODO use ./emitter
   @listeners = []
 
-  def addListener(name, &block)
+  def add_listener(name, &block)
     @listeners[name] = @listeners[name] || []
     @listeners[name].push(block)
     self
   end
 
-  def removeListener(name, &block)
+  def remove_listener(name, &block)
     throw "Not implemented"
     self
   end
 end
 
 class Node < EventEmitter
-  attr :attributes, :children, :textContent, :parent, :name
+  attr :attributes, :children, :text, :parent, :name
 
-  def initialize(name = "node")
+  def initialize(name = "node", children = [], text = '')
     @name = name
     @attributes = Attributes.new
-    @children = []
-    @textContent = ""
+    @children = children
+    @text = text
   end
 
   # returns child so something like the following is possible:
-  # `@text = appendChild(Textarea.new model.text)`
-
-  def appendChild(child)
+  # `@text = append_child(Textarea.new model.text)`
+  def append_child(child)
     @children.push(child)
     child
   end
 
-  def queryByAttr(attr, value)
+  def query_by_attribute(attr, value)
     throw "todo"
     self
   end
 
   def render(screen)
-    renderSelf screen
-    renderChildren screen
+    render_self screen
+    render_children screen
   end
 
-  def renderSelf(screen)
+  def render_self(screen)
     throw "Abstract method"
   end
 
-  def renderChildren(screen)
+  def render_children(screen)
     @children.each { |c| c.render screen }
   end
 
-  def setAttributes(attrs)
-    attrs.each_key { |key| setAttribute(key.to_s, attrs[key]) }
+  def attributes(attrs)
+    attrs.each_key { |key| set_attribute(key.to_s, attrs[key]) }
     self
   end
 
-  def setAttribute(name, value)
-    @attributes.setAttribute(name, value)
+  def set_attribute(name, value)
+    @attributes.set_attribute(name, value)
     self
   end
 
-  def getAttribute(name)
-    @attributes.getAttribute(name)
+  def get_attribute(name)
+    @attributes.get_attribute(name)
   end
 end
 
@@ -73,12 +72,12 @@ class Attributes
     @attrs.keys
   end
 
-  def setAttribute(name, value)
+  def set_attribute(name, value)
     @attrs[name] = value
     self
   end
 
-  def getAttribute(name)
+  def get_attribute(name)
     @attrs[name]
   end
 end
@@ -86,18 +85,25 @@ end
 class Element < Node
   def initialize(x = 0, y = 0, width = 0, height = 0, ch = Pixel.EMPTY_CH)
     super "element"
-    setAttributes({
+    attributes({
       x: x, y: y, width: width, height: height, ch: ch,
     })
   end
 
-  def renderSelf(screen)
-    screen.rect(getAttribute("x"), getAttribute("y"), getAttribute("width"), getAttribute("height"), getAttribute("ch"))
+  def render_self(screen)
+    screen.rect(get_attribute("x"), get_attribute("y"), get_attribute("width"), get_attribute("height"), get_attribute("ch"))
+  end
+
+  # build in widget implementations will *grow* to fit their parent. 
+  # However, if implemented, a widget like a button can be smart enough to declare its size, 
+  # independently of current layout (in the button's case, the preferred size could be 
+  # computed from its text length plus maring/padding)
+  def preferred_size
   end
 end
 
 class Document < Node
-  def createElement(name)
+  def create_element(name)
     Element.new name
   end
 end

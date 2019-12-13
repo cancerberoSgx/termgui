@@ -6,6 +6,14 @@
  * ncurses like library 100% ruby
  * some ideas taken from npm.org/blessed
 
+
+### TODO
+
+ * cli-driver for testing interactions / see probes/pty*
+ * use ruby Observer utility instead of Emitter
+ * change camelCase to snake_case
+ 
+
 ## Status
 
  * WIP
@@ -58,41 +66,90 @@ sh bin/test
 sh bin/dev   # rails server
 sh bin/watch # tests in watch mode
 
-## development
 
-```
-bundle install
-sh run test
-sh run watch
-```
 
 ## API example prototypes (WIP)
 
-### layout & styles
+** initial design stories**
 
-TODO
+### layout
+
+TODO  / proposal
+
 ```
 require 'termgui'
 class AppExplorer < Column
   def initialize(model)
     super
     @model=model
-    @text=appendChild(Textarea.new model.text)
+    @text = append_child(text: Textarea.new model.text, onChange: {|e| print e.key})
     @text.onChange {|e| print e.key}
   end
 end
 screen = Screen.new
 main = Row.new
-left = main.appendChild(Column.new 0.3)
-right = main.appendChild(Column.new 0.7)
-explorer = left.appendChild(AppExplorer.new model)
-editor = right.appendChild(AppEditor.new model)
+left = main.append_child(Column.new 0.3)
+right = main.append_child(Column.new 0.7)
+explorer = left.append_child(AppExplorer.new model)
+editor = right.append_child(AppEditor.new model)
 screen start
 ```
 
+### structure
+
+TODO  / proposal
+
+```
+class MyWidget < Column
+  def initialize
+    super 0.5
+    append_children [
+      {type: Row, height: 0.6, children: [
+        {type: Input, value: 'edit me', width: 0.5, onChange: {|e|print e} },
+        {type: Label, text: 'edit me'},
+      ]}
+      {type: Button, text: 'click me', onClick: {|e|print e}},
+    ]
+  end
+end
+```
+
+#### aside
+
+```
+{type: Button, text: 'click me', onclick: {|e|print e}},
+vs
+Button.new text: 'click me', onclick: {|e|print e}},
+
+{type: Row, height: 0.6, children: [
+  {type: Input, value: 'edit me', width: 0.5, onChange: {|e|print e} },
+  {type: Label, text: 'hello'},
+]}
+vs
+Row.new height: 0.6, children: [
+  Input.new value: 'edit me', width: 0.5, onChange: {|e|print e},
+  Label new: label: 'hello'
+]
+```
+
+### style
+
+style = {
+  '.primary': {
+    bg: 'red',
+    fg: 'black'
+    bold: true
+  }
+}
+screen.append_child(Column.new children: [
+  Label.new text: 'are you sure?',
+  Button.new
+])
+
+
 ### high level no layout
 
-TODO
+TODO / proposal
 
 ```
 s=Screen.new
@@ -112,7 +169,7 @@ screen.renderer.text(3,4,'click me', {fg: 'lightblue',bg: 'black' bold: true})
 
 ```
 screen=Screen.new
-screen.event.addListener('key', {|e| exit 0 if e.key=='q'})
+screen.event.add_listener('key', {|e| exit 0 if e.key=='q'})
 renderer.text(text: 'press q to exit')
 ```
 
@@ -147,7 +204,7 @@ I'm author of npm.org/flor that although has superior terminal support (tput) I 
   *  responsible of translating user's `{bg: 'red', s: 'hello'}` into a string with ansi codes
  * screen maintains a virtual Buffer so current drawn screen can be accessed like a bitmap
  * a DOM like API for children, attributes, box model, style
-  * supports user input events also like html dom EventSource (element.addListener('key', ...))
+  * supports user input events also like html dom EventSource (element.add_listener('key', ...))
   * basic widget implementations: button,input,textarea
  * style: fg, bg, ch, bold, etc. 
 

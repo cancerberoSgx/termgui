@@ -24,7 +24,7 @@ class Emitter
     handler_id
   end
 
-  alias addListener subscribe
+  alias add_listener subscribe
 
   # unsubscribe to event
   # @param event_name [String, Symbol]
@@ -36,7 +36,7 @@ class Emitter
     end
   end
 
-  alias removeListener unsubscribe
+  alias remove_listener unsubscribe
 
   # emit the event
   # @param event_name [String, Event]

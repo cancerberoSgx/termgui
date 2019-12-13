@@ -22,7 +22,7 @@ end
 class EventManager
   def initialize(input = Input.new)
     @keyListeners = {}
-    input.addListener("key", Proc.new { |e| handleKey e })
+    input.add_listener("key", Proc.new { |e| handleKey e })
   end
 
   def addKeyListener(key, listener)
