@@ -8,11 +8,11 @@ require_relative "event"
 class Screen < Document
   attr :width, :height, :inputStream, :outputStream, :renderer, :input, :event
 
-  def initialize(width = $stdout.winsize[1], height = $stdout.winsize[0])
-    super "screen"
-    @height, @width = $stdout.winsize
-    @width = width || @width
-    @height = height || @height
+  def initialize(width: $stdout.winsize[1], height: $stdout.winsize[0])
+    super name: "screen"
+    # @height, @width = $stdout.winsize
+    @width = width 
+    @height = height  
     @inputStream = $stdin
     @outputStream = $stdout
     @renderer = Renderer.new(@width, @height)
@@ -34,8 +34,8 @@ class Screen < Document
     @outputStream.write s
   end
 
-  def rect(x, y, w, h, ch)
-    write @renderer.rect x, y, w, h, ch
+  def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH)
+    write @renderer.rect x: x, y: y, width: width, height: height, ch: ch
   end
 
   def clear

@@ -7,14 +7,13 @@ require "io/wait"
 
 screen = Screen.new
 
-
 screen.event.addKeyListener "q", Proc.new { |e| screen.destroy }
 
-screen.event.addKeyListener("s", Proc.new { |e| 
-  rect=Element.new 2,3,4,3,'S'
+screen.event.addKeyListener("s", Proc.new { |e|
+  rect = Element.new x: 2, y: 3, width: 4, height: 3, ch: "S"
   screen.clear
   rect.render screen
-  print ''
+  print ""
 })
 print '"s" to draw or "q" to exit'
 

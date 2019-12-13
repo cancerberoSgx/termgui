@@ -51,10 +51,10 @@ class Renderer
     "#{CSI}#{y};#{x}H"
   end
 
-  def rect(x, y, w, h, ch)
+  def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH)
     s = ""
-    h.times { |y_|
-      s += "#{write(x, y + y_, ch * w)}"
+    height.times { |y_|
+      s += "#{write(x, y + y_, ch * width)}"
     }
     s
   end

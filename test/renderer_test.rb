@@ -17,13 +17,13 @@ class RendererTest < Test::Unit::TestCase
 
   def test_rect
     r = Renderer.new
-    s = r.rect 2, 1, 3, 2, "x"
+    s = r.rect x: 2, y: 1, width: 3, height: 2, ch: "x"
     assert_equal s, "\e[1;2Hxxx\e[2;2Hxxx"
   end
 
   def test_print
     r2 = Renderer.new 10, 7
-    r2.rect 2, 1, 3, 2, "x"
+    r2.rect x: 2, y: 1, width: 3, height: 2, ch: "x"
     assert_equal r2.print,
                   "          \\n" +
                   "  xxx     \\n" +
@@ -32,7 +32,7 @@ class RendererTest < Test::Unit::TestCase
                   "          \\n" +
                   "          \\n" +
                   "          \\n"
-    r2.rect 4, 2, 2, 3, "y"
+    r2.rect x: 4, y: 2, width: 2, height: 3, ch: "y"
     assert_equal r2.print,
                   "          \\n" +
                   "  xxx     \\n" +
