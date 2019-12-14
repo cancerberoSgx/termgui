@@ -48,6 +48,7 @@ class BaseDriver < Emitter
   end
 
   def data_str
+    # TODO: maintain @data_str copy for performance
     @data.join("").strip
   end
 

@@ -62,5 +62,6 @@ class TimeDriver < BaseDriver
     super
     @time = Time.now
     dispatch_set_timeout
+    dispatch_set_interval
   end
 end

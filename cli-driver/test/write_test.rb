@@ -10,4 +10,5 @@ class TimeoutTest < Test::Unit::TestCase
     }
     client.run("ruby -e \"puts 'Please enter message'; msg = gets.strip; puts 'You have entered **'+msg+'** message. '\"")
     assert_equal "Please enter message\r\n" + "You have entered **from_test_write** message.", client.data_str
+  end
 end
