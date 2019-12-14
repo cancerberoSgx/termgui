@@ -4,19 +4,17 @@ require_relative "../../src/emitter"
 
 # spawn given command using pty. This gives access both to command´s stdin and stdout.
 # How this works is looping until the process ends, reading stdout and notifying on each iteration.
-# a simple timer is supported so operations like set_timeout or wait_until are supported
+# a simple timer is supported so operations like set_timeout or wait_until are supported (See TimeDriver and WaitDriver)
 # users can register for new stdout data (to assert against)
 # users can simulate keypress events
 # be notified when stdout matches something
 # This is the base class that is extended for adding more high level APIs
 class BaseDriver < Emitter
-  def initialize()
+  def initialize
+    super
     @data = []
     @interval = 0.1
     @running = false
-    @time = Time.now
-    @timeout_listeners = []
-    @interval_listeners = []
     on(:quit)
     on(:data)
     on(:interval)
@@ -41,35 +39,16 @@ class BaseDriver < Emitter
     listen_user
   end
 
-  # register a timeout listener that will be called in given seconds (aprox).
-  # Returns a listener object that can be used with clear_timeout to remove the listener
-  def set_timeout(seconds, block)
-    listener = { seconds: seconds, block: block, time: @time, target: @time + seconds }
-    @timeout_listeners.push listener
-    listener
-  end
-
-  def clear_timeout(listener)
-    @timeout_listeners.delete listener
-  end
-
-  def set_interval(seconds = @interval, block)
-    # TODO: seconds not implemented - block will be called on each input interval
-    listener = { seconds: seconds, block: block, time: @time, target: @time + seconds }
-    @interval_listeners.push listener
-    listener
-  end
-
-  def clear_interval(listener)
-    @interval_listeners.delete listener
-  end
-
   def write(s)
     @write.puts s
   end
 
   def data
     @data
+  end
+
+  def interval=(interval)
+    @interval = interval
   end
 
   def listen_user
@@ -90,9 +69,7 @@ class BaseDriver < Emitter
         emit :data, data
       else
       end
-      @time = Time.now
-      dispatch_set_timeout
-      emit :interval
+      after_user_input
     end
   end
 
@@ -112,19 +89,7 @@ class BaseDriver < Emitter
 
   protected
 
-  def dispatch_set_timeout
-    @timeout_listeners.each do |listener|
-      if listener[:target] < @time
-        listener[:block].call
-        @timeout_listeners.delete listener
-      else
-      end
-    end
-  end
-
-  def dispatch_set_interval
-    @interval_listeners.each do |listener|
-      listener[:block].call
-    end
+  def after_user_input
+    emit :interval
   end
 end

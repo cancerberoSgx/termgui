@@ -1,4 +1,4 @@
-require_relative "src/cli_driver"
+require_relative "../src/cli_driver"
 
 client = Driver.new
 s=''
@@ -8,7 +8,7 @@ client.subscribe :quit, Proc.new { |code| puts "EXIT #{code}" }
 client.set_timeout 1, Proc.new {
   client.write("Hello world")
 }
-client.run "ruby cli-driver/cli_driver_test_sample.rb"
+client.run "ruby cli-driver/probes/cli_driver_test_sample.rb"
 if s!='DATA you have entered Hello world !!'
   puts 'ERROR in test, s is ', s
 else

@@ -5,6 +5,7 @@ require_relative "../src/cli_driver"
 class TimeoutTest < Test::Unit::TestCase
   def test_timeout
     client = Driver.new    
+    # client.interval = 
     client.set_timeout 0.5, Proc.new {
       assert_equal client.data.join('').strip, 'seba'
     }
