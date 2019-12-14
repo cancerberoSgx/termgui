@@ -1,5 +1,5 @@
 # shows how to use read to control user reading low level
-require_relative "cli_driver"
+require_relative "src/cli_driver"
 def test(command)
   client = Driver.new
   client.execute(command) # execute won't start listening user input, just run the command.

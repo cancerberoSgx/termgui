@@ -1,4 +1,4 @@
-require_relative "cli_driver"
+require_relative "src/cli_driver"
 
 client = Driver.new
 s=''

@@ -1,6 +1,6 @@
 require "timeout"
 require "pty"
-require_relative "../src/emitter"
+require_relative "../../src/emitter"
 
 # spawn given command using pty. This gives access both to command´s stdin and stdout.
 # How this works is looping until the process ends, reading stdout and notifying on each iteration.
@@ -10,12 +10,13 @@ require_relative "../src/emitter"
 # be notified when stdout matches something
 # This is the base class that is extended for adding more high level APIs
 class BaseDriver < Emitter
-  def initialize(interval: 0.1)
+  def initialize()
     @data = []
     @interval = 0.1
     @running = false
     @time = Time.now
     @timeout_listeners = []
+    @interval_listeners = []
     on(:quit)
     on(:data)
     on(:interval)
@@ -31,7 +32,7 @@ class BaseDriver < Emitter
   end
 
   # def destroy
-    # @master.close if @master
+  # @master.close if @master
   # end
 
   # calls `execute` and starts listening user input
@@ -40,7 +41,7 @@ class BaseDriver < Emitter
     listen_user
   end
 
-  # register a timeout listener that will be called in given seconds (aprox). 
+  # register a timeout listener that will be called in given seconds (aprox).
   # Returns a listener object that can be used with clear_timeout to remove the listener
   def set_timeout(seconds, block)
     listener = { seconds: seconds, block: block, time: @time, target: @time + seconds }
@@ -52,8 +53,23 @@ class BaseDriver < Emitter
     @timeout_listeners.delete listener
   end
 
+  def set_interval(seconds = @interval, block)
+    # TODO: seconds not implemented - block will be called on each input interval
+    listener = { seconds: seconds, block: block, time: @time, target: @time + seconds }
+    @interval_listeners.push listener
+    listener
+  end
+
+  def clear_interval(listener)
+    @interval_listeners.delete listener
+  end
+
   def write(s)
     @write.puts s
+  end
+
+  def data
+    @data
   end
 
   def listen_user
@@ -69,7 +85,7 @@ class BaseDriver < Emitter
       if data == nil # program exited
         @running = false
         emit :quit, 0 # TODO: exit code
-      elsif data != "" 
+      elsif data != ""
         @data.push data
         emit :data, data
       else
@@ -80,7 +96,7 @@ class BaseDriver < Emitter
     end
   end
 
-  # Native IO::read operation, will block. To consume stdout use `data`, `wait_data`, etc instead of this method. 
+  # Native IO::read operation, will block. To consume stdout use `data`, `wait_data`, etc instead of this method.
   # if returns `nil` it means the process has ended
   def read
     if !@master
@@ -106,4 +122,9 @@ class BaseDriver < Emitter
     end
   end
 
+  def dispatch_set_interval
+    @interval_listeners.each do |listener|
+      listener[:block].call
+    end
+  end
 end
