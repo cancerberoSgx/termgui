@@ -12,9 +12,7 @@ class WaitTest < Test::Unit::TestCase
         block: Proc.new { |timeout|
           if timeout
             assert false
-            # p 'TIMEOUT ERROR'
           else
-            # p 'matched'
             assert true
           end
         }
@@ -32,9 +30,7 @@ class WaitTest < Test::Unit::TestCase
         block: Proc.new { |timeout|
           if timeout
             assert true
-            # p 'TIMEOUT ERROR'
           else
-            # p 'matched'
             assert false
           end
         }
