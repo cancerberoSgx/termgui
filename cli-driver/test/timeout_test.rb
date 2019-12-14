@@ -5,11 +5,10 @@ require_relative "../src/cli_driver"
 class TimeoutTest < Test::Unit::TestCase
   def test_timeout
     client = Driver.new    
-    # client.interval = 
     client.set_timeout 0.5, Proc.new {
-      assert_equal client.data.join('').strip, 'seba'
+      assert_equal client.data_str, 'seba'
     }
     client.run("ruby -e \"puts 'seba'; sleep 1; puts 'bye'\"")
-    assert_equal "seba\r\nbye", client.data.join('').strip
+    assert_equal "seba\r\nbye", client.data_str
   end
 end

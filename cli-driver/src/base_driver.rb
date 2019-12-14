@@ -29,9 +29,9 @@ class BaseDriver < Emitter
     @running = true
   end
 
-  # def destroy
-  # @master.close if @master
-  # end
+  def destroy
+    @master.close if @master
+  end
 
   # calls `execute` and starts listening user input
   def run(command)
@@ -45,6 +45,10 @@ class BaseDriver < Emitter
 
   def data
     @data
+  end
+
+  def data_str
+    @data.join("").strip
   end
 
   def interval=(interval)
