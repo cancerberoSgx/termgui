@@ -1,9 +1,19 @@
 require_relative "cli_driver"
 
 client = Driver.new
+s=''
+client.subscribe :data, Proc.new { |data| s = "DATA #{data}" }
+client.subscribe :quit, Proc.new { |code| puts "EXIT #{code}" }
 
-client.subscribe :data, Proc.new { |data| print "DATA #{data}" }
-client.subscribe :quit, Proc.new { |code| print "EXIT #{code}" }
+client.set_timeout 1, Proc.new {
+  client.write("Hello world")
+}
+client.run "ruby cli-driver/cli_driver_test_sample.rb"
+if s!='DATA you have entered Hello world !!'
+  puts 'ERROR in test, s is ', s
+else
+  puts 'OK'
+end
 
 # client.set_timeout(3, Proc.new {
 #   p "timeout"
@@ -25,9 +35,3 @@ client.subscribe :quit, Proc.new { |code| print "EXIT #{code}" }
 # # p TAB, ESCAPE , backspace
 
 # "p.txt [New File]"
-
-client.set_timeout(1, Proc.new {
-  client.write(ESCAPE)
-  client.write(":h")
-})
-client.run "vim p.txt"
