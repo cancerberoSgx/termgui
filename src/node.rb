@@ -21,6 +21,7 @@ class Node < EventEmitter
     @name = name
     @attributes = Attributes.new attributes
     @children = children
+    children.each{|child|child.parent=self}
     @text = text
     @parent = parent
   end
@@ -104,8 +105,8 @@ def visit_node(node, visitor, children_first = true)
   result
 end
 
-class Document < Node
-  def create_element(name)
-    Element.new name
-  end
-end
+# class Document < Node
+#   def create_element(name)
+#     Element.new name
+#   end
+# end

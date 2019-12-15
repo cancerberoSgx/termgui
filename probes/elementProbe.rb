@@ -1,5 +1,6 @@
 require_relative "../src/screen"
 require_relative "../src/util"
+require_relative "../src/element"
 require_relative "../src/style"
 require_relative "../src/color"
 require "io/console"
@@ -10,7 +11,7 @@ screen = Screen.new
 screen.event.addKeyListener "q", Proc.new { |e| screen.destroy }
 
 screen.event.addKeyListener("s", Proc.new { |e|
-  rect = Element.new x: 2, y: 3, width: 4, height: 3, ch: "S"
+  rect = Element.new(x: 2, y: 3, width: 4, height: 3, ch: "S")
   screen.clear
   rect.render screen
   print ""

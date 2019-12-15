@@ -5,10 +5,10 @@ require_relative "event"
 
 # main user API entry point
 # manages instances of Input, Event, Renderer
-class Screen < Document
+class Screen < Node
   attr :width, :height, :inputStream, :outputStream, :renderer, :input, :event
 
-  def initialize(width: $stdout.winsize[1], height: $stdout.winsize[0])
+  def initialize(name: "node", children: [], text: "", attributes: {}, parent: nil, width: $stdout.winsize[1], height: $stdout.winsize[0])
     super name: "screen"
     # @height, @width = $stdout.winsize
     @width = width
@@ -53,5 +53,13 @@ class Screen < Document
 
   def render(element)
     element.render self
+  end
+
+  def abs_x
+    0
+  end
+
+  def abs_y
+    0
   end
 end
