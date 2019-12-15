@@ -66,7 +66,7 @@ class Node < EventEmitter
   end
 
   def to_s
-    "Node(name: #{name}, children: [#{(children.map{|c|c.to_s}).join(', ')}])"
+    "Node(name: #{name}, children: [#{(children.map { |c| c.to_s }).join(", ")}])"
   end
 end
 

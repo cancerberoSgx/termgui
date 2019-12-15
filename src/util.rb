@@ -29,17 +29,17 @@ def nextTick
   sleep 0.0000001
 end
 
-CHARS = ('a'..'z').to_a.concat(('A'..'Z').to_a).push('_', '-', '@', '!', '#', '$', '%', '^', '&', '*', '=', '+')
+CHARS = ("a".."z").to_a.concat(("A".."Z").to_a).push("_", "-", "@", "!", "#", "$", "%", "^", "&", "*", "=", "+")
 
 def randomChar
   CHARS.sample
 end
 
 def some(array, predicate)
-  i=0
-  value=nil
-  while i<array.length do
-    e=array[i]
+  i = 0
+  value = nil
+  while i < array.length
+    e = array[i]
     value = predicate.call e
     if value
       break
