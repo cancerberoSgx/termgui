@@ -15,18 +15,21 @@ end
 
 class Node < EventEmitter
   attr :attributes, :children, :text, :parent, :name
+  attr_writer :parent
 
-  def initialize(name: "node", children: [], text: "", attributes: {})
+  def initialize(name: "node", children: [], text: "", attributes: {}, parent: nil)
     @name = name
     @attributes = Attributes.new attributes
     @children = children
     @text = text
+    @parent = parent
   end
 
   # returns child so something like the following is possible:
   # `@text = append_child(Textarea.new model.text)`
   def append_child(child)
     @children.push(child)
+    child.parent = self
     child
   end
 
@@ -61,6 +64,10 @@ class Node < EventEmitter
   def get_attribute(name)
     @attributes.get_attribute(name)
   end
+
+  def to_s
+    "Node(name: #{name}, children: [#{(children.map{|c|c.to_s}).join(', ')}])"
+  end
 end
 
 class Attributes
@@ -80,6 +87,21 @@ class Attributes
   def get_attribute(name)
     @attrs[name]
   end
+end
+
+# visit given node children bottom-up. If visitor returns truthy then visiting finishes
+def visit_node(node, visitor, children_first = true)
+  result = nil
+  unless children_first
+    result = visitor.call node
+    return result if result
+  end
+  result = some node.children, Proc.new { |child|
+    visit_node child, visitor, children_first
+  }
+  return result if result
+  result = visitor.call node if children_first
+  result
 end
 
 class Document < Node

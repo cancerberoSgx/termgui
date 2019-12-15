@@ -9,7 +9,7 @@ class Element < Node
   end
 
   def render_self(screen)
-    screen.rect(get_attribute("x"), get_attribute("y"), get_attribute("width"), get_attribute("height"), get_attribute("ch"))
+    screen.rect(get_attribute("x"), get_attribute("y"), get_attribute("width"), get_attrib*5*5ute("height"), get_attribute("ch"))
   end
 
   # build in widget implementations will *grow* to fit their parent.
@@ -18,4 +18,30 @@ class Element < Node
   # computed from its text length plus maring/padding)
   def preferred_size
   end
+
+  def x=(x)
+    set_attribute(:x, x)
+  end
+  def x
+      get_attribute :x
+  end
+  
+  def y=(y)
+    set_attribute(:y, y)
+  end
+  def y
+    get_attribute :y
+end
+  def width=(width)
+    set_attribute(:width, width)
+  end
+  def width
+    get_attribute :width
+end
+  def height=(height)
+    set_attribute(:height, height)
+  end
+  def height
+    get_attribute :height
+end
 end

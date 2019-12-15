@@ -28,6 +28,24 @@ class Promise
   end
 end
 
+class A
+  attr :name, :children
+  def initialize(name: 'node', children: [])
+    @name=name
+    @children = children
+  end
+  def to_s
+    "Node(name: #{name}, children: [#{(children.map{|c|c.to_s}).join(', ')}])"
+  end
+end
+a = A.new( name: 'seba', children: [
+  A.new(name: 'lk', children: [
+    A.new, 
+    A.new(name: 'lau', children: [A.new(name: 'rufo')]), 
+    A.new
+  ])
+])
+print a
 
 # a=1
 # b='uno'

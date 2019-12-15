@@ -4,7 +4,7 @@ require_relative "../src/emitter"
 require_relative "../src/util"
 
 class EmitterTest < Test::Unit::TestCase
-  def test_children
+  def test_event_emitter
     event_emitter = Emitter.new
     s = ""
     ring_bell = lambda do |object|

@@ -35,6 +35,16 @@ def randomChar
   CHARS.sample
 end
 
-# def setTimeout(ms, proc)
-#   sleep ms
-# end
+def some(array, predicate)
+  i=0
+  value=nil
+  while i<array.length do
+    e=array[i]
+    value = predicate.call e
+    if value
+      break
+    end
+    i = i + 1
+  end
+  value
+end
