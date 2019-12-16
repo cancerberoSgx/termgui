@@ -1,5 +1,6 @@
 require_relative "node"
 
+# Node responsible of x, y, width, height, abs_x, abs_y
 class Element < Node
   def initialize(x: 0, y: 0, width: 0, height: 0, ch: Pixel.EMPTY_CH, children: [], text: "", name: "element", attributes: {})
     super(name: name, text: text, children: children, attributes: attributes)
@@ -24,7 +25,6 @@ class Element < Node
   end
 
   def x
-    # p @attributes
     get_attribute('x')
   end
 

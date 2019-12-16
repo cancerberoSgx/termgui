@@ -24,4 +24,18 @@ class NodeTest < Test::Unit::TestCase
     visit_node n, Proc.new { |n| a.push(n.name); false }
     assert_equal ["child1", "child2.1", "child2", "node"], a
   end
+
+  def test_query_by_attribute
+    n = Node.new(text: "parent", attributes: {
+      foo: 'bar'
+    }, children: [
+      Node.new(name: "child1", attributes: {a: 1.2}),
+      Node.new(name: "child2", attributes: {a: 1.2}, children: [
+                 Node.new(name: "child2.1", attributes: {a: 1.2}),
+               ]),
+    ])
+    result=n.query_by_attribute(:foo, 'bar')
+    assert_equal [n], result
+    assert_equal ["child1", "child2.1", "child2"], n.query_by_attribute(:a, 1.2).map{|n|n.name}
+  end
 end

@@ -1,3 +1,5 @@
+require_relative 'util'
+
 class EventEmitter # TODO use ./emitter
   @listeners = []
 
@@ -21,7 +23,7 @@ class Node < EventEmitter
     @name = name
     @attributes = Attributes.new attributes
     @children = children
-    children.each{|child|child.parent=self}
+    children.each { |child| child.parent = self }
     @text = text
     @parent = parent
   end
@@ -35,8 +37,15 @@ class Node < EventEmitter
   end
 
   def query_by_attribute(attr, value)
-    throw "todo"
-    self
+    result = []
+    visit_node self, Proc.new { |n|
+      # print n.attributes
+      if n.attributes.get_attribute(attr) == value
+        result.push n
+      end
+      false
+    }
+    result
   end
 
   def render(screen)
@@ -52,9 +61,9 @@ class Node < EventEmitter
     @children.each { |c| c.render screen }
   end
 
-  def attributes(attrs)
-    attrs.each_key { |key| set_attribute(key.to_s, attrs[key]) }
-    self
+  def attributes(attrs=nil)
+    attrs.each_key { |key| set_attribute(key.to_s, attrs[key]) } unless attrs==nil
+    @attributes
   end
 
   def set_attribute(name, value)
@@ -87,6 +96,10 @@ class Attributes
 
   def get_attribute(name)
     @attrs[name]
+  end
+
+  def to_s
+    @attrs.to_s
   end
 end
 
