@@ -8,7 +8,7 @@ require_relative "key"
 class Input < Emitter
   attr :interval, :stdin, :stopped
 
-  def initialize(stdin = $stdin, interval = 0.01)
+  def initialize(stdin = $stdin, interval = 0.05)
     @interval = interval
     @stdin = stdin
     @stopped = true

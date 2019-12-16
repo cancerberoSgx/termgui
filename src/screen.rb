@@ -19,7 +19,7 @@ class Screen < Node
     @renderer = Renderer.new(@width, @height)
     @input = Input.new
     @event = EventManager.new @input
-    @focus = FocusManager.new(root: self)
+    @focus = FocusManager.new(root: self, input: @input)
   end
 
   # start listening for user input. This starts an user input event loop
@@ -53,8 +53,12 @@ class Screen < Node
     end
   end
 
-  def render(element)
-    element.render self
+  def render(element=nil)
+    if element==self||element==nil
+      children.each{|child| child.render self}
+    elsif
+      element.render self
+    end
   end
 
   def abs_x
