@@ -2,11 +2,12 @@ require_relative "node"
 require_relative "renderer"
 require_relative "input"
 require_relative "event"
+require_relative "focus"
 
 # main user API entry point
 # manages instances of Input, Event, Renderer
 class Screen < Node
-  attr :width, :height, :inputStream, :outputStream, :renderer, :input, :event
+  attr :width, :height, :inputStream, :outputStream, :renderer, :input, :event, :focus
 
   def initialize(name: "node", children: [], text: "", attributes: {}, parent: nil, width: $stdout.winsize[1], height: $stdout.winsize[0])
     super name: "screen"
@@ -18,6 +19,7 @@ class Screen < Node
     @renderer = Renderer.new(@width, @height)
     @input = Input.new
     @event = EventManager.new @input
+    @focus = FocusManager.new(root: self)
   end
 
   # start listening for user input. This starts an user input event loop

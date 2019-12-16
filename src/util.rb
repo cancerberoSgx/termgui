@@ -42,7 +42,10 @@ def some(array, predicate)
     e = array[i]
     value = predicate.call e
     if value
+      value = array[i]
       break
+    else
+      value = nil
     end
     i = i + 1
   end

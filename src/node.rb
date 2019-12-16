@@ -39,11 +39,17 @@ class Node < EventEmitter
   def query_by_attribute(attr, value)
     result = []
     visit_node self, Proc.new { |n|
-      # print n.attributes
       if n.attributes.get_attribute(attr) == value
         result.push n
       end
       false
+    }
+    result
+  end
+
+  def query_one_by_attribute(attr, value)
+    result = visit_node self, Proc.new { |n|
+      n.attributes.get_attribute(attr) == value
     }
     result
   end
@@ -73,6 +79,10 @@ class Node < EventEmitter
 
   def get_attribute(name)
     @attributes.get_attribute(name)
+  end
+
+  def visit(visitor, children_first = true)
+    visit_node(self, visitor, children_first)
   end
 
   def to_s
