@@ -31,9 +31,9 @@ class Renderer
     end
   end
 
-  def writeStyle
-    @style.print
-  end
+  # def writeStyle
+  #   @style.print
+  # end
 
   # prints current buffer as string
   def print
@@ -59,11 +59,11 @@ class Renderer
     s
   end
 
-  def saveCursor
+  def save_cursor
     "#{CSI}s"
   end
 
-  def restoreCursor
+  def restore_cursor
     "#{CSI}u"
   end
 
@@ -82,7 +82,7 @@ class Renderer
     @style = style
   end
 
-  def mergeStyle(style)
+  def style_assign(style)
     @style.assign(style)
   end
 end

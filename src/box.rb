@@ -31,7 +31,7 @@ BOXES = {
     vertical: "┃",
     horizontal: "━",
   },
-  singleDouble: {
+  single_double: {
     topLeft: "╓",
     topRight: "╖",
     bottomRight: "╜",
@@ -39,7 +39,7 @@ BOXES = {
     vertical: "║",
     horizontal: "─",
   },
-  doubleSingle: {
+  double_single: {
     topLeft: "╒",
     topRight: "╕",
     bottomRight: "╛",
@@ -56,6 +56,8 @@ BOXES = {
     horizontal: "-",
   },
 }
+
+# p BOXES.keys
 
 def boxes
   BOXES

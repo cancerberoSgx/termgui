@@ -127,9 +127,3 @@ def visit_node(node, visitor, children_first = true)
   result = visitor.call node if children_first
   result
 end
-
-# class Document < Node
-#   def create_element(name)
-#     Element.new name
-#   end
-# end

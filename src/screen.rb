@@ -3,9 +3,13 @@ require_relative "renderer"
 require_relative "input"
 require_relative "event"
 require_relative "focus"
+require_relative "util"
 
-# main user API entry point
-# manages instances of Input, Event, Renderer
+# Main user API entry point
+# Manages instances of Input, Event, Renderer
+# Is a Node so new elements can be append_child
+# Once `start`is called it will block execution and start an event loop
+# on each interval user input is read and event listeners are called
 class Screen < Node
   attr :width, :height, :inputStream, :outputStream, :renderer, :input, :event, :focus
 
@@ -32,6 +36,7 @@ class Screen < Node
     @input.stop
   end
 
+  # writes directly to @outputStream. Note that these changes won't be tracked by the buffer. 
   def write(s)
     @outputStream.write s
   end
@@ -68,4 +73,15 @@ class Screen < Node
   def abs_y
     0
   end
+
+  def print
+    @renderer.print
+  end
 end
+# s = Screen.new width: 12, height: 7
+# s.rect(x: 1, y: 2, width: 3, height: 2, ch: 'f')
+# # p 1
+# # p 2
+# # p 'begins', s.print.split('\n')
+
+# assert_equal ["            ", "            ", " fff        ", " fff        ", "            ", "            ", "            "],  s.print.split('\n')

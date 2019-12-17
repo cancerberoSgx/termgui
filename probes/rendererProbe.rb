@@ -1,7 +1,7 @@
 require_relative '../src/renderer'
 
 r=Renderer.new
-$stdout.write r.rect(20,10,10,20, 'l')
+$stdout.write r.rect(x: 20, y: 10, width: 10, height: 20, ch: 'l')
 sleep 1
 while true do
   $stdout.write r.write(rand(100), rand(30), ' ')

@@ -1,3 +1,10 @@
+a={}.instance_of? Hash
+p a.to_s
+a=[].instance_of? Hash
+p a.to_s
+
+
+
 def f1
   p "f1"
   yield

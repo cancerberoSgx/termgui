@@ -10,8 +10,14 @@ screen = Screen.new
 
 screen.event.addKeyListener "q", Proc.new { |e| screen.destroy }
 
+e=Element.new
+e.style = {
+  fg: 'black', bg: white
+}
+print e.style
+
 screen.event.addKeyListener("s", Proc.new { |e|
-  rect = Element.new(x: 2, y: 3, width: 4, height: 3, ch: "S")
+  rect = Element.new(x: 2, y: 3, width: 4, height: 3, ch: "S", style: Style.new(bg: 'green'))
   screen.clear
   rect.render screen
   print ""
