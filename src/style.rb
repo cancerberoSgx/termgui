@@ -4,6 +4,7 @@ require_relative "color"
 # responsible of printing escape ansi codes for style
 class BaseStyle
   attr :fg, :bg
+  attr_accessor :fg, :bg
 
   def initialize(fg: nil, bg: nil)
     @fg = fg
@@ -30,7 +31,13 @@ class BaseStyle
   end
 
   def self.from_hash(obj)
-    Style.new(fg: obj[:fg], bg: obj[:bg])
+    if !obj
+      nil
+    elsif obj.instance_of? Hash
+      Style.new(fg: obj[:fg], bg: obj[:bg])
+    else
+      obj
+    end
   end
 end
 
@@ -106,16 +113,7 @@ def parse_style_set_property(s, property, value)
     o={}
     o[property] = value
     # s.
+    throw "TODO, not implemented "
   end
 end
 
-
-
-# Border.new(bg: 'red', style: 'classic')
-
-
-
-# a = s.instance_of?(Style) ? 't' : 'f'
-
-
-# print 

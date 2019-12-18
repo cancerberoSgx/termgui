@@ -25,7 +25,7 @@ class Element < Node
   end
 
   def render_self(screen)
-    # style.print
+    screen.style @style if @style
     screen.rect(
       x: abs_x, 
       y: abs_y, 

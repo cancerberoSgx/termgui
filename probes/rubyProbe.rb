@@ -1,3 +1,8 @@
+# def ff(a, &block)
+#   block.call a
+# end
+# ff [1,2,3] Proc.new({|e| p 'hello'})
+
 a={}.instance_of? Hash
 p a.to_s
 a=[].instance_of? Hash

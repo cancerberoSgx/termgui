@@ -1,21 +1,7 @@
 require_relative 'util'
+require_relative 'emitter'
 
-class EventEmitter # TODO use ./emitter
-  @listeners = []
-
-  def add_listener(name, &block)
-    @listeners[name] = @listeners[name] || []
-    @listeners[name].push(block)
-    self
-  end
-
-  def remove_listener(name, &block)
-    throw "Not implemented"
-    self
-  end
-end
-
-class Node < EventEmitter
+class Node < Emitter
   attr :attributes, :children, :text, :parent, :name
   attr_writer :parent
 

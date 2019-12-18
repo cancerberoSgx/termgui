@@ -36,7 +36,7 @@ class Screen < Node
     @input.stop
   end
 
-  # writes directly to @outputStream. Note that these changes won't be tracked by the buffer. 
+  # writes directly to @outputStream. Shouldn't be used directly since these changes won't be tracked by the buffer. 
   def write(s)
     @outputStream.write s
   end
@@ -52,12 +52,14 @@ class Screen < Node
   end
 
   def style=(style)
-    if !@renderer.style.equals style
+    style = Style.from_hash style
+    unless @renderer.style.equals style
       @renderer.style = style
       write @renderer.style.print
     end
   end
 
+  # complies with Element::render and also is capable of rendering given elements
   def render(element=nil)
     if element==self||element==nil
       children.each{|child| child.render self}
@@ -78,10 +80,4 @@ class Screen < Node
     @renderer.print
   end
 end
-# s = Screen.new width: 12, height: 7
-# s.rect(x: 1, y: 2, width: 3, height: 2, ch: 'f')
-# # p 1
-# # p 2
-# # p 'begins', s.print.split('\n')
 
-# assert_equal ["            ", "            ", " fff        ", " fff        ", "            ", "            ", "            "],  s.print.split('\n')

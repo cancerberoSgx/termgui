@@ -5,6 +5,7 @@ require_relative "key"
 #  * build charsequences to render text on a position. these are directly write to $stdout by screen
 #  * maintain bitmap-like buffer of current screen state
 #  * manages current applied style
+# TODO: add line, empty-rect and more drawing primitives
 class Renderer
   attr :width, :height, :buffer, :style
 
@@ -25,6 +26,11 @@ class Renderer
       (x...[x + ch.length, @width].min).to_a.each { |i|
         @buffer[y][i].ch = ch[i - x]
       }
+      # style = @style==nil ? '' : @style.print
+      # if style != @last_style
+      #   @last_style = style
+      # end
+      # "#{style}#{move x, y}#{ch}"
       "#{move x, y}#{ch}"
     else
       ""
@@ -45,6 +51,18 @@ class Renderer
       s = s + '\n'
     }
     s
+  end
+
+  def print_rows
+    rows = []
+    @buffer.each_index { |y|
+      line = ""
+      @buffer[y].each { |p|
+        line = line + p.ch
+      }
+      rows.push(line)
+    }
+    rows
   end
 
   def move(x, y)
