@@ -227,3 +227,9 @@ add features from npm.org/flor:
 ### html canvas for renderer
  * try to stick to html canvas api for Renderer
  * user is responsible of setting the 'active style' like canvas' stroke-width - this simplifies renderer
+
+### ideas
+
+e = Element.new
+e.style.focused.bg = 'yellow'
+screen.appendChild(e)

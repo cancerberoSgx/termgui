@@ -50,14 +50,23 @@ class NodeTest < Test::Unit::TestCase
     assert_equal "blue", s.fg
 
     e = Element.new
-    e.style = {      fg: "black", bg: "white"    }
-    assert_equal e.style.fg, "black"
-    assert_equal e.style.bg, "white"
+    e.style = { fg: "black", bg: "white" }
+    assert_equal "black", e.style.fg
+    assert_equal "white", e.style.bg 
 
     e.style = s
     assert_equal "classic", e.style.border.style
     assert_equal "red", e.style.border.fg
+    assert_equal  "blue", e.style.fg
+  end
 
-    assert_equal e.style.fg, "blue"
+  def test_abs_percent
+    e = Element.new(x: 1, y: 2, width: 16, height: 12)
+    e1 = Element.new(x: 0.3, y: 0.2, width: 0.6, height: 0.8)
+    e.append_child(e1)
+    assert_equal 9.6, e1.abs_width
+    assert_equal 9.600000000000001, e1.abs_height
+    assert_equal 2.2, e1.abs_y
+    assert_equal 1.3, e1.abs_x
   end
 end

@@ -8,9 +8,12 @@ require "io/wait"
 
 screen = Screen.new
 screen.event.addKeyListener "q", Proc.new { |e| screen.destroy }
-screen.addListener('destroy', Proc.new {screen.clear; p 'bye'})
+screen.add_listener('destroy', Proc.new {screen.clear; p 'bye'})
 e = Element.new x: 3, y: 2, width: 10, height: 5, ch: "y"
-screen.style = {  fg: "black", bg: "white"}
+e.style = {  fg: "blue", bg: "white"}
+f = Element.new x: 13, y: 12, width: 10, height: 5, ch: "K"
+f.style = {  fg: "black", bg: "red"}
 screen.render e
+screen.render f
 
 screen.start

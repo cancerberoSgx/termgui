@@ -24,6 +24,7 @@ class Screen < Node
     @input = Input.new
     @event = EventManager.new @input
     @focus = FocusManager.new(root: self, input: @input)
+    on(:destroy)
   end
 
   # start listening for user input. This starts an user input event loop
@@ -33,6 +34,7 @@ class Screen < Node
   end
 
   def destroy
+    emit :destroy
     @input.stop
   end
 

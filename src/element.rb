@@ -1,5 +1,6 @@
 require_relative "node"
 require_relative "style"
+require_relative "renderer"
 
 # Node responsible of x, y, width, height, abs_x, abs_y
 class Element < Node
@@ -25,12 +26,12 @@ class Element < Node
   end
 
   def render_self(screen)
-    screen.style @style if @style
+    screen.style = style if style
     screen.rect(
-      x: abs_x, 
-      y: abs_y, 
+      x: abs_x,
+      y: abs_y,
       width: get_attribute("width"),
-      height: get_attribute("height"), 
+      height: get_attribute("height"),
       ch: get_attribute("ch"),
     )
   end
@@ -51,7 +52,7 @@ class Element < Node
   end
 
   def abs_x
-    (parent ? parent.abs_x : 0) + x
+    (@parent ? @parent.abs_x : 0) + x
   end
 
   def y=(y)
@@ -63,7 +64,7 @@ class Element < Node
   end
 
   def abs_y
-    (parent ? parent.abs_y : 0) + y
+    (@parent ? @parent.abs_y : 0) + y
   end
 
   def width=(width)
@@ -74,6 +75,20 @@ class Element < Node
     get_attribute "width"
   end
 
+  def self.is_precent(val)
+    val > 0 && val < 1
+  end
+
+  def abs_width
+    width = get_attribute "width"
+    width = width || 0
+    if (Element.is_precent width) && @parent
+      @parent.abs_width * width
+    else
+      width
+    end
+  end
+
   def height=(height)
     set_attribute("height", height)
   end
@@ -81,4 +96,22 @@ class Element < Node
   def height
     get_attribute "height"
   end
+
+  def abs_height
+    height = get_attribute "height"
+    height = height || 0
+    if Element.is_precent height
+      @parent ? @parent.abs_height * height : 0
+    else
+      height
+    end
+  end
 end
+
+# e = Element.new(x: 1, y: 2, width: 16, height: 12)
+# e1 = Element.new(x: 0.3, y: 0.2, width: 0.6, height: 0.8)
+# e.append_child(e1)
+# # p e1.abs_width
+# # assert_equal 9.6, e1.abs_width
+# p e1.abs_height, e1.abs_y, e1.abs_x
+ 
