@@ -1,0 +1,11 @@
+Style/Encoding:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 130
+
+Lint/SuppressedException: 
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false

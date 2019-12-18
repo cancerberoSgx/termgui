@@ -34,7 +34,6 @@ class Element < Node
 
   def render_self(screen)
     screen.style = style if style
-    p @name, abs_x, abs_y, abs_width, abs_height
     screen.rect(
       x: abs_x,
       y: abs_y,
