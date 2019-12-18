@@ -63,11 +63,11 @@ class BaseDriver < Emitter
     while @running
       data = ''
       begin
-        status = Timeout.timeout(@interval) do
+        Timeout.timeout(@interval) do
           data = read
         end
-      rescue StandardError => e
-        p e
+        # p 'status', status
+      rescue StandardError
       else
       end
       if data.nil? # program exited

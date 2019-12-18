@@ -13,39 +13,6 @@ p a.to_s
 a = [].instance_of? Hash
 p a.to_s
 
-def f1
-  p 'f1'
-  yield
-end
-
-def f2(block)
-  p 'f2'
-  block.call
-end
-
-def f3
-  p 'f3'
-  yield
-end
-
-f1 do
-  f2 proc {
-    f3 do
-      p 'end'
-    end
-  }
-end
-# implement promise signatures
-class Promise
-  def initialize(resolve, reject)
-    @resolve = resolve
-    @reject = reject
-  end
-
-  def then
-    throw 'todo'
-  end
-end
 
 class A
   attr_reader :name, :children

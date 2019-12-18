@@ -14,6 +14,7 @@ class WaitDriver < TimeDriver
   # If given `timeout` is reach it calls block with true, otherwise with false.
   # TODO: interval not supported
   def wait_for(predicate: nil, block: nil, timeout: @wait_timeout, interval: 0.1)
+    interval_listener = nil
     timeout_listener = set_timeout(timeout, proc {
       clear_interval interval_listener
       block.call true
