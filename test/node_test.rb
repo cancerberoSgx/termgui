@@ -15,15 +15,22 @@ class NodeTest < Test::Unit::TestCase
   end
 
   def test_visit_node
-    n = Node.new(text: 'parent', children: [
-                   Node.new(name: 'child1'),
-                   Node.new(name: 'child2', children: [
-                              Node.new(name: 'child2.1')
-                            ])
+    n = Node.new(
+      text: 'parent',
+      children: [
+        Node.new(name: 'child1'),
+        Node.new(name: 'child2', children: [
+                   Node.new(name: 'child2.1')
                  ])
-    assert_equal 'Node(name: node, children: [Node(name: child1, children: []), Node(name: child2, children: [Node(name: child2.1, children: [])])])', n.to_s
+      ]
+    )
+    assert_equal 'Node(name: node, children: [Node(name: child1, children: []), Node(name: child2, children: [Node(name: child2.1, children: [])])])',
+                 n.to_s
     a = []
-    visit_node n, proc { |n| a.push(n.name); false }
+    visit_node(n, proc { |child|
+      a.push child.name
+      false
+    })
     assert_equal ['child1', 'child2.1', 'child2', 'node'], a
   end
 

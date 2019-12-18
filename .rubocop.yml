@@ -1,11 +1,16 @@
 Style/Encoding:
   Enabled: false
-
 Metrics/LineLength:
   Max: 130
-
 Lint/SuppressedException: 
   Enabled: false
-
 Style/ClassAndModuleChildren:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Style/MixinUsage:
+  Enabled: false
+Naming/MethodParameterName:
+  Enabled: false
+Metrics/AbcSize:
   Enabled: false

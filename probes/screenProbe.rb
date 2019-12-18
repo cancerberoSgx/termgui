@@ -9,12 +9,12 @@ require 'io/wait'
 
 N = 2
 s = Screen.new
-s.event.addKeyListener('q', proc { |_e| s.destroy })
+s.event.add_key_listener('q', proc { |_e| s.destroy })
 draw = proc do |_e|
   s.clear
   s.style = Style.new bg: randomColor, fg: randomColor
-  s.rect x: rand(s.width / N), y: rand(s.height / N), width: rand(s.width / N) + 1, height: rand(s.height / N) + 1, ch: randomChar
+  s.rect x: rand(s.width / N), y: rand(s.height / N), width: rand(s.width / N) + 1, height: rand(s.height / N) + 1, ch: random_char
 end
-s.event.addKeyListener('s', draw)
+s.event.add_key_listener('s', draw)
 print "press q to exit and 's' to render"
 s.start

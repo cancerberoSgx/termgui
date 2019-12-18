@@ -4,6 +4,7 @@
 # IO#raw, IO#raw!, IO#cooked, IO#cooked!, IO#getch, IO#echo=, IO#echo?, IO#noecho, IO#winsize, IO#winsize=, IO#iflush, IO#ioflush, IO#oflush,
 require 'io/console'
 rows, columns = $stdout.winsize
+p rows, columns
 
 # http://graysoftinc.com/terminal-tricks/random-access-terminal
 

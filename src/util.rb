@@ -31,7 +31,7 @@ end
 
 CHARS = ('a'..'z').to_a.concat(('A'..'Z').to_a).push('_', '-', '@', '!', '#', '$', '%', '^', '&', '*', '=', '+')
 
-def randomChar
+def random_char
   CHARS.sample
 end
 

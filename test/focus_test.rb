@@ -23,13 +23,13 @@ class FocusTest < Test::Unit::TestCase
     assert_equal nil, c1.get_attribute(:focused)
     focus = FocusManager.new(root: root, input: Input.new)
     times = 0
-    focus.add_listener :focus, proc { |e|
-      if times == 0
+    focus.add_listener(:focus, proc { |e|
+      if times.zero?
         assert_equal e[:focused], c2
         assert_equal e[:previous], c1
       end
       times += 1
-    }
+    })
     assert_equal true, c1.get_attribute(:focused)
     focus.focus_next
     assert_equal false, c1.get_attribute(:focused)

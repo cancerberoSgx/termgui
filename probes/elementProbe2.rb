@@ -7,7 +7,7 @@ require_relative '../src/style'
 require_relative '../src/color'
 
 screen = Screen.new
-screen.event.addKeyListener 'q', proc { |_e| screen.destroy }
+screen.event.add_key_listener('q', proc { |_e| screen.destroy })
 screen.add_listener('destroy', proc { screen.clear; p 'bye' })
 e = Element.new x: 3, y: 2, width: 10, height: 5, ch: 'y'
 e.style = { fg: 'blue', bg: 'white' }

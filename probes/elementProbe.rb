@@ -8,7 +8,7 @@ require_relative '../src/color'
 
 screen = Screen.new
 
-screen.event.addKeyListener 'q', proc { |_e| screen.destroy }
+screen.event.add_key_listener('q', proc { |_e| screen.destroy })
 
 e = Element.new
 e.style = {
@@ -16,7 +16,7 @@ e.style = {
 }
 print e.style
 
-screen.event.addKeyListener('s', proc do |_e|
+screen.event.add_key_listener('s', proc do |_e|
   rect = Element.new(x: 2, y: 3, width: 4, height: 3, ch: 'S', style: Style.new(bg: 'green'))
   screen.clear
   rect.render screen

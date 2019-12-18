@@ -47,7 +47,7 @@ screen = Screen.new
 screen.input.install_exit_keys
 
 # when user press 's' we clear the screen and paint a rectangle full with 's' char
-screen.event.addKeyListener("s", Proc.new { |e| 
+screen.event.add_key_listener("s", Proc.new { |e| 
   rect=Element.new 2,3,4,3,'S'
   screen.clear
   rect.render screen

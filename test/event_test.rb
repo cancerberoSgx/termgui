@@ -5,17 +5,13 @@ include Test::Unit::Assertions
 require_relative '../src/event'
 
 class EventManagerTest < Test::Unit::TestCase
-  def test_addKeyListener
+  def test_add_key_listener
     e = EventManager.new
-    # l = lambda do |e|
-    #   print 'called'
-    # end
-    # e.addKeyListener('q', l)
     s = 'n'
-    e.addKeyListener('q', proc do |e|
-      s = e.key
+    e.add_key_listener('q', proc do |ev|
+      s = ev.key
     end)
-    e.handleKey(KeyEvent.new('q', 'q'))
+    e.handle_key(KeyEvent.new('q', 'q'))
     assert_equal s, 'q'
   end
 end

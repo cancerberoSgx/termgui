@@ -24,20 +24,20 @@ end
 class EventManager
   def initialize(input = Input.new)
     @keyListeners = {}
-    input.add_listener('key', proc { |e| handleKey e })
+    input.add_listener('key', proc { |e| handle_key e })
   end
 
-  def addKeyListener(key, listener)
+  def add_key_listener(key, listener)
     @keyListeners[key] = @keyListeners[key] || []
     @keyListeners[key].push(listener)
   end
 
-  def removeKeyListener(key, listener)
+  def remove_key_listener(key, listener)
     @keyListeners[key] = @keyListeners[key] || []
     @keyListeners[key].delete(listener)
   end
 
-  def handleKey(e)
+  def handle_key(e)
     key = e.key
     @keyListeners[key] = @keyListeners[key] || []
     @keyListeners[key].each do |listener|

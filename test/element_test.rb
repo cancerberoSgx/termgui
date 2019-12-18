@@ -10,7 +10,6 @@ class NodeTest < Test::Unit::TestCase
   def test_abs
     child2 = Element.new(x: 2, y: 1)
     child1 = Element.new(x: 4, y: 3, children: [child2])
-    node = Element.new(children: [child1])
 
     assert_equal 2, child2.x
     assert_equal 1, child2.y
