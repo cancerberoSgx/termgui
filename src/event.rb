@@ -1,7 +1,9 @@
-require_relative "input"
+# frozen_string_literal: true
+
+require_relative 'input'
 
 class Event
-  attr :name
+  attr_reader :name
 
   def initialize(name)
     @name = name
@@ -9,10 +11,10 @@ class Event
 end
 
 class KeyEvent < Event
-  attr :key, :raw
+  attr_reader :key, :raw
 
   def initialize(key, raw)
-    super("key")
+    super('key')
     @key = key
     @raw = raw
   end
@@ -22,7 +24,7 @@ end
 class EventManager
   def initialize(input = Input.new)
     @keyListeners = {}
-    input.add_listener("key", Proc.new { |e| handleKey e })
+    input.add_listener('key', proc { |e| handleKey e })
   end
 
   def addKeyListener(key, listener)
@@ -38,8 +40,8 @@ class EventManager
   def handleKey(e)
     key = e.key
     @keyListeners[key] = @keyListeners[key] || []
-    @keyListeners[key].each { |listener|
+    @keyListeners[key].each do |listener|
       listener.call(e)
-    }
+    end
   end
 end

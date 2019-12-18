@@ -1,6 +1,8 @@
-require "timeout"
-require "pty"
-require_relative "base_driver"
+# frozen_string_literal: true
+
+require 'timeout'
+require 'pty'
+require_relative 'base_driver'
 
 # spawn given command using pty. This gives access both to command´s stdin and stdout.
 # How this works is looping until the process ends, reading stdout and notifying on each iteration.
@@ -47,7 +49,6 @@ class TimeDriver < BaseDriver
       if listener[:target] < @time
         listener[:block].call
         @timeout_listeners.delete listener
-      else
       end
     end
   end

@@ -1,9 +1,11 @@
-require_relative "color"
+# frozen_string_literal: true
+
+require_relative 'color'
 
 # refers to properties directly implemented using ansi escape codes
 # responsible of printing escape ansi codes for style
 class BaseStyle
-  attr :fg, :bg
+  attr_reader :fg, :bg
   attr_accessor :fg, :bg
 
   def initialize(fg: nil, bg: nil)
@@ -20,7 +22,7 @@ class BaseStyle
     @bg == style.bg && @fg == style.fg
   end
 
-  # Prints the style as escape sequences. 
+  # Prints the style as escape sequences.
   # This method shouln't be overriden by subclasses since it only makes sense for basic properties defined here.
   def print
     color @fg, @bg
@@ -42,35 +44,32 @@ class BaseStyle
 end
 
 class Border < BaseStyle
-
-  attr :style
+  attr_reader :style
 
   def initialize(fg: nil, bg: nil, style: nil)
     super(fg: fg, bg: bg)
-    @style=style==nil ? nil : style.to_s
+    @style = style.nil? ? nil : style.to_s
     # @style=style
   end
-  
-  # box style name (string). See box.rb. Possible values: 
+
+  # box style name (string). See box.rb. Possible values:
   # :single, :double, :round, :bold, :singleDouble, :doubleSingle, :classic
-  def style
-    @style
-  end
+  attr_reader :style
 
   def style=(style)
-    @style=style==nil ? nil : style.to_s
+    @style = style.nil? ? nil : style.to_s
   end
 end
 
 class Style < BaseStyle
-  attr :border
+  attr_reader :border
 
   def initialize(fg: nil, bg: nil, border: nil)
     super(fg: fg, bg: bg)
-    if border==nil
+    if border.nil?
       @border = nil
     elsif border.instance_of?(Border)
-      @border =  border
+      @border = border
     else
       # @border = Border.new()
       throw 'seva'
@@ -78,42 +77,39 @@ class Style < BaseStyle
   end
 
   # def initialize(border = nil)
-    # p  (border.instance_of? Border ? border : Border.new(border)).to_s
-    # if border==nil
-    #   @border = nil
-    # elsif border.instance_of?(Border)
-    #   @border =  border
-    # else
-    #   @border = Border.new()
-    # end
-    # @border =  ? nil : border.instance_of?(BaseStyle) ? border : Border.new 
+  # p  (border.instance_of? Border ? border : Border.new(border)).to_s
+  # if border==nil
+  #   @border = nil
+  # elsif border.instance_of?(Border)
+  #   @border =  border
+  # else
+  #   @border = Border.new()
+  # end
+  # @border =  ? nil : border.instance_of?(BaseStyle) ? border : Border.new
   # end
 end
 
 # Parses a string CSS-like "bg: red; fg: white; border-style: classic"
 # Notice that `border-style` is assigned to @border.style and treated specially
 def parse_style(s)
-  statements=s.split(';')
+  statements = s.split(';')
   style = Style.new
-  statements.each{|statement|
-    a=statement.split(':')
-    if a.length != 2
-      throw "Syntax error in statement: #{statement}"
-    end
+  statements.each do |statement|
+    a = statement.split(':')
+    throw "Syntax error in statement: #{statement}" if a.length != 2
     property = a[0]
     value = a[1]
     parse_style_set_property(s, property, value)
-  }
-end
-
-def parse_style_set_property(s, property, value)
-  if property.starts_with? 'border-'
-    throw "TODO, not implemented : property.starts_with? 'border-'"
-  else
-    o={}
-    o[property] = value
-    # s.
-    throw "TODO, not implemented "
   end
 end
 
+def parse_style_set_property(_s, property, value)
+  if property.starts_with? 'border-'
+    throw "TODO, not implemented : property.starts_with? 'border-'"
+  else
+    o = {}
+    o[property] = value
+    # s.
+    throw 'TODO, not implemented '
+  end
+end

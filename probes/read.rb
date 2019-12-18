@@ -1,14 +1,16 @@
-require "io/console"
-require "io/wait"
+# frozen_string_literal: true
+
+require 'io/console'
+require 'io/wait'
 
 CSI = "\e["
 
 def get_char_or_sequence(io)
   if io.ready?
     result = io.sysread(1)
-    while ( CSI.start_with?(result)                        ||
-            ( result.start_with?(CSI)                      &&
-              !result.codepoints[-1].between?(64, 126) ) ) &&
+    while (CSI.start_with?(result) ||
+            (result.start_with?(CSI) &&
+              !result.codepoints[-1].between?(64, 126))) &&
           (next_char = get_char_or_sequence(io))
       result << next_char
     end
@@ -25,7 +27,7 @@ $stdin.raw do |io|
       last_read = Time.now
       prompted  = false
       puts "You typed:  #{char.inspect}\r\n"
-      break if char == ?q
+      break if char == 'q'
     else
       if !prompted && Time.now - last_read > 3
         puts "Please type a character.\r\n"

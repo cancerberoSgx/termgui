@@ -1,6 +1,8 @@
-require "test/unit"
+# frozen_string_literal: true
+
+require 'test/unit'
 include Test::Unit::Assertions
-require_relative "../src/cli_driver"
+require_relative '../src/cli_driver'
 
 class LowLevelTest < Test::Unit::TestCase
   def test_low_level_read
@@ -10,10 +12,10 @@ class LowLevelTest < Test::Unit::TestCase
     data = []
     while running
       s = client.read
-      if s == nil
+      if s.nil?
         running = false
         # puts 'Process ended, data: \n' + data.join("")
-      elsif s != ""
+      elsif s != ''
         # puts "data: " + s
         data.push s
       end

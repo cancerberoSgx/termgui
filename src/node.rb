@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require_relative 'util'
 require_relative 'emitter'
 
 class Node < Emitter
-  attr :attributes, :children, :text, :parent, :name
+  attr_reader :attributes, :children, :text, :parent, :name
   attr_writer :parent
 
-  def initialize(name: "node", children: [], text: "", attributes: {}, parent: nil)
+  def initialize(name: 'node', children: [], text: '', attributes: {}, parent: nil)
     @name = name
     @attributes = Attributes.new attributes
     @children = children
@@ -24,17 +26,15 @@ class Node < Emitter
 
   def query_by_attribute(attr, value)
     result = []
-    visit_node self, Proc.new { |n|
-      if n.attributes.get_attribute(attr) == value
-        result.push n
-      end
+    visit_node self, proc { |n|
+      result.push n if n.attributes.get_attribute(attr) == value
       false
     }
     result
   end
 
   def query_one_by_attribute(attr, value)
-    result = visit_node self, Proc.new { |n|
+    result = visit_node self, proc { |n|
       n.attributes.get_attribute(attr) == value
     }
     result
@@ -45,16 +45,16 @@ class Node < Emitter
     render_children screen
   end
 
-  def render_self(screen)
-    throw "Abstract method"
+  def render_self(_screen)
+    throw 'Abstract method'
   end
 
   def render_children(screen)
     @children.each { |c| c.render screen }
   end
 
-  def attributes(attrs=nil)
-    attrs.each_key { |key| set_attribute(key.to_s, attrs[key]) } unless attrs==nil
+  def attributes(attrs = nil)
+    attrs&.each_key { |key| set_attribute(key.to_s, attrs[key]) }
     @attributes
   end
 
@@ -72,7 +72,7 @@ class Node < Emitter
   end
 
   def to_s
-    "Node(name: #{name}, children: [#{(children.map { |c| c.to_s }).join(", ")}])"
+    "Node(name: #{name}, children: [#{children.map(&:to_s).join(', ')}])"
   end
 end
 
@@ -106,10 +106,11 @@ def visit_node(node, visitor, children_first = true)
     result = visitor.call node
     return result if result
   end
-  result = some node.children, Proc.new { |child|
+  result = some node.children, proc { |child|
     visit_node child, visitor, children_first
   }
   return result if result
+
   result = visitor.call node if children_first
   result
 end

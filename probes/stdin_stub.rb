@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # require 'open3'
 # if __FILE__ == $0
 #   Open3.popen3("ruby probes/stdin.rb") do |i, o, e, t|
@@ -8,6 +10,6 @@
 # end
 
 # print 'please enter it'
-s=gets
-print s+'!!'
+s = gets
+print s + '!!'
 # print 'thanks'

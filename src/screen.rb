@@ -1,9 +1,11 @@
-require_relative "node"
-require_relative "renderer"
-require_relative "input"
-require_relative "event"
-require_relative "focus"
-require_relative "util"
+# frozen_string_literal: true
+
+require_relative 'node'
+require_relative 'renderer'
+require_relative 'input'
+require_relative 'event'
+require_relative 'focus'
+require_relative 'util'
 
 # Main user API entry point
 # Manages instances of Input, Event, Renderer
@@ -11,10 +13,10 @@ require_relative "util"
 # Once `start`is called it will block execution and start an event loop
 # on each interval user input is read and event listeners are called
 class Screen < Node
-  attr :width, :height, :inputStream, :outputStream, :renderer, :input, :event, :focus
+  attr_reader :width, :height, :inputStream, :outputStream, :renderer, :input, :event, :focus
 
-  def initialize(name: "node", children: [], text: "", attributes: {}, parent: nil, width: $stdout.winsize[1], height: $stdout.winsize[0])
-    super name: "screen"
+  def initialize(name: 'node', children: [], text: '', attributes: {}, parent: nil, width: $stdout.winsize[1], height: $stdout.winsize[0])
+    super name: 'screen'
     # @height, @width = $stdout.winsize
     @width = width
     @height = height
@@ -38,7 +40,7 @@ class Screen < Node
     @input.stop
   end
 
-  # writes directly to @outputStream. Shouldn't be used directly since these changes won't be tracked by the buffer. 
+  # writes directly to @outputStream. Shouldn't be used directly since these changes won't be tracked by the buffer.
   def write(s)
     @outputStream.write s
   end
@@ -62,9 +64,9 @@ class Screen < Node
   end
 
   # complies with Element::render and also is capable of rendering given elements
-  def render(element=nil)
-    if element==self||element==nil
-      children.each{|child| child.render self}
+  def render(element = nil)
+    if element == self || element.nil?
+      children.each { |child| child.render self }
     elsif
       element.render self
     end
@@ -85,9 +87,8 @@ class Screen < Node
   def abs_height
     @height
   end
-  
+
   def print
     @renderer.print
   end
 end
-

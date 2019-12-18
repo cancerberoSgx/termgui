@@ -1,12 +1,14 @@
-require_relative "emitter"
-require_relative "key"
+# frozen_string_literal: true
+
+require_relative 'emitter'
+require_relative 'key'
 
 class FocusManager < Emitter
   def initialize(root: nil,
                  input: nil,
-                 keys: { next: "tab", prev: "S-tab" },
+                 keys: { next: 'tab', prev: 'S-tab' },
                  focus_first: true)
-    throw "root Element and input InputManager are required" unless root && input
+    throw 'root Element and input InputManager are required' unless root && input
     @root = root
     @keys = keys
     @input = input
@@ -18,7 +20,7 @@ class FocusManager < Emitter
     else
       # throw "No focusable elements found"
     end
-    @input.subscribe "key", Proc.new { |e|
+    @input.subscribe 'key', proc { |e|
       if e.key == name_to_char(keys[:next])
         focus_next
       elsif e.key == name_to_char(keys[:prev])
@@ -31,9 +33,7 @@ class FocusManager < Emitter
     @root.query_by_attribute(:focusable, true)
   end
 
-  def focused
-    @focused
-  end
+  attr_reader :focused
 
   # focus next focusable node
   def focus_next
@@ -51,9 +51,9 @@ class FocusManager < Emitter
 
   def set_focused(focused)
     previous = @focused
-    @focused.set_attribute(:focused, false) if @focused
+    @focused&.set_attribute(:focused, false)
     @focused = focused
     @focused.set_attribute(:focused, true)
-    emit :focus, { focused: @focused, previous: previous }
+    emit :focus, focused: @focused, previous: previous
   end
 end

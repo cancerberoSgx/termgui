@@ -1,12 +1,14 @@
-require_relative "emitter"
-require_relative "event"
-require "io/console"
-require "io/wait"
-require_relative "key"
+# frozen_string_literal: true
+
+require_relative 'emitter'
+require_relative 'event'
+require 'io/console'
+require 'io/wait'
+require_relative 'key'
 
 # responsible of listening stdin and event loop
 class Input < Emitter
-  attr :interval, :stdin, :stopped
+  attr_reader :interval, :stdin, :stopped
 
   def initialize(stdin = $stdin, interval = 0.05)
     @interval = interval
@@ -40,16 +42,15 @@ class Input < Emitter
   def clear_interval(listener)
     @interval_listeners.delete listener
   end
-  
+
   def stop
     @stopped = true
   end
 
   # starts listening for user input. Implemented like an event loop reading from @inputStream each @interval
   def start
-    if !@stopped
-      return self
-    end
+    return self unless @stopped
+
     @stdin.raw do |io|
       @stopped = false
       loop do
@@ -58,13 +59,13 @@ class Input < Emitter
           key = char.inspect
           key = key[1..key.length - 2]
           event = KeyEvent.new key, char
-          self.emit("key", event)
+          emit('key', event)
         else
           sleep @interval
         end
         @time = Time.now
-    dispatch_set_interval
-    dispatch_set_timeout
+        dispatch_set_interval
+        dispatch_set_timeout
         break if @stopped
       end
     end
@@ -75,11 +76,9 @@ class Input < Emitter
   end
 
   def install_exit_keys
-    self.subscribe("key", Proc.new { |e|
-      if e.key == "q"
-        self.stop
-      end
-    })
+    subscribe('key', proc do |e|
+      stop if e.key == 'q'
+    end)
   end
 
   protected
@@ -102,7 +101,6 @@ class Input < Emitter
       if listener[:target] < @time
         listener[:block].call
         @timeout_listeners.delete listener
-      else
       end
     end
   end
@@ -112,5 +110,4 @@ class Input < Emitter
       listener[:block].call
     end
   end
-
 end

@@ -1,6 +1,8 @@
-require "test/unit"
+# frozen_string_literal: true
+
+require 'test/unit'
 include Test::Unit::Assertions
-require_relative "../src/node"
+require_relative '../src/node'
 
 class NodeTest < Test::Unit::TestCase
   def test_children
@@ -13,70 +15,69 @@ class NodeTest < Test::Unit::TestCase
   end
 
   def test_visit_node
-    n = Node.new(text: "parent", children: [
-                   Node.new(name: "child1"),
-                   Node.new(name: "child2", children: [
-                              Node.new(name: "child2.1"),
-                            ]),
+    n = Node.new(text: 'parent', children: [
+                   Node.new(name: 'child1'),
+                   Node.new(name: 'child2', children: [
+                              Node.new(name: 'child2.1')
+                            ])
                  ])
-    assert_equal "Node(name: node, children: [Node(name: child1, children: []), Node(name: child2, children: [Node(name: child2.1, children: [])])])", n.to_s
+    assert_equal 'Node(name: node, children: [Node(name: child1, children: []), Node(name: child2, children: [Node(name: child2.1, children: [])])])', n.to_s
     a = []
-    visit_node n, Proc.new { |n| a.push(n.name); false }
-    assert_equal ["child1", "child2.1", "child2", "node"], a
+    visit_node n, proc { |n| a.push(n.name); false }
+    assert_equal ['child1', 'child2.1', 'child2', 'node'], a
   end
 
   def test_query_by_attribute
     n = Node.new(
-      text: "parent",
+      text: 'parent',
       attributes: {
-        foo: "bar",
+        foo: 'bar'
       },
       children: [
         Node.new(
-          name: "child1",
-          attributes: { a: 1.2 },
+          name: 'child1',
+          attributes: { a: 1.2 }
         ),
         Node.new(
-          name: "child2",
+          name: 'child2',
           attributes: { a: 1.2 },
           children: [
             Node.new(
-              name: "child2.1",
-              attributes: { a: 1.2 },
-            ),
-          ],
-        ),
-      ],
+              name: 'child2.1',
+              attributes: { a: 1.2 }
+            )
+          ]
+        )
+      ]
     )
-    result=n.query_by_attribute(:foo, 'bar')
+    result = n.query_by_attribute(:foo, 'bar')
     assert_equal [n], result
-    assert_equal ["child1", "child2.1", "child2"], n.query_by_attribute(:a, 1.2).map{|n|n.name}
+    assert_equal ['child1', 'child2.1', 'child2'], n.query_by_attribute(:a, 1.2).map(&:name)
   end
-
 
   def test_query_one_by_attribute
     n = Node.new(
-      text: "parent",
+      text: 'parent',
       attributes: {
       },
       children: [
         Node.new(
-          name: "child1",
-          attributes: { a: 1.2 },
+          name: 'child1',
+          attributes: { a: 1.2 }
         ),
         Node.new(
-          name: "child2",
+          name: 'child2',
           attributes: { a: 1.2 },
           children: [
             Node.new(
-              name: "child2.1",
-              attributes: { a: 1.2 },
-            ),
-          ],
-        ),
-      ],
+              name: 'child2.1',
+              attributes: { a: 1.2 }
+            )
+          ]
+        )
+      ]
     )
-    result=n.query_one_by_attribute(:a, 1.2)
+    result = n.query_one_by_attribute(:a, 1.2)
     assert_equal 'child1', result.name
   end
 end

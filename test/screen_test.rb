@@ -1,7 +1,9 @@
-require "test/unit"
+# frozen_string_literal: true
+
+require 'test/unit'
 include Test::Unit::Assertions
-require_relative "../src/screen"
-require_relative "../src/util"
+require_relative '../src/screen'
+require_relative '../src/util'
 
 class ScreenTest < Test::Unit::TestCase
   def test_renderer
@@ -13,24 +15,24 @@ class ScreenTest < Test::Unit::TestCase
 
   def test_rect_clear
     s = Screen.new width: 12, height: 7
-    s.rect(x: 1, y: 2, width: 3, height: 2, ch: "f")
-    s.rect(x: 6, y: 3, width: 4, height: 3, ch: "g")
-    assert_equal ["            ",
-                  "            ",
-                  " fff        ",
-                  " fff  gggg  ",
-                  "      gggg  ",
-                  "      gggg  ",
-                  "            "],
+    s.rect(x: 1, y: 2, width: 3, height: 2, ch: 'f')
+    s.rect(x: 6, y: 3, width: 4, height: 3, ch: 'g')
+    assert_equal ['            ',
+                  '            ',
+                  ' fff        ',
+                  ' fff  gggg  ',
+                  '      gggg  ',
+                  '      gggg  ',
+                  '            '],
                  s.renderer.print_rows
     s.clear
-    assert_equal ["            ",
-                  "            ",
-                  "            ",
-                  "            ",
-                  "            ",
-                  "            ",
-                  "            "],
+    assert_equal ['            ',
+                  '            ',
+                  '            ',
+                  '            ',
+                  '            ',
+                  '            ',
+                  '            '],
                  s.print.split('\n')
   end
 end

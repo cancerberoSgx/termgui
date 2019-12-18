@@ -1,15 +1,17 @@
-require_relative "../src/cli_driver"
+# frozen_string_literal: true
+
+require_relative '../src/cli_driver'
 
 client = Driver.new
-s=''
-client.subscribe :data, Proc.new { |data| s = "DATA #{data}" }
-client.subscribe :quit, Proc.new { |code| puts "EXIT #{code}" }
+s = ''
+client.subscribe :data, proc { |data| s = "DATA #{data}" }
+client.subscribe :quit, proc { |code| puts "EXIT #{code}" }
 
-client.set_timeout 1, Proc.new {
-  client.write("Hello world")
+client.set_timeout 1, proc {
+  client.write('Hello world')
 }
-client.run "ruby cli-driver/probes/cli_driver_test_sample.rb"
-if s!='DATA you have entered Hello world !!'
+client.run 'ruby cli-driver/probes/cli_driver_test_sample.rb'
+if s != 'DATA you have entered Hello world !!'
   puts 'ERROR in test, s is ', s
 else
   puts 'OK'
@@ -20,7 +22,6 @@ end
 #   exit
 # })
 # client.run "cat"
-
 
 # TAB = "\u0009".encode("utf-8")
 # RETURN = "\r".encode("utf-8")

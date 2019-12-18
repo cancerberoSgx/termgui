@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # color enumerations and utilities
 
 COLORS = {
@@ -8,11 +10,11 @@ COLORS = {
   blue: 4,
   magenta: 5,
   cyan: 6,
-  white: 7,
-}
+  white: 7
+}.freeze
 
 def colorNames
-  ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
+  %w[black red green yellow blue magenta cyan white]
 end
 
 # https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_parameters
@@ -55,8 +57,8 @@ ATTRIBUTES = {
   ovelrined: 53,
 
   framedOff: 54,
-  encircledOff: 54,
-}
+  encircledOff: 54
+}.freeze
 
 def randomColor
   colorNames.sample
@@ -69,16 +71,16 @@ def colorText(content, fg = nil, bg = nil)
 end
 
 def color(fg = nil, bg = nil)
-  colored = ""
+  colored = ''
   colored << colorToEscape(fg, 30) if fg
   colored << colorToEscape(bg, 40) if bg
 end
 
 def colorToEscape(name, layer)
-  short_name = name.to_s.sub(/\Abright_/, "")
+  short_name = name.to_s.sub(/\Abright_/, '')
   color = COLORS.fetch(short_name.to_sym)
   escape = "#{CSI}#{layer + color}"
-  escape << ";1" if short_name.size < name.size
-  escape << "m"
+  escape << ';1' if short_name.size < name.size
+  escape << 'm'
   escape
 end

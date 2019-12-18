@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # from https://medium.com/@kopilov.vlad/use-event-emitter-in-ruby-6b289fe2e7b4
 class Emitter
   # turn on the event
@@ -19,7 +21,7 @@ class Emitter
   def subscribe(event_name, handler_proc)
     handler_id = "#{event_name}_#{handler_proc.object_id}"
     events[event_name.to_sym]&.push(
-      { id: handler_id, proc: handler_proc }
+      id: handler_id, proc: handler_proc
     )
     handler_id
   end

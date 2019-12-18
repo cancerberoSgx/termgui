@@ -1,6 +1,8 @@
-require "timeout"
-require "pty"
-require_relative "../../src/emitter"
+# frozen_string_literal: true
+
+require 'timeout'
+require 'pty'
+require_relative '../../src/emitter'
 
 # spawn given command using pty. This gives access both to command´s stdin and stdout.
 # How this works is looping until the process ends, reading stdout and notifying on each iteration.
@@ -23,14 +25,14 @@ class BaseDriver < Emitter
   def execute(command)
     @master, @slave = PTY.open
     @read, @write = IO.pipe
-    @pid = spawn(command, :in => @read, :out => @slave)
+    @pid = spawn(command, in: @read, out: @slave)
     @read.close     # we dont need the read
     @slave.close    # or the slave
     @running = true
   end
 
   def destroy
-    @master.close if @master
+    @master&.close
   end
 
   # calls `execute` and starts listening user input
@@ -43,36 +45,31 @@ class BaseDriver < Emitter
     @write.puts s
   end
 
-  def data
-    @data
-  end
+  attr_reader :data
 
   def data_str
     # TODO: maintain @data_str copy for performance
-    @data.join("").strip
+    @data.join('').strip
   end
 
-  def interval=(interval)
-    @interval = interval
-  end
+  attr_writer :interval
 
   def listen_user
     while @running
-      data = ""
+      data = ''
       begin
-        status = Timeout::timeout(@interval) {
+        status = Timeout.timeout(@interval) do
           data = read
-        }
-      rescue => e
+        end
+      rescue StandardError => e
       else
       end
-      if data == nil # program exited
+      if data.nil? # program exited
         @running = false
         emit :quit, 0 # TODO: exit code
-      elsif data != ""
+      elsif data != ''
         @data.push data
         emit :data, data
-      else
       end
       after_user_input
     end
@@ -81,12 +78,10 @@ class BaseDriver < Emitter
   # Native IO::read operation, will block. To consume stdout use `data`, `wait_data`, etc instead of this method.
   # if returns `nil` it means the process has ended
   def read
-    if !@master
-      throw '"read" called before "execute"'
-    end
+    throw '"read" called before "execute"' unless @master
     # The result of read operation when pty slave is closed is platform dependent.
     begin
-      @master.gets     # FreeBSD returns nil.
+      @master.gets # FreeBSD returns nil.
     rescue Errno::EIO # GNU/Linux raises EIO.
       nil
     end
