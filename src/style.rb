@@ -5,7 +5,7 @@ require_relative 'color'
 # refers to properties directly implemented using ansi escape codes
 # responsible of printing escape ansi codes for style
 class BaseStyle
-  attr_reader :fg, :bg
+  # attr_reader :fg, :bg
   attr_accessor :fg, :bg
 
   def initialize(fg: nil, bg: nil)
@@ -43,7 +43,10 @@ class BaseStyle
   end
 end
 
+# style for the border
 class Border < BaseStyle
+  # box style name (string). See box.rb. Possible values:
+  # :single, :double, :round, :bold, :singleDouble, :doubleSingle, :classic
   attr_reader :style
 
   def initialize(fg: nil, bg: nil, style: nil)
@@ -52,15 +55,12 @@ class Border < BaseStyle
     # @style=style
   end
 
-  # box style name (string). See box.rb. Possible values:
-  # :single, :double, :round, :bold, :singleDouble, :doubleSingle, :classic
-  attr_reader :style
-
   def style=(style)
     @style = style.nil? ? nil : style.to_s
   end
 end
 
+# Element style (`element.style` type)
 class Style < BaseStyle
   attr_reader :border
 
@@ -93,7 +93,7 @@ end
 # Notice that `border-style` is assigned to @border.style and treated specially
 def parse_style(s)
   statements = s.split(';')
-  style = Style.new
+  # style = Style.new
   statements.each do |statement|
     a = statement.split(':')
     throw "Syntax error in statement: #{statement}" if a.length != 2

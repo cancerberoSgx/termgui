@@ -13,15 +13,15 @@ require_relative 'util'
 # Once `start`is called it will block execution and start an event loop
 # on each interval user input is read and event listeners are called
 class Screen < Node
-  attr_reader :width, :height, :inputStream, :outputStream, :renderer, :input, :event, :focus
+  attr_reader :width, :height, :input_stream, :output_stream, :renderer, :input, :event, :focus
 
-  def initialize(name: 'node', children: [], text: '', attributes: {}, parent: nil, width: $stdout.winsize[1], height: $stdout.winsize[0])
-    super name: 'screen'
-    # @height, @width = $stdout.winsize
+  def initialize(children: [], text: '', attributes: {},
+                 width: $stdout.winsize[1], height: $stdout.winsize[0])
+    super(name: 'screen', children: children, text: text, attributes: attributes, parent: nil)
     @width = width
     @height = height
-    @inputStream = $stdin
-    @outputStream = $stdout
+    @input_stream = $stdin
+    @output_stream = $stdout
     @renderer = Renderer.new(@width, @height)
     @input = Input.new
     @event = EventManager.new @input
@@ -36,13 +36,14 @@ class Screen < Node
   end
 
   def destroy
+    p 'destroy'
     emit :destroy
     @input.stop
   end
 
-  # writes directly to @outputStream. Shouldn't be used directly since these changes won't be tracked by the buffer.
+  # writes directly to @output_stream. Shouldn't be used directly since these changes won't be tracked by the buffer.
   def write(s)
-    @outputStream.write s
+    @output_stream.write s
   end
 
   def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH)
@@ -67,8 +68,7 @@ class Screen < Node
   def render(element = nil)
     if element == self || element.nil?
       children.each { |child| child.render self }
-    elsif
-      element.render self
+    elsif      element.render self
     end
   end
 
@@ -90,5 +90,22 @@ class Screen < Node
 
   def print
     @renderer.print
+  end
+
+  def set_timeout(seconds, block)
+    @input.set_timeout(seconds, block)
+  end
+
+  def clear_timeout(_listener)
+    @input.clear_timeout(block)
+  end
+
+  # TODO: seconds not implemented - block will be called on each input interval
+  def set_interval(seconds = @interval, block)
+    @input.set_interval(seconds, block)
+  end
+
+  def clear_interval(_listener)
+    @input.clear_interval(block)
   end
 end

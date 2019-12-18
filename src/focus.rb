@@ -33,27 +33,27 @@ class FocusManager < Emitter
     @root.query_by_attribute(:focusable, true)
   end
 
-  attr_reader :focused
-
   # focus next focusable node
   def focus_next
     i = focusables.index(@focused) || 0
     new_i = i == focusables.length - 1 ? 0 : i + 1
-    set_focused focusables[new_i]
+    self.focused = focusables[new_i]
   end
 
   # focus previous focusable node
   def focus_prev
     i = focusables.index(@focused) || 0
-    new_i = i == 0 ? focusables.length - 1 : i - 1
-    set_focused focusables[new_i]
+    new_i = i.zero? ? focusables.length - 1 : i - 1
+    self.focused = focusables[new_i]
   end
 
-  def set_focused(focused)
+  def focused=(focused)
     previous = @focused
     @focused&.set_attribute(:focused, false)
     @focused = focused
     @focused.set_attribute(:focused, true)
     emit :focus, focused: @focused, previous: previous
   end
+
+  attr_reader :focused
 end

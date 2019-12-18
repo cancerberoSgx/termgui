@@ -60,11 +60,11 @@ ATTRIBUTES = {
   encircledOff: 54
 }.freeze
 
-def randomColor
+def random_color
   colorNames.sample
 end
 
-def colorText(content, fg = nil, bg = nil)
+def color_text(content, fg = nil, bg = nil)
   colored = color(fg, bg)
   colored << content
   colored << "#{CSI}0m"
@@ -72,11 +72,11 @@ end
 
 def color(fg = nil, bg = nil)
   colored = ''
-  colored << colorToEscape(fg, 30) if fg
-  colored << colorToEscape(bg, 40) if bg
+  colored << color_to_escape(fg, 30) if fg
+  colored << color_to_escape(bg, 40) if bg
 end
 
-def colorToEscape(name, layer)
+def color_to_escape(name, layer)
   short_name = name.to_s.sub(/\Abright_/, '')
   color = COLORS.fetch(short_name.to_sym)
   escape = "#{CSI}#{layer + color}"

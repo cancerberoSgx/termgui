@@ -4,7 +4,7 @@ require_relative 'util'
 require_relative 'emitter'
 
 class Node < Emitter
-  attr_reader :attributes, :children, :text, :parent, :name
+  attr_reader :children, :text, :parent, :name
   attr_writer :parent
 
   def initialize(name: 'node', children: [], text: '', attributes: {}, parent: nil)
@@ -26,17 +26,15 @@ class Node < Emitter
 
   def query_by_attribute(attr, value)
     result = []
-    visit_node self, proc { |n|
+    visit_node(self, proc { |n|
       result.push n if n.attributes.get_attribute(attr) == value
       false
-    }
+    })
     result
   end
 
   def query_one_by_attribute(attr, value)
-    result = visit_node self, proc { |n|
-      n.attributes.get_attribute(attr) == value
-    }
+    result = visit_node(self, proc { |n| n.attributes.get_attribute(attr) == value })
     result
   end
 
@@ -76,6 +74,7 @@ class Node < Emitter
   end
 end
 
+# Manages Node's attributes
 class Attributes
   def initialize(attrs = {})
     @attrs = attrs
@@ -106,9 +105,7 @@ def visit_node(node, visitor, children_first = true)
     result = visitor.call node
     return result if result
   end
-  result = some node.children, proc { |child|
-    visit_node child, visitor, children_first
-  }
+  result = some(node.children, proc { |child| visit_node child, visitor, children_first })
   return result if result
 
   result = visitor.call node if children_first

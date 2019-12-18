@@ -18,13 +18,13 @@ class EmitterTest < Test::Unit::TestCase
     event_emitter.subscribe(:doorOpen, ring_bell)
     # to trigger event
     event_emitter.emit(:doorOpen)
-    nextTick
+    next_tick
     assert_equal s, 'ring ring ring'
 
     s = ''
     event_emitter.subscribe(:doorOpen, proc { |e| s = e[:msg] })
     event_emitter.emit(:doorOpen, msg: 'hello')
-    nextTick
+    next_tick
     assert_equal s, 'hello'
   end
 end

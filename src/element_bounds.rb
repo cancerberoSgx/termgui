@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Adds support for Element's x, y, abs_x, abs_y, width, height, abs_width, abs_height
 module ElementBounds
   def x=(x)
     set_attribute('x', x)

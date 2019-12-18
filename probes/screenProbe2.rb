@@ -4,8 +4,6 @@ require_relative '../src/screen'
 require_relative '../src/util'
 require_relative '../src/style'
 require_relative '../src/color'
-require 'io/console'
-require 'io/wait'
 
 N = 2
 s = Screen.new

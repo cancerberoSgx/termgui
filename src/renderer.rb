@@ -105,8 +105,10 @@ class Renderer
   end
 end
 
+# Represents a pixel in renderer's buffer
 class Pixel
   attr_reader :ch, :style
+  attr_writer :ch, :style
 
   def self.EMPTY_CH
     ' '
@@ -116,8 +118,4 @@ class Pixel
     @ch = ch
     @style = style
   end
-
-  attr_writer :ch
-
-  attr_writer :style
 end

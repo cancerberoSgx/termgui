@@ -71,17 +71,17 @@ def draw_box(width, height, style = :single, content = ' ')
   (0..height - 1).each do |y|
     line = ''
     (0..width - 1).each do |x|
-      line += if y == 0 && x == 0
+      line += if y.zero? && x.zero?
                 box[:topLeft]
-              elsif y == height - 1 && x == 0
+              elsif y == height - 1 && x.zero?
                 box[:bottomLeft]
-              elsif y == 0 && x == width - 1
+              elsif y.zero? && x == width - 1
                 box[:topRight]
               elsif y == height - 1 && x == width - 1
                 box[:bottomRight]
-              elsif y == height - 1 || y == 0
+              elsif y == height - 1 || y.zero?
                 box[:horizontal]
-              elsif x == width - 1 || x == 0
+              elsif x == width - 1 || x.zero?
                 box[:vertical]
               else
                 content

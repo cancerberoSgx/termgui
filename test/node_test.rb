@@ -24,7 +24,8 @@ class NodeTest < Test::Unit::TestCase
                  ])
       ]
     )
-    assert_equal 'Node(name: node, children: [Node(name: child1, children: []), Node(name: child2, children: [Node(name: child2.1, children: [])])])',
+    assert_equal 'Node(name: node, children: [Node(name: child1, children: []), ' \
+                 'Node(name: child2, children: [Node(name: child2.1, children: [])])])',
                  n.to_s
     a = []
     visit_node(n, proc { |child|

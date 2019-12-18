@@ -2,17 +2,17 @@
 
 require 'json'
 
-def JSONParse(str)
-  JSON.parse(str)
-end
+# def json_parse(str)
+#   JSON.parse(str)
+# end
 
-def JSONStringify(obj)
-  JSON.generate(obj)
-end
+# def json_stringify(obj)
+#   JSON.generate(obj)
+# end
 
 # TODO: hack because \n chars are not printed with puts or print:
-def print_string(s)
-  s.split('\n').map { |s| puts s || '' }
+def print_string(str)
+  str.split('\n').map { |s| puts s || '' }
 end
 
 def parse_integer(s, default = nil)
@@ -25,7 +25,7 @@ def unquote(s)
   s[1..s.length - 1]
 end
 
-def nextTick
+def next_tick
   sleep 0.0000001
 end
 

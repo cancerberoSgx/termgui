@@ -47,7 +47,7 @@ class Input < Emitter
     @stopped = true
   end
 
-  # starts listening for user input. Implemented like an event loop reading from @inputStream each @interval
+  # starts listening for user input. Implemented like an event loop reading from @input_stream each @interval
   def start
     return self unless @stopped
 
