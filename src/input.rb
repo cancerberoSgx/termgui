@@ -15,6 +15,7 @@ class Input < Emitter
     on(:key) # enables the 'key' event
     @time = Time.now
     @timeout_listeners = []
+    @interval_listeners = []
   end
 
   # register a timeout listener that will be called in given seconds (aprox).

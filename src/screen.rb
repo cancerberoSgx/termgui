@@ -78,6 +78,14 @@ class Screen < Node
     0
   end
 
+  def abs_width
+    @width
+  end
+
+  def abs_height
+    @height
+  end
+  
   def print
     @renderer.print
   end

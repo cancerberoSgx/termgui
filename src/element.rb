@@ -3,16 +3,15 @@ require_relative "style"
 require_relative "renderer"
 require_relative "element_bounds"
 
-# Node responsible of 
+# Node responsible of
 #  * x, y, width, height, abs_x, abs_y
 #  * rendering text, wrap (TODO)
 #  * border, margin & padding & abs_* update (TODO)
 #  * scroll
 # TODO: separate each responsibility on its module or subclass
 class Element < Node
-
   include ElementBounds
-  
+
   def initialize(x: 0, y: 0, width: 0, height: 0, ch: Pixel.EMPTY_CH, children: [], text: "", name: "element", attributes: {})
     super(name: name, text: text, children: children, attributes: attributes)
     attributes(attributes.merge({
@@ -35,6 +34,7 @@ class Element < Node
 
   def render_self(screen)
     screen.style = style if style
+    p @name, abs_x, abs_y, abs_width, abs_height
     screen.rect(
       x: abs_x,
       y: abs_y,
@@ -54,5 +54,4 @@ class Element < Node
   # computed from its text length plus maring/padding)
   def preferred_size
   end
-
 end

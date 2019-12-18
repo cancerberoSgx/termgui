@@ -1,5 +1,4 @@
 module ElementBounds
-
   def x=(x)
     set_attribute("x", x)
   end
@@ -9,7 +8,11 @@ module ElementBounds
   end
 
   def abs_x
-    (@parent ? @parent.abs_x : 0) + x
+    if is_precent x
+      ((@parent ? @parent.abs_x : 0) + x * (@parent ? @parent.abs_width : @abs_width)).truncate
+    else
+      ((@parent ? @parent.abs_x : 0) + x).truncate
+    end
   end
 
   def y=(y)
@@ -21,7 +24,11 @@ module ElementBounds
   end
 
   def abs_y
-    (@parent ? @parent.abs_y : 0) + y
+    if is_precent y
+      ((@parent ? @parent.abs_y : 0) + y * (@parent ? @parent.abs_height : @abs_height)).truncate
+    else
+      ((@parent ? @parent.abs_y : 0) + y).truncate
+    end
   end
 
   def width=(width)
@@ -36,9 +43,9 @@ module ElementBounds
     width = get_attribute "width"
     width = width || 0
     if (is_precent width) && @parent
-      @parent.abs_width * width
+      (@parent.abs_width * width).truncate
     else
-      width
+      width.truncate
     end
   end
 
@@ -54,14 +61,14 @@ module ElementBounds
     height = get_attribute "height"
     height = height || 0
     if is_precent height
-      @parent ? @parent.abs_height * height : 0
+      (@parent ? @parent.abs_height * height : 0).truncate
     else
-      height
+      height.truncate
     end
   end
 
   protected
-  
+
   def is_precent(val)
     val > 0 && val < 1
   end

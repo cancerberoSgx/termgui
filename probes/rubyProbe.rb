@@ -1,3 +1,6 @@
+x=3.4
+p x.truncate
+
 # def ff(a, &block)
 #   block.call a
 # end

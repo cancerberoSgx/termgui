@@ -3,8 +3,6 @@ require_relative "../src/util"
 require_relative "../src/element"
 require_relative "../src/style"
 require_relative "../src/color"
-require "io/console"
-require "io/wait"
 
 screen = Screen.new
 
