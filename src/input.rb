@@ -13,8 +13,33 @@ class Input < Emitter
     @stdin = stdin
     @stopped = true
     on(:key) # enables the 'key' event
+    @time = Time.now
+    @timeout_listeners = []
   end
 
+  # register a timeout listener that will be called in given seconds (aprox).
+  # Returns a listener object that can be used with clear_timeout to remove the listener
+  def set_timeout(seconds, block)
+    listener = { seconds: seconds, block: block, time: @time, target: @time + seconds }
+    @timeout_listeners.push listener
+    listener
+  end
+
+  def clear_timeout(listener)
+    @timeout_listeners.delete listener
+  end
+
+  def set_interval(seconds = @interval, block)
+    # TODO: seconds not implemented - block will be called on each input interval
+    listener = { seconds: seconds, block: block, time: @time, target: @time + seconds }
+    @interval_listeners.push listener
+    listener
+  end
+
+  def clear_interval(listener)
+    @interval_listeners.delete listener
+  end
+  
   def stop
     @stopped = true
   end
@@ -33,10 +58,13 @@ class Input < Emitter
           key = key[1..key.length - 2]
           event = KeyEvent.new key, char
           self.emit("key", event)
-          break if @stopped
         else
           sleep @interval
         end
+        @time = Time.now
+    dispatch_set_interval
+    dispatch_set_timeout
+        break if @stopped
       end
     end
   end
@@ -68,10 +96,20 @@ class Input < Emitter
     end
   end
 
-  # TODO: implement setTimeout
-  # @timer=0
-  # def timeout(block, sec)
-  #   timer=@timer++
-  #   throw 'not impl'
-  # end
+  def dispatch_set_timeout
+    @timeout_listeners.each do |listener|
+      if listener[:target] < @time
+        listener[:block].call
+        @timeout_listeners.delete listener
+      else
+      end
+    end
+  end
+
+  def dispatch_set_interval
+    @interval_listeners.each do |listener|
+      listener[:block].call
+    end
+  end
+
 end

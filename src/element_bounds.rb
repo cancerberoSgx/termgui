@@ -32,10 +32,6 @@ module ElementBounds
     get_attribute "width"
   end
 
-  def is_precent(val)
-    val > 0 && val < 1
-  end
-
   def abs_width
     width = get_attribute "width"
     width = width || 0
@@ -62,5 +58,11 @@ module ElementBounds
     else
       height
     end
+  end
+
+  protected
+  
+  def is_precent(val)
+    val > 0 && val < 1
   end
 end
