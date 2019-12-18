@@ -4,7 +4,7 @@ require 'timeout'
 require 'pty'
 require_relative 'base_driver'
 
-# spawn given command using pty. This gives access both to command´s stdin and stdout.
+# spawn given command using pty. This gives access both to command's stdin and stdout.
 # How this works is looping until the process ends, reading stdout and notifying on each iteration.
 # a simple timer is supported so operations like set_timeout or wait_until are supported
 # users can register for new stdout data (to assert against)
@@ -31,7 +31,7 @@ class TimeDriver < BaseDriver
     @timeout_listeners.delete listener
   end
 
-  def set_interval(seconds = @interval, block)
+  def set_interval(seconds = @interval, block = nil)
     # TODO: seconds not implemented - block will be called on each input interval
     listener = { seconds: seconds, block: block, time: @time, target: @time + seconds }
     @interval_listeners.push listener

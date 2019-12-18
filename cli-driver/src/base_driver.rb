@@ -4,7 +4,7 @@ require 'timeout'
 require 'pty'
 require_relative '../../src/emitter'
 
-# spawn given command using pty. This gives access both to command´s stdin and stdout.
+# spawn given command using pty. This gives access both to command's stdin and stdout.
 # How this works is looping until the process ends, reading stdout and notifying on each iteration.
 # a simple timer is supported so operations like set_timeout or wait_until are supported (See TimeDriver and WaitDriver)
 # users can register for new stdout data (to assert against)
@@ -22,6 +22,7 @@ class BaseDriver < Emitter
     on(:interval)
   end
 
+  # execute won't start listening user input, just run the command. Non blocking operation
   def execute(command)
     @master, @slave = PTY.open
     @read, @write = IO.pipe
@@ -31,8 +32,10 @@ class BaseDriver < Emitter
     @running = true
   end
 
+  # closes @master and forces the event loop to stop
   def destroy
     @master&.close
+    @running = false
   end
 
   # calls `execute` and starts listening user input
@@ -54,6 +57,8 @@ class BaseDriver < Emitter
 
   attr_writer :interval
 
+  # Starts an event loop reading from @master and setting a timeout to @interval to interrupt the read call.
+  # This operation blocks until destroy() is called.
   def listen_user
     while @running
       data = ''
@@ -62,6 +67,7 @@ class BaseDriver < Emitter
           data = read
         end
       rescue StandardError => e
+        p e
       else
       end
       if data.nil? # program exited
