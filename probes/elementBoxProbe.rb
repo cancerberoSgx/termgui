@@ -6,9 +6,10 @@ require_relative '../src/color'
 
 screen = Screen.new
 screen.input.install_exit_keys
-e = Element.new x: 0.15, y: 0.2, width: 0.3, height: 0.5, ch: ' ', text: 'HELLO'
+e = Element.new x: 0.15, y: 0.2, width: 0.3, height: 0.5, ch: ' ', text: 'Hello long long wraped text let get bigger and bigger'
 e.padding = Offset.new(top: 0.5, left: 0.4)
 e.style = { bg: 'blue', fg: 'yellow'}
+e.style.wrap = true
 # e.style, padding: Offset.new(top: 1, left: 2)
 e.style.border = Border.new(style: :double)
 screen.append_child(e)
