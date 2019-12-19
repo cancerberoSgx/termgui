@@ -2,7 +2,9 @@ require 'test/unit'
 include Test::Unit::Assertions
 require_relative '../src/element'
 require_relative '../src/util'
+require_relative '../src/style'
 require_relative '../src/screen'
+require_relative '../src/log'
 
 class NodeTest < Test::Unit::TestCase
   def test_abs
@@ -86,4 +88,5 @@ class NodeTest < Test::Unit::TestCase
     '', s.print
     )
   end
+ 
 end

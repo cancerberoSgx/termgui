@@ -1,3 +1,17 @@
+def gg(*args)
+  # p args
+  # yield block
+  block=args[args.length-1]
+  block.call args.sample
+end
+
+gg 1,2,3, proc {|i| p 'y', i}
+
+def hh(a, &block)
+  b=yield
+  p a, b
+end
+hh(555) {p 'hhh'; 222}
 
 x = 3.4
 p x.truncate

@@ -47,6 +47,10 @@ class Node < Emitter
     result
   end
 
+  def visit(visitor, children_first = true)
+    visit_node(self, visitor, children_first)
+  end
+  
   def render(screen)
     trigger(:before_render)
     render_self screen
@@ -79,10 +83,6 @@ class Node < Emitter
 
   def get_attribute(name)
     @attributes.get_attribute(name)
-  end
-
-  def visit(visitor, children_first = true)
-    visit_node(self, visitor, children_first)
   end
 
   def to_s

@@ -12,6 +12,7 @@ require_relative 'util'
 # on each interval user input is read and event listeners are called
 class Screen < Node
   attr_reader :width, :height, :input_stream, :output_stream, :renderer, :input, :event, :focus
+  attr_accessor :silent
 
   def initialize(children: [], text: '', attributes: {},
                  width: $stdout.winsize[1], height: $stdout.winsize[0])
@@ -24,6 +25,7 @@ class Screen < Node
     @input = Input.new
     @event = EventManager.new @input
     @focus = FocusManager.new(root: self, input: @input)
+    @silent=false
     on(:destroy)
   end
 
@@ -41,7 +43,7 @@ class Screen < Node
 
   # writes directly to @output_stream. Shouldn't be used directly since these changes won't be tracked by the buffer.
   def write(s)
-    @output_stream.write s
+    @output_stream.write s unless @silent
   end
 
   def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH)
@@ -72,6 +74,14 @@ class Screen < Node
 
   def text(x, y, text)
     write @renderer.write(x, y, text)
+  end
+
+  def box(x, y, width, height, border_style = :classic, style = nil)
+    self.style = style if style
+    box = draw_box(width: width, height: height, style: border_style)
+    box.each_with_index do |line, index|
+      text x, y + index, line
+    end
   end
 
   def abs_x

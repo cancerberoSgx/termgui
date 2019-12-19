@@ -54,13 +54,13 @@ class Border < BaseStyle
   end
 
   def style=(style)
-    @style = style.nil? ? nil : style.to_s
+    @style = style&.to_s
   end
 end
 
 # Element style (`element.style` type)
 class Style < BaseStyle
-  attr_reader :border
+  attr_accessor :border
 
   def initialize(fg: nil, bg: nil, border: nil)
     super(fg: fg, bg: bg)

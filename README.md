@@ -13,6 +13,7 @@
  [x] change camelCase to snake_case
  [x] rubocop
  [x] styled box drawing to string
+ [ ] review callback's api and use yield, examples: `s.set_timeout(0.5){ p 'after'}` , `client.wait_for(proc { @ready }){ |timeout| p 'finished' unless timeout } `
  [ ] element border using box drawing
  [ ] element's padding, margin
  [ ] node text rendering
