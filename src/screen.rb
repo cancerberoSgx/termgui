@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 require_relative 'node'
 require_relative 'renderer'
@@ -68,8 +67,12 @@ class Screen < Node
   def render(element = nil)
     if element == self || element.nil?
       children.each { |child| child.render self }
-    elsif      element.render self
+    elsif element.render self
     end
+  end
+
+  def text(x, y, text)
+    write @renderer.write(x, y, text)
   end
 
   def abs_x

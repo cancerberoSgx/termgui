@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 BOXES = {
   single: {
@@ -65,10 +64,13 @@ def boxes
   BOXES
 end
 
-def draw_box(width, height, style = :single, content = ' ')
+def draw_box(width: 0, height: 0, style: :single, content: ' ')
+  # , col: 0, row: 0
   box = BOXES[style.to_sym]
   lines = []
+
   (0..height - 1).each do |y|
+    # line = col.positive? || row.positive? ? Renderer.move(col, row) : ''
     line = ''
     (0..width - 1).each do |x|
       line += if y.zero? && x.zero?

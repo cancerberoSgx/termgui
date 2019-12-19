@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 # shows how to use read to control user reading low level
 require_relative '../src/cli_driver'

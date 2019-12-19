@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 require_relative 'node_test'
 require_relative 'emitter_test'

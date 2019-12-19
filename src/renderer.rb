@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 require_relative 'style'
 require_relative 'key'
@@ -68,6 +67,10 @@ class Renderer
   end
 
   def move(x, y)
+    Renderer.move x, y
+  end
+
+  def self.move(x, y)
     "#{CSI}#{y};#{x}H"
   end
 

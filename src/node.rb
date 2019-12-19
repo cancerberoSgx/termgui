@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 require_relative 'util'
 require_relative 'emitter'
@@ -14,6 +13,8 @@ class Node < Emitter
     children.each { |child| child.parent = self }
     @text = text
     @parent = parent
+    on(:after_render)
+    on(:before_render)
   end
 
   # returns child so something like the following is possible:
@@ -39,8 +40,11 @@ class Node < Emitter
   end
 
   def render(screen)
+    trigger(:before_render)
     render_self screen
     render_children screen
+    # render_text screen
+    trigger(:after_render)
   end
 
   def render_self(_screen)
@@ -49,6 +53,10 @@ class Node < Emitter
 
   def render_children(screen)
     @children.each { |c| c.render screen }
+  end
+
+  def render_text(screen)
+    throw 'Abstract method'
   end
 
   def attributes(attrs = nil)

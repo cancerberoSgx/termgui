@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 puts 'enter some text:'
 c = gets.chomp

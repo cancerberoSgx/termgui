@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 require_relative 'node'
 require_relative 'style'
@@ -43,6 +42,14 @@ class Element < Node
       height: abs_height,
       ch: ch
     )
+    # screen.style = style.clone.assign style.border if style&.border
+    # end
+  end
+
+  def render_text(screen)
+    if @text
+      screen.text(abs_x, abs_y, @text) 
+    end
   end
 
   def ch

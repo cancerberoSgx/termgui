@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 x = 3.4
 p x.truncate

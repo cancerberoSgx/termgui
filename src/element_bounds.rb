@@ -73,6 +73,6 @@ module ElementBounds
   protected
 
   def is_precent(val)
-    val > 0 && val < 1
+    val&.positive? && val < 1
   end
 end

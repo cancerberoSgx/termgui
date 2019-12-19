@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 # from https://medium.com/@kopilov.vlad/use-event-emitter-in-ruby-6b289fe2e7b4
 class Emitter

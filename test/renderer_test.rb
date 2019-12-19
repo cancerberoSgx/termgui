@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 require_relative '../src/renderer'
 require_relative '../src/util'

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 a = { x: 0, y: 0, width: 1, height: 1 }
 a.each_key { |key| print key.to_s }

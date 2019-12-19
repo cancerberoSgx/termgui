@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 # maps charsequences like '\n', '\e[1;7C' to objects like {name: 'enter'}, {name: 'right', control: true, meta: true}
 # TODO: support meta-d ('\xC3': 'C-', '\xB0': 'C-') which is defined by two characters

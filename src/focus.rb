@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 require_relative 'emitter'
 require_relative 'key'
@@ -17,16 +16,16 @@ class FocusManager < Emitter
     on(:focus)
     if @focused
       @focused.set_attribute(:focused, true)
-    else
+    # else
       # throw "No focusable elements found"
     end
-    @input.subscribe 'key', proc { |e|
+    @input.subscribe('key', proc { |e|
       if e.key == name_to_char(keys[:next])
         focus_next
       elsif e.key == name_to_char(keys[:prev])
         focus_prev
       end
-    }
+    })
   end
 
   def focusables

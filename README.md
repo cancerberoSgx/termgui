@@ -7,12 +7,26 @@
  * some ideas taken from npm.org/blessed
 
 
-### TODO
+### TODO / Status
 
- * cli-driver for testing interactions / see probes/pty*
- * use ruby Observer utility instead of Emitter
- * change camelCase to snake_case
- 
+ [x] cli-driver for testing interactions / see probes/pty*
+ [x] change camelCase to snake_case
+ [x] rubocop
+ [x] styled box drawing to string
+ [ ] element border using box drawing
+ [ ] element's padding, margin
+ [ ] node text rendering
+   [ ] line wrap, justified, left, right, center (any gem for this?)
+   [ ] node.text_children - returns this node text plus all its children text recursively in children order (useful for testing)
+ [x] focus manager
+ [x] set_timeout, set_interval
+ [ ] wait_for/when : `screen.when( proc {element.query_one_by_attribute 'progress', 'ready'}, proc { print 'done' })`
+ [ ] element query cssish support : `element.queryAll '[a="b"] .item > add-button'`
+ [ ] `screen.event.add_key_listener('C-c', proc{print 'bye'})`
+ [ ] adapt easing formulas from accursed project
+ [ ] npm.org/inquirer like apis
+ [ ] promise like apis : `screen.wait_for(predicate1).then(proc {screen.wait_for(predicate2)}).then(verb2).catch(proc {|error|p error})` - right now is callback hell :(
+   [ ] based on our own event loop? or could we use a gem like concurrency?
 
 ## Status
 

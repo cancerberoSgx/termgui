@@ -1,8 +1,7 @@
-# frozen_string_literal: true
 
 require_relative '../src/box'
 require_relative '../src/util'
-b = draw_box(8, 3)
+b = draw_box(x: 8, y: 3)
 # print b
 print print_string "box\n#{b.join('\n')}\nbox"
 

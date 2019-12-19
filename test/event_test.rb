@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 require 'test/unit'
 include Test::Unit::Assertions
@@ -11,7 +10,11 @@ class EventManagerTest < Test::Unit::TestCase
     e.add_key_listener('q', proc do |ev|
       s = ev.key
     end)
+
     e.handle_key(KeyEvent.new('q', 'q'))
-    assert_equal s, 'q'
+    assert_equal s, 'q', 'should notify'
+
+    e.handle_key(KeyEvent.new('x', 'x'))
+    assert_equal s, 'q', 'should not notify'
   end
 end
