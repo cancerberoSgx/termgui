@@ -2,6 +2,7 @@ require_relative 'node'
 require_relative 'style'
 require_relative 'renderer'
 require_relative 'element_bounds'
+require_relative 'element_box'
 
 # Node responsible of
 #  * x, y, width, height, abs_x, abs_y
@@ -10,13 +11,14 @@ require_relative 'element_bounds'
 #  * scroll
 # TODO: separate each responsibility on its module or subclass
 class Element < Node
+  include ElementBox
   include ElementBounds
 
-  def initialize(x: 0, y: 0, width: 0, height: 0, ch: Pixel.EMPTY_CH, children: [], text: '', name: 'element', attributes: {})
+  def initialize(x: 0, y: 0, width: 0, height: 0, ch: Pixel.EMPTY_CH, children: [], text: '', name: 'element',
+                 margin: Offset.new, padding: Offset.new, attributes: {})
     super(name: name, text: text, children: children, attributes: attributes)
-    attributes(attributes.merge(
-                 x: x, y: y, width: width, height: height, ch: ch, style: attributes[:style] || Style.new
-               ))
+    attributes(attributes.merge(x: x, y: y, width: width, height: height, ch: ch,
+                                margin: margin, padding: padding, style: attributes[:style] || Style.new))
   end
 
   def style
@@ -46,7 +48,8 @@ class Element < Node
   end
 
   def render_text(screen)
-    screen.text(abs_x, abs_y, @text) if @text
+    p abs_content_x, abs_content_y, @text
+    screen.text(abs_content_x, abs_content_y, @text) if @text
   end
 
   def ch

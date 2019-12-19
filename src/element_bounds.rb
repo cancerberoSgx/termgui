@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+require_relative 'util'
 
 # Adds support for Element's x, y, abs_x, abs_y, width, height, abs_width, abs_height
 module ElementBounds
@@ -11,7 +11,7 @@ module ElementBounds
   end
 
   def abs_x
-    if is_precent x
+    if is_percent x
       ((@parent ? @parent.abs_x : 0) + x * (@parent ? @parent.abs_width : @abs_width)).truncate
     else
       ((@parent ? @parent.abs_x : 0) + x).truncate
@@ -27,7 +27,7 @@ module ElementBounds
   end
 
   def abs_y
-    if is_precent y
+    if is_percent y
       ((@parent ? @parent.abs_y : 0) + y * (@parent ? @parent.abs_height : @abs_height)).truncate
     else
       ((@parent ? @parent.abs_y : 0) + y).truncate
@@ -45,7 +45,7 @@ module ElementBounds
   def abs_width
     width = get_attribute 'width'
     width ||= 0
-    if (is_precent width) && @parent
+    if (is_percent width) && @parent
       (@parent.abs_width * width).truncate
     else
       width.truncate
@@ -63,16 +63,10 @@ module ElementBounds
   def abs_height
     height = get_attribute 'height'
     height ||= 0
-    if is_precent height
+    if is_percent height
       (@parent ? @parent.abs_height * height : 0).truncate
     else
       height.truncate
     end
-  end
-
-  protected
-
-  def is_precent(val)
-    val&.positive? && val < 1
   end
 end

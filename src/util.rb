@@ -19,6 +19,11 @@ rescue StandardError
   default
 end
 
+# returns true if given value is between 0.0 and 1.0
+def is_percent(val)
+  val&.positive? && val < 1
+end
+
 def unquote(s)
   s[1..s.length - 1]
 end
