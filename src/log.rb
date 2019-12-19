@@ -1,8 +1,5 @@
 # Adds logging to file capabilities
 module Log
-  # def initialize(file = 'log.txt')
-  #   @file = file
-  # end
 
   def log_file=(file)
     @file = file

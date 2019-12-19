@@ -1,4 +1,3 @@
-
 require 'test/unit'
 include Test::Unit::Assertions
 require_relative '../src/focus'
