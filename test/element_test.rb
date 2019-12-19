@@ -68,4 +68,22 @@ class NodeTest < Test::Unit::TestCase
     assert_equal 4, e1.abs_y
     assert_equal 5, e1.abs_x
   end
+
+  def test_render_text
+    s = Screen.new(width: 12, height: 7)
+    e = Element.new(x: 1, y: 2, width: 6, height: 3, text: 'hello', ch: '·')
+    s.append_child(e)
+    s.render
+    p s.print
+    assert_equal(
+      '            \\n' \
+      '            \\n' \
+      ' hello·     \\n' \
+      ' ······     \\n' \
+      ' ······     \\n' \
+      '            \\n' \
+      '            \\n' \
+    '', s.print
+    )
+  end
 end
