@@ -1,5 +1,6 @@
 require_relative 'style'
 require_relative 'key'
+require_relative 'renderer_print'
 
 # Responsible of (TODO: we should split Renderer into several delegate classes
 #  * build charsequences to render text on a position. these are directly write to $stdout by screen
@@ -7,7 +8,10 @@ require_relative 'key'
 #  * manages current applied style
 # TODO: add line, empty-rect and more drawing primitives
 class Renderer
+  include RendererPrint
+
   attr_reader :width, :height, :buffer, :style
+  attr_writer :style
 
   def initialize(width = 80, height = 20)
     @width = width
@@ -35,34 +39,6 @@ class Renderer
     else
       ''
     end
-  end
-
-  # def writeStyle
-  #   @style.print
-  # end
-
-  # prints current buffer as string
-  def print
-    s = ''
-    @buffer.each_index do |y|
-      @buffer[y].each do |p|
-        s += p.ch
-      end
-      s += '\n'
-    end
-    s
-  end
-
-  def print_rows
-    rows = []
-    @buffer.each_index do |y|
-      line = ''
-      @buffer[y].each do |p|
-        line += p.ch
-      end
-      rows.push(line)
-    end
-    rows
   end
 
   def move(x, y)
@@ -99,8 +75,6 @@ class Renderer
     end
     "#{CSI}0m#{CSI}2J"
   end
-
-  attr_writer :style
 
   def style_assign(style)
     @style.assign(style)
