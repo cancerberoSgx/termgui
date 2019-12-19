@@ -60,7 +60,7 @@ end
 
 # Element style (`element.style` type)
 class Style < BaseStyle
-  attr_accessor :border
+  attr_accessor :border, :wrap
 
   def initialize(fg: nil, bg: nil, border: nil)
     super(fg: fg, bg: bg)
@@ -72,6 +72,7 @@ class Style < BaseStyle
       # @border = Border.new()
       throw 'seva'
     end
+    @wrap = false
   end
 
   # def self.from_hash(obj)

@@ -1,5 +1,7 @@
 require_relative 'element_box'
 require_relative 'util'
+require_relative 'util/wrap'
+require_relative 'log'
 require_relative 'box'
 
 # implements element rendering (self, border, child, text) for which it depends on ElementBox
@@ -18,7 +20,7 @@ module ElementRender
   end
 
   protected
-  
+
   def render_self(screen)
     render_border screen
     screen.style = style if style
@@ -47,9 +49,28 @@ module ElementRender
   end
 
   def render_text(screen)
-    @text.split('\n').each_with_index{|line, i|
-    screen.text(abs_content_x, abs_content_y + i, line) if @text
-  }
-  end
+    # # p @text.split("\n").length, 'SHSHSHS'
+    # @text.split("\n").each_with_index do |line, i|
+    #   # log(i)
+    #   screen.text abs_content_x, abs_content_y + i, line
+    # end
 
+    @text.split('\n').each_with_index do |line, i|
+      screen.text(abs_content_x, abs_content_y + i, line) if @text
+    end
+  end
 end
+
+# def wrap_text(text, width)
+#   lines = text.split("\n")
+#   a = lines.map{|line|
+#    w = Wrapper.new(line, width).wrap
+#   p w, w.split("\n")
+#   }
+#   # p a
+#   # w = Wrapper.new(lines, width).wrap
+#   # line = w.wrap
+#   # p lines, Wrapper.new(lines[0], width).wrap
+# end
+# w = wrap_text(' alksjdlkasj dlka jsld kajs ldkaj lsd laksj dlaks jd', 13)
+# # p w

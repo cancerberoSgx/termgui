@@ -15,6 +15,6 @@ class DefaultLogger
   include Log
 end
 DEFAULT_LOGGER = DefaultLogger.new
-def log_obj(arg, title = nil)
+def log(arg, title = nil)
   DEFAULT_LOGGER.log arg, title
 end

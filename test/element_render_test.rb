@@ -46,4 +46,25 @@ class NodeTest < Test::Unit::TestCase
     )
   end
 
+  # def test_render_text_wrap
+  #   s = Screen.new(width: 12, height: 7)
+  #   e = Element.new(x: 1, y: 1, width: 0.99, height: 0.99, text: 'very long string needs wrap', ch: '·')
+  #   e.style.border = Border.new
+  #   e.style.wrap = true
+  #   s.append_child(e)
+  #   s.silent = true
+  #   s.render
+  #   # assert_equal(
+  #   #   '            \\n' \
+  #   #   '┌──────┐    \\n' \
+  #   #   '│hello·│    \\n' \
+  #   #   '│world·│    \\n' \
+  #   #   '│······│    \\n' \
+  #   #   '└──────┘    \\n' \
+  #   #   '            \\n' \
+  #   #   '', s.print
+  #   # )
+  #   # s.stop
+  #   # p s.print
+  # end
 end
