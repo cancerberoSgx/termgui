@@ -34,7 +34,16 @@ class Node < Emitter
   end
 
   def query_one_by_attribute(attr, value)
-    result = visit_node(self, proc { |n| n.attributes.get_attribute(attr) == value })
+    result = nil
+    p = proc do |n|
+      if n.attributes.get_attribute(attr) == value
+        result = n
+        true
+      else
+        false
+      end
+    end
+    visit_node(self, p)
     result
   end
 
@@ -42,7 +51,7 @@ class Node < Emitter
     trigger(:before_render)
     render_self screen
     render_children screen
-    # render_text screen
+    render_text screen
     trigger(:after_render)
   end
 

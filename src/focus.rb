@@ -1,6 +1,7 @@
 require_relative 'emitter'
 require_relative 'key'
 
+# provides support for focused, focusable attributes management and emit focus-related events
 class FocusManager < Emitter
   def initialize(root: nil,
                  input: nil,
