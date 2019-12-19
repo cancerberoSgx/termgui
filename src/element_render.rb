@@ -47,7 +47,9 @@ module ElementRender
   end
 
   def render_text(screen)
-    screen.text(abs_content_x, abs_content_y, @text) if @text
+    @text.split('\n').each_with_index{|line, i|
+    screen.text(abs_content_x, abs_content_y + i, line) if @text
+  }
   end
 
 end

@@ -3,7 +3,7 @@ require_relative 'util'
 # Add Input support for set_timeout and set_interval based on input event loop.
 # Assumes `@time = Time.now` is assigned on each iteration.
 module InputTime
-  def initialize(*_args)
+  def initialize(*args)
     @time = Time.now
     @timeout_listeners = []
     @interval_listeners = []
@@ -32,7 +32,9 @@ module InputTime
     @interval_listeners.delete listener
   end
 
-  def update_time
+  # protected
+
+  def update_status
     @time = Time.now
     dispatch_set_interval
     dispatch_set_timeout

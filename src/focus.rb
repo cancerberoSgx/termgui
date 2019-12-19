@@ -3,6 +3,8 @@ require_relative 'key'
 
 # provides support for focused, focusable attributes management and emit focus-related events
 class FocusManager < Emitter
+  attr_reader :focused
+
   def initialize(root: nil,
                  input: nil,
                  keys: { next: 'tab', prev: 'S-tab' },
@@ -14,15 +16,10 @@ class FocusManager < Emitter
     focusables.each { |n| n.set_attribute(:focused, false) }
     @focused = @root.query_one_by_attribute(:focusable, true)
     on(:focus)
-    # else
-    # throw "No focusable elements found"
+    @focused = focusables.first || nil if focus_first && !@focused
     @focused&.set_attribute(:focused, true)
     @input.subscribe('key', proc { |e|
-      if e.key == name_to_char(keys[:next])
-        focus_next
-      elsif e.key == name_to_char(keys[:prev])
-        focus_prev
-      end
+      handle_key e
     })
   end
 
@@ -52,5 +49,14 @@ class FocusManager < Emitter
     emit :focus, focused: @focused, previous: previous
   end
 
-  attr_reader :focused
+  protected
+
+  def handle_key(e)
+    if e.key == name_to_char(keys[:next])
+      focus_next
+    elsif e.key == name_to_char(keys[:prev])
+      focus_prev
+    end
+  end
+
 end

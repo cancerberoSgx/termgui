@@ -13,6 +13,16 @@ def hh(a, &block)
 end
 hh(555) {p 'hhh'; 222}
 
+
+class D 
+  def initialize(*args)
+    p args
+  end
+end
+D.new(a: 1, b: false)
+
+
+
 x = 3.4
 p x.truncate
 

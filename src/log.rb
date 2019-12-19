@@ -11,7 +11,6 @@ module Log
     File.open(file, 'w') { |f| f.puts s }
   end
 end
-require_relative 'logger'
 class DefaultLogger
   include Log
 end

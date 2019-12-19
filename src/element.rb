@@ -21,10 +21,6 @@ class Element < Node
     super(name: name, text: text, children: children, attributes: attributes)
     attributes(attributes.merge(x: x, y: y, width: width, height: height, ch: ch,
                                 margin: margin, padding: padding, style: attributes[:style] || Style.new))
-    after_initialize
-  end
-
-  def after_initialize
   end
 
   def style
@@ -49,5 +45,12 @@ class Element < Node
   # independently of current layout (in the button's case, the preferred size could be
   # computed from its text length plus maring/padding)
   def preferred_size
+    super
+  end
+
+  # will be called by ActionManager whenever an user input occurs while this element has focus.
+  # TODO: move to element_focus module
+  def handle_focused_input(event)
+    super
   end
 end

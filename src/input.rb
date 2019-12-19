@@ -26,7 +26,6 @@ class Input < Emitter
   # starts listening for user input. Implemented like an event loop reading from @input_stream each @interval
   def start
     return self unless @stopped
-
     @stdin.raw do |io|
       @stopped = false
       loop do
@@ -39,9 +38,7 @@ class Input < Emitter
         else
           sleep @interval
         end
-        @time = Time.now
-        dispatch_set_interval
-        dispatch_set_timeout
+        update_status
         break if @stopped
       end
     end
@@ -58,6 +55,11 @@ class Input < Emitter
   end
 
   protected
+
+  # called on each iteration, can be overriden by extenders
+  def update_status
+    super
+  end
 
   def get_char_or_sequence(io)
     if io.ready?

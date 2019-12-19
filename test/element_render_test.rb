@@ -26,4 +26,24 @@ class NodeTest < Test::Unit::TestCase
       '', s.print
     )
   end
+
+  def test_render_text_nl
+    s = Screen.new(width: 12, height: 7)
+    e = Element.new(x: 1, y: 2, width: 6, height: 3, text: 'hello\nworld', ch: '·')
+    e.style.border = Border.new
+    s.append_child(e)
+    s.silent = true
+    s.render
+    assert_equal(
+      '            \\n' \
+      '┌──────┐    \\n' \
+      '│hello·│    \\n' \
+      '│world·│    \\n' \
+      '│······│    \\n' \
+      '└──────┘    \\n' \
+      '            \\n' \
+      '', s.print
+    )
+  end
+
 end
