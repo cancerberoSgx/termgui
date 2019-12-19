@@ -1,13 +1,16 @@
 # Adds logging to file capabilities
 module Log
-  def initialize(file = 'log.txt')
+  # def initialize(file = 'log.txt')
+  #   @file = file
+  # end
+
+  def log_file=(file)
     @file = file
-    @name = name
   end
 
-  def log_object(arg)
+  def log(arg, title = nil)
     s = arg.nil? ? 'nil' : arg.to_s
-    s = "\n\n------\n#{s}\n"
+    s = "------\n#{title ? title+'\n' : ''}#{s}\n"
     File.open(@file, 'w') { |f| f.puts s }
   end
 end
