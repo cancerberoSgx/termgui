@@ -74,6 +74,12 @@ class Style < BaseStyle
     end
   end
 
+  # def self.from_hash(obj)
+  #   s = BaseStyle.from_hash obj
+  #   s.border = obj[:border] || nil
+  # end
+
+
   # def initialize(border = nil)
   # p  (border.instance_of? Border ? border : Border.new(border)).to_s
   # if border==nil

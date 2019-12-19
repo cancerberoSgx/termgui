@@ -9,25 +9,36 @@
 
 ### TODO / Status
 
- [x] cli-driver for testing interactions / see probes/pty*
- [x] change camelCase to snake_case
- [x] rubocop
- [x] styled box drawing to string
- [ ] review callback's api and use yield, examples: `s.set_timeout(0.5){ p 'after'}` , `client.wait_for(proc { @ready }){ |timeout| p 'finished' unless timeout } `
- [ ] element border using box drawing
- [ ] element's padding, margin
- [ ] node text rendering
-   [ ] line wrap, justified, left, right, center (any gem for this?)
-   [ ] node.text_children - returns this node text plus all its children text recursively in children order (useful for testing)
- [x] focus manager
- [x] set_timeout, set_interval
- [ ] wait_for/when : `screen.when( proc {element.query_one_by_attribute 'progress', 'ready'}, proc { print 'done' })`
- [ ] element query cssish support : `element.queryAll '[a="b"] .item > add-button'`
- [ ] `screen.event.add_key_listener('C-c', proc{print 'bye'})`
- [ ] adapt easing formulas from accursed project
- [ ] npm.org/inquirer like apis
- [ ] promise like apis : `screen.wait_for(predicate1).then(proc {screen.wait_for(predicate2)}).then(verb2).catch(proc {|error|p error})` - right now is callback hell :(
-   [ ] based on our own event loop? or could we use a gem like concurrency?
+ - [x] cli-driver for testing interactions / see probes/pty*
+ - [x] change camelCase to snake_case
+ - [x] rubocop
+ - [x] styled box drawing to string
+ - [ ] support hash style declarations: `Element.new(x: 0.1, y: 0.2, style: {fg: 'magenta', border: {style: :double}})`
+ - [ ] review callback's api and use yield, examples: `s.set_timeout(0.5){ p 'after'}` , `client.wait_for(proc { @ready }){ |timeout| p 'finished' unless timeout } `
+ - [x] element border using boxes 
+     - [x] (box model different than html). 
+     - [x] 1-size border support only. 
+     - [x] border is a style on its own that by default equals its element's style.
+ - [ ] element's padding
+ - [ ] element's margin
+ - [ ] CursorManager - hide cursor - only show it when an input-box has focus by default
+ - [ ] layouts. 
+   - [ ] So I don't need to specify element bounds: `col = Col.new; top = Row.new(height: 9,4); bottom= Row.new(height: 0.6); col.append_child(top, bottom)`
+   - [ ] introduce yoga-layout ? are there any layout gems ? 
+ - [ ] Keys : test support for key-names (C-x, S-C-right, escape, tab, etc) : `s.add_key_listener('S-C-right', proc {|ev|p 123})`
+ - [x] node text rendering
+   - [ ] line wrap, justified, left, right, center (any gem for this?)
+   - [ ] node.text_children - returns this node text plus all its children text recursively in children order (useful for testing)
+ - [x] focus manager
+ - [x] set_timeout, set_interval
+   - [ ] separate input@set_timeout in a module
+ - [ ] wait_for/when : `screen.when( proc {element.query_one_by_attribute 'progress', 'ready'}, proc { print 'done' })`
+ - [ ] element query cssish support : `element.queryAll '[a="b"] .item > add-button'`
+ - [ ] `screen.event.add_key_listener('C-c', proc{print 'bye'})`
+ - [ ] adapt easing formulas from accursed project
+ - [ ] npm.org/inquirer like apis
+ - [ ] promise like apis : `screen.wait_for(predicate1).then(proc {screen.wait_for(predicate2)}).then(verb2).catch(proc {|error|p error})` - right now is callback hell :(
+   - [ ] based on our own event loop? or could we use a gem like concurrency?
 
 ## Status
 

@@ -39,6 +39,10 @@ module ElementBox
     end
   end
 
+  def padding=(padding)
+    set_attribute('padding', padding)
+  end
+
 
   # computes absolute padding transforming padding percents to absolute pixel amounts.
   def abs_padding

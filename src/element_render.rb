@@ -6,6 +6,19 @@ require_relative 'box'
 module ElementRender
   include ElementBox
 
+  def border
+    style&.border
+  end
+
+  # computes current border style according to style, style.border, style.focus.border, etc in the right order
+  def border_style
+    s = style.clone
+    s = s.assign(border) if border
+    s
+  end
+
+  protected
+  
   def render_self(screen)
     render_border screen
     screen.style = style if style
@@ -20,6 +33,7 @@ module ElementRender
     # end
   end
 
+  # IMPORTANT: border is rendered in a +2 bigger rectangle that sourounds actual element bounds (abs_* methods)
   def render_border(screen)
     # p 'seba', border
     if border
@@ -36,14 +50,4 @@ module ElementRender
     screen.text(abs_content_x, abs_content_y, @text) if @text
   end
 
-  def border
-    style&.border
-  end
-
-  # computes current border style according to style, style.border, style.focus.border, etc in the right order
-  def border_style
-    s = style.clone
-    s = s.assign(border) if border
-    s
-  end
 end

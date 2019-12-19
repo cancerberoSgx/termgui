@@ -18,10 +18,12 @@ class Node < Emitter
 
   # returns child so something like the following is possible:
   # `@text = append_child(Textarea.new model.text)`
-  def append_child(child)
-    @children.push(child)
-    child.parent = self
-    child
+  def append_child(*children)
+    children.each do |child|
+      @children.push(child)
+      child.parent = self
+    end
+    children.sample
   end
 
   def query_by_attribute(attr, value)
@@ -50,7 +52,7 @@ class Node < Emitter
   def visit(visitor, children_first = true)
     visit_node(self, visitor, children_first)
   end
-  
+
   def render(screen)
     trigger(:before_render)
     render_self screen
