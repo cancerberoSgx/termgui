@@ -90,5 +90,13 @@ class Wrapper
       [line[0, last_at], line[last_at + 1, line.length]]
     end
   end
-  
+end
+
+def wrap_text(text, width)
+  lines = text.split("\n")
+  a = lines.map do |line|
+    w = Wrapper.new(line, width).wrap
+    w.split("\n")
+  end
+  a.flatten
 end

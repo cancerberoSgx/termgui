@@ -61,18 +61,3 @@ module ElementRender
   end
 end
 
-def wrap_text(text, width)
-  log 'wrap text'
-  lines = text.split("\n")
-  a = lines.map{|line|
-  w = Wrapper.new(line, width).wrap
-  w.split("\n")
-  }
-  a = a.flatten
-  p a
-  # w = Wrapper.new(lines, width).wrap
-  # line = w.wrap
-  # p lines, Wrapper.new(lines[0], width).wrap
-end
-# w = wrap_text(' alksjdlkasj dlka jsld kajs ldkaj lsd laksj dlaks jd', 13)
-# p w

@@ -5,10 +5,6 @@ require_relative 'util'
 module ElementBox
   include ElementBounds
 
-  # def after_initialize
-  #   super
-  # end
-
   def abs_content_x
     abs_x + abs_padding.left
   end
@@ -42,7 +38,6 @@ module ElementBox
   def padding=(padding)
     set_attribute('padding', padding)
   end
-
 
   # computes absolute padding transforming padding percents to absolute pixel amounts.
   def abs_padding

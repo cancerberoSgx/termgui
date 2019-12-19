@@ -1,7 +1,12 @@
 require_relative 'util'
+require_relative 'node_attributes'
+require_relative 'node_visit'
 require_relative 'emitter'
 
+# analog to HTML DOM Node class
 class Node < Emitter
+  include NodeVisit
+
   attr_reader :children, :text, :parent, :name
   attr_writer :parent
 
@@ -26,32 +31,32 @@ class Node < Emitter
     children.sample
   end
 
-  def query_by_attribute(attr, value)
-    result = []
-    visit_node(self, proc { |n|
-      result.push n if n.attributes.get_attribute(attr) == value
-      false
-    })
-    result
-  end
+  # def query_by_attribute(attr, value)
+  #   result = []
+  #   visit_node(self, proc { |n|
+  #     result.push n if n.attributes.get_attribute(attr) == value
+  #     false
+  #   })
+  #   result
+  # end
 
-  def query_one_by_attribute(attr, value)
-    result = nil
-    p = proc do |n|
-      if n.attributes.get_attribute(attr) == value
-        result = n
-        true
-      else
-        false
-      end
-    end
-    visit_node(self, p)
-    result
-  end
+  # def query_one_by_attribute(attr, value)
+  #   result = nil
+  #   p = proc do |n|
+  #     if n.attributes.get_attribute(attr) == value
+  #       result = n
+  #       true
+  #     else
+  #       false
+  #     end
+  #   end
+  #   visit_node(self, p)
+  #   result
+  # end
 
-  def visit(visitor, children_first = true)
-    visit_node(self, visitor, children_first)
-  end
+  # def visit(visitor, children_first = true)
+  #   visit_node(self, visitor, children_first)
+  # end
 
   def render(screen)
     trigger(:before_render)
@@ -89,30 +94,6 @@ class Node < Emitter
 
   def to_s
     "Node(name: #{name}, children: [#{children.map(&:to_s).join(', ')}])"
-  end
-end
-
-# Manages Node's attributes
-class Attributes
-  def initialize(attrs = {})
-    @attrs = attrs
-  end
-
-  def names
-    @attrs.keys
-  end
-
-  def set_attribute(name, value)
-    @attrs[name] = value
-    self
-  end
-
-  def get_attribute(name)
-    @attrs[name]
-  end
-
-  def to_s
-    @attrs.to_s
   end
 end
 
