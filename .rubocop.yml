@@ -22,3 +22,5 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/EmptyMethod:
   Enabled: false
+Metrics/ModuleLength:
+  Enabled: false

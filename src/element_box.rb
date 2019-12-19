@@ -6,20 +6,20 @@ module ElementBox
   include ElementBounds
 
   def abs_content_x
-    abs_x + abs_margin.left
+    abs_x + abs_padding.left
   end
 
   def abs_content_y
-    abs_y + abs_margin.top
+    abs_y + abs_padding.top
   end
 
   def abs_content_width
-    m = abs_margin
+    m = abs_padding
     abs_width - m.left - m.right
   end
 
   def abs_content_height
-    m = abs_margin
+    m = abs_padding
     abs_height - m.top - m.bottom
   end
 
@@ -46,28 +46,28 @@ module ElementBox
     )
   end
 
-  # returns margin as Offset instance
-  def margin
-    margin = get_attribute('margin')
-    if !margin
-      Offset.new
-    elsif margin.instance_of? Hash
-      Offset.from_hash(margin)
-    else
-      margin
-    end
-  end
+  # # returns margin as Offset instance
+  # def margin
+  #   margin = get_attribute('margin')
+  #   if !margin
+  #     Offset.new
+  #   elsif margin.instance_of? Hash
+  #     Offset.from_hash(margin)
+  #   else
+  #     margin
+  #   end
+  # end
 
-  # computes absolute margin transforming margin percents to absolute pixel amounts.
-  def abs_margin
-    m = margin
-    Offset.new(
-      top: is_percent(m.top) ? (m.top * abs_height).truncate : m.top,
-      bottom: is_percent(m.bottom) ? (m.bottom * abs_height).truncate : m.bottom,
-      left: is_percent(m.left) ? (m.left * abs_width).truncate : m.left,
-      right: is_percent(m.right) ? (m.right * abs_width).truncate : m.right
-    )
-  end
+  # # computes absolute margin transforming margin percents to absolute pixel amounts.
+  # def abs_margin
+  #   m = margin
+  #   Offset.new(
+  #     top: is_percent(m.top) ? (m.top * abs_height).truncate : m.top,
+  #     bottom: is_percent(m.bottom) ? (m.bottom * abs_height).truncate : m.bottom,
+  #     left: is_percent(m.left) ? (m.left * abs_width).truncate : m.left,
+  #     right: is_percent(m.right) ? (m.right * abs_width).truncate : m.right
+  #   )
+  # end
 end
 
 # Represents a rectangle in the form of {top, left, bottom, top}
