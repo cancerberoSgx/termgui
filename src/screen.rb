@@ -1,4 +1,3 @@
-
 require_relative 'node'
 require_relative 'renderer'
 require_relative 'input'

@@ -1,4 +1,3 @@
-
 require_relative 'node'
 require_relative 'style'
 require_relative 'renderer'
@@ -47,9 +46,7 @@ class Element < Node
   end
 
   def render_text(screen)
-    if @text
-      screen.text(abs_x, abs_y, @text) 
-    end
+    screen.text(abs_x, abs_y, @text) if @text
   end
 
   def ch

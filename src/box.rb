@@ -1,4 +1,3 @@
-
 BOXES = {
   single: {
     topLeft: '┌',

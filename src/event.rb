@@ -1,4 +1,3 @@
-
 require_relative 'input'
 
 # Base event class

@@ -1,4 +1,3 @@
-
 require_relative 'emitter'
 require_relative 'key'
 
@@ -14,11 +13,9 @@ class FocusManager < Emitter
     focusables.each { |n| n.set_attribute(:focused, false) }
     @focused = @root.query_one_by_attribute(:focusable, true)
     on(:focus)
-    if @focused
-      @focused.set_attribute(:focused, true)
     # else
-      # throw "No focusable elements found"
-    end
+    # throw "No focusable elements found"
+    @focused&.set_attribute(:focused, true)
     @input.subscribe('key', proc { |e|
       if e.key == name_to_char(keys[:next])
         focus_next

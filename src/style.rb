@@ -1,4 +1,3 @@
-
 require_relative 'color'
 
 # refers to properties directly implemented using ansi escape codes

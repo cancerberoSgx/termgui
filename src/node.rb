@@ -1,4 +1,3 @@
-
 require_relative 'util'
 require_relative 'emitter'
 
@@ -55,7 +54,7 @@ class Node < Emitter
     @children.each { |c| c.render screen }
   end
 
-  def render_text(screen)
+  def render_text(_screen)
     throw 'Abstract method'
   end
 

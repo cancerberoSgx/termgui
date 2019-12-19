@@ -1,4 +1,3 @@
-
 require_relative 'emitter'
 require_relative 'event'
 require 'io/console'
