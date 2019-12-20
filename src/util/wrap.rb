@@ -76,12 +76,12 @@ class Wrapper
   end
 
   def split_line(line, width)
-    at = line.index(/\s/)
+    at = line.index /\s/
     last_at = at
 
     while !at.nil? && at < width
       last_at = at
-      at = line.index(/\s/), last_at + 1
+      at = line.index /\s/, last_at + 1
     end
 
     if last_at.nil?
