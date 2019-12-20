@@ -17,8 +17,8 @@ class Node < Emitter
     children.each { |child| child.parent = self }
     @text = text
     @parent = parent
-    on(:after_render)
-    on(:before_render)
+    install(:after_render)
+    install(:before_render)
   end
 
   # returns child so something like the following is possible:

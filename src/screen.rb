@@ -26,7 +26,7 @@ class Screen < Node
     @event = EventManager.new @input
     @focus = FocusManager.new(root: self, input: @input)
     @silent = false
-    on(:destroy)
+    install(:destroy)
   end
 
   # start listening for user input. This starts an user input event loop

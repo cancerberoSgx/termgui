@@ -5,7 +5,7 @@ require_relative '../element'
 class Button < Element
   def initialize(*args)
     super args
-    on(:action)
+    install(:action)
     add_listener(:action, args[:action]) if args[:action]
   end
 

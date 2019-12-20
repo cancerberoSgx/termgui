@@ -16,7 +16,7 @@ class Input < Emitter
     @interval = interval
     @stdin = stdin
     @stopped = true
-    on(:key) # enables the 'key' event
+    install(:key) # enables the 'key' event
   end
 
   def stop

@@ -16,9 +16,9 @@ class BaseDriver < Emitter
     @data = []
     @interval = 0.1
     @running = false
-    on(:quit)
-    on(:data)
-    on(:interval)
+    install(:quit)
+    install(:data)
+    install(:interval)
   end
 
   # execute won't start listening user input, just run the command. Non blocking operation

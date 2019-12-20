@@ -11,7 +11,7 @@ class EmitterTest < Test::Unit::TestCase
       s = 'ring ring ring'
     end
     # create an event 'doorOpen'
-    event_emitter.on(:doorOpen)
+    event_emitter.install(:doorOpen)
     # and subscribe code to event
     event_emitter.subscribe(:doorOpen, ring_bell)
     # to trigger event

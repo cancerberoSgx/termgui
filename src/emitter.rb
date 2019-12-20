@@ -2,7 +2,7 @@
 class Emitter
   # turn on the event
   # @param event_name [String, Symbol]
-  def on(event_name)
+  def install(event_name)
     events[event_name.to_sym] ||= []
   end
 
