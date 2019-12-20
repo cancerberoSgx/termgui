@@ -60,4 +60,3 @@ module ElementRender
     end
   end
 end
-

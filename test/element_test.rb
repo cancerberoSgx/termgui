@@ -88,5 +88,4 @@ class NodeTest < Test::Unit::TestCase
     '', s.print
     )
   end
- 
 end

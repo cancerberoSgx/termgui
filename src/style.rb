@@ -80,7 +80,6 @@ class Style < BaseStyle
   #   s.border = obj[:border] || nil
   # end
 
-
   # def initialize(border = nil)
   # p  (border.instance_of? Border ? border : Border.new(border)).to_s
   # if border==nil

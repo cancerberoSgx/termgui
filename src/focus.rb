@@ -58,5 +58,4 @@ class FocusManager < Emitter
       focus_prev
     end
   end
-
 end

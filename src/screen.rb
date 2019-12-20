@@ -25,7 +25,7 @@ class Screen < Node
     @input = Input.new
     @event = EventManager.new @input
     @focus = FocusManager.new(root: self, input: @input)
-    @silent=false
+    @silent = false
     on(:destroy)
   end
 

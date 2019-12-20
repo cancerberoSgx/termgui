@@ -64,8 +64,7 @@ def boxes
 end
 
 def draw_box(width: 0, height: 0, style: :single, content: ' ')
-  # , col: 0, row: 0
-  box =  BOXES[style ? style.to_sym : :single] 
+  box = BOXES[style ? style.to_sym : :single]
   lines = []
 
   (0..height - 1).each do |y|

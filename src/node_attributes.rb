@@ -1,4 +1,3 @@
-
 # Manages Node's attributes
 class Attributes
   def initialize(attrs = {})
