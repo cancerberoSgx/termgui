@@ -1,5 +1,10 @@
-# from https://medium.com/@kopilov.vlad/use-event-emitter-in-ruby-6b289fe2e7b4
+require_relative 'emitter_state'
+
+# Basic event emitter, similar to Node's Emitter
+# adapted from https://medium.com/@kopilov.vlad/use-event-emitter-in-ruby-6b289fe2e7b4
 class Emitter
+  include EmitterState
+
   # turn on the event
   # @param event_name [String, Symbol]
   def install(event_name)
@@ -25,6 +30,7 @@ class Emitter
   end
 
   alias add_listener subscribe
+  alias on subscribe
 
   # unsubscribe to event
   # @param event_name [String, Symbol]
@@ -42,7 +48,6 @@ class Emitter
   # @param event_name [String, Event]
   def emit(event_name, event = { name: event_name })
     events[event_name.to_sym]&.each do |h|
-      # Proc.new.call
       h[:proc].call(event)
     end
   end

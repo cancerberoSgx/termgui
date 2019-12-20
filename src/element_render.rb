@@ -32,31 +32,22 @@ module ElementRender
       ch: ch
     )
     # screen.style = style.clone.assign style.border if style&.border
-    # end
   end
 
   # IMPORTANT: border is rendered in a +2 bigger rectangle that sourounds actual element bounds (abs_* methods)
   def render_border(screen)
-    # p 'seba', border
-    if border
-      # screen.style = border_style
-      # box = draw_box(width: abs_width + 2, height: abs_height + 2)
-      # box.each do |line|
-      #   screen.text abs_x - 1, abs_y - 1, line
-      # end
-      screen.box abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, style
-    end
+    screen.box abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, style if border
   end
 
   def render_text(screen)
-    # # p @text.split("\n").length, 'SHSHSHS'
-    # @text.split("\n").each_with_index do |line, i|
-    #   # log(i)
-    #   screen.text abs_content_x, abs_content_y + i, line
-    # end
-    lines = style.wrap ? wrap_text(text, abs_content_width) : @text.split('\n')
-    lines.each_with_index do |line, i|
-      screen.text(abs_content_x, abs_content_y + i, line) if @text
+    if @text
+      render_text_lines.each_with_index do |line, i|
+        screen.text(abs_content_x, abs_content_y + i, line)
+      end
     end
+  end
+
+  def render_text_lines
+    style.wrap ? wrap_text(@text, abs_content_width) : @text.split('\n')
   end
 end

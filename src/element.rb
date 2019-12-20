@@ -40,12 +40,16 @@ class Element < Node
     get_attribute('ch')
   end
 
+  def default_style
+    style
+  end
+
   # build in widget implementations will *grow* to fit their parent.
   # However, if implemented, a widget like a button can be smart enough to declare its size,
   # independently of current layout (in the button's case, the preferred size could be
   # computed from its text length plus maring/padding)
   def preferred_size
-    super
+    { width: abs_width, height: abs_height }
   end
 
   # will be called by ActionManager whenever an user input occurs while this element has focus.
