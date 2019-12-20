@@ -1,6 +1,7 @@
 require_relative 'emitter'
 require_relative 'event'
 require_relative 'input_time'
+require_relative 'input_grab'
 require 'io/console'
 require 'io/wait'
 require_relative 'key'
@@ -8,6 +9,7 @@ require_relative 'key'
 # responsible of listening stdin and event loop
 class Input < Emitter
   include InputTime
+  include InputGrab
 
   attr_reader :interval, :stdin, :stopped
 
@@ -35,7 +37,7 @@ class Input < Emitter
           key = char.inspect
           key = key[1..key.length - 2]
           event = KeyEvent.new key, char
-          emit('key', event)
+          emit 'key', event
         else
           sleep @interval
         end

@@ -52,9 +52,9 @@ class FocusManager < Emitter
   protected
 
   def handle_key(e)
-    if e.key == name_to_char(keys[:next])
+    if e.key == name_to_char(@keys[:next])
       focus_next
-    elsif e.key == name_to_char(keys[:prev])
+    elsif e.key == name_to_char(@keys[:prev])
       focus_prev
     end
   end

@@ -20,6 +20,7 @@
      - [x] 1-size border support only. 
      - [x] border is a style on its own that by default equals its element's style.
  - [x] element's padding
+ - [ ] store and formalize Element properties (initialize arguments). store it so implementations can look at original values given by user (props)
  - [ ] gem
    - [ ] minimally test gem pack from probe project
    - [ ] publish
@@ -29,12 +30,14 @@
    - [ ] So I don't need to specify element bounds: `col = Col.new; top = Row.new(height: 9,4); bottom= Row.new(height: 0.6); col.append_child(top, bottom)`
    - [ ] introduce yoga-layout ? are there any layout gems ? 
  - [ ] Keys : test support for key-names (C-x, S-C-right, escape, tab, etc) : `s.add_key_listener('S-C-right', proc {|ev|p 123})`
+ - [ ] erb probe
  - [x] text rendering
    - [x] line wrap
    - [ ] justified,
    - [x] left
    - [ ] right, center (any gem for this?)
    - [ ] node.text_children - returns this node text plus all its children text recursively in children order (useful for testing)
+ - [x] input.grab / ungrab
  - [x] focus manager
  - [x] set_timeout, set_interval
    - [ ] separate input@set_timeout in a module
@@ -45,7 +48,7 @@
  - [ ] promise like apis : `screen.wait_for(predicate1).then(proc {screen.wait_for(predicate2)}).then(verb2).catch(proc {|error|p error})` - right now is callback hell :(
    - [ ] based on our own event loop? or could we use a gem like concurrency?
  - [ ] text-box - how to lock focus ? how to implement the text-input experience ? 
-
+ - [ ] more states like focus. right now only style.focus is supported. There's another state that could be simulated that is "enter" - when user presses enter a 1-second change is rendered with `style.enter` style. Every action (as in action.rb) should have its style.$action support. "escape" action could be similar to "enter"
 ## Status
 
  * WIP
@@ -262,6 +265,14 @@ add features from npm.org/flor:
 
 ### ideas
 
-e = Element.new
-e.style.focused.bg = 'yellow'
-screen.appendChild(e)
+make a more react-like API besides this one based on HTML DOM. User pass props and children: 
+
+```
+screen.append_child Col.new {className: 'container', style: {bg: 'green'}}, [
+  TextArea.new {text: @value, onEnter: proc {|e|p e}},
+  Row.new {}, [
+    Button.new {text: 'Accept', onEnter: proc: {}, class: 'primary' },
+    Button.new {text: 'Cancel', onEnter: proc {exit}}
+  ]
+]
+```

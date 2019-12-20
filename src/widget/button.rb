@@ -5,6 +5,7 @@ require_relative '../element'
 class Button < Element
   def initialize(*args)
     super args
+    @name = 'button'
     install(:action)
     add_listener(:action, args[:action]) if args[:action]
     self.style = default_style.clone
@@ -13,6 +14,7 @@ class Button < Element
   def default_style
     s = super
     s.border = Border.new
+    s.focus.fg = 'red'
     s
   end
 
