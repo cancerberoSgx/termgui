@@ -1,11 +1,16 @@
+
+
 class A
-  attr_accessor :a, :b
+  attr_accessor  :b, :a
   # @var1 = 1
   def initialize
-    @a = 1
     @b = 1
+    @a = 1
   end
 end
+dd=A.new
+
+p (dd.instance_variables.map{|v|v.to_s}).sort
 def object_variables_to_hash(obj)
   hash = {}
   obj.instance_variables.each do |name|

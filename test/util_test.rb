@@ -3,11 +3,12 @@ include Test::Unit::Assertions
 require_relative '../src/util'
 
 class A
-  attr_writer :a, :b
-  attr_reader :a, :b
-  def initialize
-    @a = 1
-    @b = 1
+  attr_writer :a, :b, :c
+  attr_reader :a, :b, :c
+  def initialize(a = 0, b = 0)
+    @a = a
+    @b = b
+    @c = nil
   end
 end
 
@@ -34,10 +35,34 @@ class UtilTest < Test::Unit::TestCase
   end
 
   def test_object_variables_to_hash
-    a = A.new
-    a.a = 2
-    a.b = 3
+    a = A.new 2, 3
     hash = object_variables_to_hash(a)
-    assert_equal({a: 2, b: 3}, hash)
+    assert_equal({ a: 2, b: 3, c: nil }, hash)
+  end
+
+  def test_object_assign
+    a = A.new 2, 3
+    a2 = A.new 4, 5
+    a2.c = 6
+    object_assign(a2, a)
+    assert_equal [6, 2, 3], [a2.c, a2.a, a2.b]
+    assert_equal [nil, 2, 3], [a.c, a.a, a.b]
+  end
+
+  def test_object_equal
+    a = A.new 2, 3
+    b = A.new 4, 5
+    assert_equal false, object_equal(a, b)
+    assert_equal true, object_equal(a, a)
+    assert_equal true, object_equal(a, a.clone)
+    assert_equal true, object_equal(a, A.new(2, 3))
+    a.c = 9
+    assert_equal false, object_equal(a, A.new(2, 3))
+    assert_equal false, object_equal(a, b)
+    a.a = 4
+    a.b = 5
+    assert_equal false, object_equal(a, b)
+    b.c = 9
+    assert_equal true, object_equal(a, b)
   end
 end

@@ -1,7 +1,9 @@
 require_relative 'color'
+require_relative 'util'
 
 # refers to properties directly implemented using ansi escape codes
 # responsible of printing escape ansi codes for style
+# Styles are data objects, supporting hash to instantiate, assign, equals, print
 class BaseStyle
   # attr_reader :fg, :bg
   attr_accessor :fg, :bg
@@ -12,12 +14,14 @@ class BaseStyle
   end
 
   def assign(style)
-    @fg = style.fg || @fg
-    @bg = style.bg || @bg
-    # TODO: all subclass attrs hardcoded here
-    @wrap = style.wrap == false ? false : style.wrap.nil? ? @wrap : style.wrap
-    @border = style.border || @border
+    object_assign(self, style)
+    # @fg = style.fg || @fg
+    # @bg = style.bg || @bg
+    # # TODO: all subclass attrs hardcoded here
+    # @wrap = style.wrap == false ? false : style.wrap.nil? ? @wrap : style.wrap
+    # @border = style.border || @border
   end
+
 
   def equals(style)
     @bg == style.bg && 

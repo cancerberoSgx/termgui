@@ -76,3 +76,30 @@ def merge_hash_into_object(hash, obj)
   end
   obj
 end
+
+def object_assign(dest, src)
+  src.instance_variables.each do |name|
+    val = src.instance_variable_get(name)
+    dest.instance_variable_set name, val unless val.nil?
+  end
+end
+
+def object_equal(obj1, obj2)
+  vars1 = obj1.instance_variables
+  vars2 = obj2.instance_variables
+  return false unless vars1.length == vars2.length
+  # if they don't have exactly the same instance_variables names then return false
+  return false unless vars1.map(&:to_s).sort.to_s == vars2.map(&:to_s).sort.to_s
+  equal = true
+  some(vars1, proc { |v|
+    val1 = obj1.instance_variable_get(v)
+    val2 = obj2.instance_variable_get(v)
+    if val1 != val2
+      equal = false
+      true
+    else
+      false
+    end
+  })
+  equal
+end
