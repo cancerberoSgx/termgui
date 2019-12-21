@@ -20,7 +20,10 @@ class Element < Node
                  margin: Offset.new, padding: Offset.new, attributes: {}, style: default_style)
     super(name: name, text: text, children: children, attributes: attributes)
     attributes(attributes.merge(x: x, y: y, width: width, height: height, ch: ch,
-                                margin: margin, padding: padding, style: attributes[:style] || Style.new))
+                                # margin: margin, padding: padding, 
+                                style: attributes[:style] || Style.new
+                                )
+                                )
     if style
       self.style=style
     end
@@ -43,6 +46,11 @@ class Element < Node
     o = {}
     o[name] = value
     get_attribute('style').assign(o)
+  end
+
+  def get_style(name)
+    s = get_attribute('style')
+    s.get(name)
   end
 
   def ch

@@ -1,35 +1,18 @@
 require_relative 'color'
 require_relative 'util'
+require_relative 'style_hash_object'
 
 # refers to properties directly implemented using ansi escape codes
 # responsible of printing escape ansi codes for style
 # Styles are data objects, supporting hash to instantiate, assign, equals, print
 class BaseStyle
-  # attr_reader :fg, :bg
+  include HashObject
+
   attr_accessor :fg, :bg
 
   def initialize(fg: nil, bg: nil)
     @fg = fg
     @bg = bg
-  end
-
-  # assign properties to this on given hash or Style object
-  def assign(style)
-    object_assign(self, BaseStyle.from_hash(style))
-    # @fg = style.fg || @fg
-    # @bg = style.bg || @bg
-    # # TODO: all subclass attrs hardcoded here
-    # @wrap = style.wrap == false ? false : style.wrap.nil? ? @wrap : style.wrap
-    # @border = style.border || @border
-  end
-
-  def equals(style)
-    object_equal(self, BaseStyle.from_hash(style))
-    # @bg == style.bg &&
-    #   @fg == style.fg &&
-    #   # TODO: all subclass attrs hardcoded here
-    #   # @border ? @border.equals(style.border) : @border==style.border &&
-    #   @wrap == style.wrap
   end
 
   # Prints the style as escape sequences.
@@ -42,30 +25,12 @@ class BaseStyle
     @bg = @fg = @wrap = @border = nil
   end
 
-  def to_s
-    to_hash.to_s
-  end
-
-  def to_hash
-    object_variables_to_hash self
-    # {
-    #   bg: @bg,
-    #   fg: @fg,
-    #   # TODO: all subclass attrs hardcoded here
-    #   wrap: @wrap,
-    #   border: @border
-    # }
-  end
-
+  # if a hash is given returns a new Style instance with given properties. If an Style instance if given, returns it.
   def self.from_hash(obj)
     if !obj
       nil
     elsif obj.instance_of? Hash
-      s = Style.new
-      merge_hash_into_object obj, s
-      s
-      # Style.new(fg: obj[:fg], bg: obj[:bg], wrap: obj[:wrap], border: obj[:border])
-      # TODO: all subclass attrs hardcoded here
+      merge_hash_into_object obj, new
     else
       obj
     end
@@ -74,14 +39,11 @@ end
 
 # style for the border
 class Border < BaseStyle
-  # box style name (string). See box.rb. Possible values:
-  # :single, :double, :round, :bold, :singleDouble, :doubleSingle, :classic
   attr_reader :style
 
   def initialize(fg: nil, bg: nil, style: nil)
     super(fg: fg, bg: bg)
     @style = style.nil? ? nil : style.to_s
-    # @style=style
   end
 
   def style=(style)
@@ -91,9 +53,9 @@ end
 
 # Element style (`element.style` type)
 class Style < BaseStyle
-  attr_accessor :border, :wrap
+  attr_accessor :border, :wrap, :padding
 
-  def initialize(fg: nil, bg: nil, border: nil, wrap: false)
+  def initialize(fg: nil, bg: nil, border: nil, wrap: false, padding: nil)
     super(fg: fg, bg: bg)
     @wrap = wrap
     if border.nil?
@@ -104,24 +66,8 @@ class Style < BaseStyle
       # @border = Border.new()
       throw 'seva'
     end
+    @padding = padding
   end
-
-  # def self.from_hash(obj)
-  #   s = BaseStyle.from_hash obj
-  #   s.border = obj[:border] || nil
-  # end
-
-  # def initialize(border = nil)
-  # p  (border.instance_of? Border ? border : Border.new(border)).to_s
-  # if border==nil
-  #   @border = nil
-  # elsif border.instance_of?(Border)
-  #   @border =  border
-  # else
-  #   @border = Border.new()
-  # end
-  # @border =  ? nil : border.instance_of?(BaseStyle) ? border : Border.new
-  # end
 end
 
 # # Parses a string CSS-like "bg: red; fg: white; border-style: classic"

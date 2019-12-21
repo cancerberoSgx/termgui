@@ -25,7 +25,8 @@ module ElementBox
 
   # returns padding as Offset instance
   def padding
-    padding = get_attribute('padding')
+    # padding = get_attribute('padding')
+    padding = get_style('padding')
     if !padding
       Offset.new
     elsif padding.instance_of? Hash
@@ -36,7 +37,8 @@ module ElementBox
   end
 
   def padding=(padding)
-    set_attribute('padding', padding)
+    # set_attribute('padding', padding)
+    set_style('padding', padding)
   end
 
   # computes absolute padding transforming padding percents to absolute pixel amounts.

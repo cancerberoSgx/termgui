@@ -103,3 +103,21 @@ def object_equal(obj1, obj2)
   })
   equal
 end
+
+# uses obj.instance_variable_get but supports the variable name in these formats "foo", :foo, :@foo and "@foo"
+def get_instance_variable(obj, name)
+  obj.instance_variable_get(variable_name name)
+end
+
+# uses obj.instance_variable_set but supports the variable name in these formats "foo", :foo, :@foo and "@foo"
+def set_instance_variable(obj, name)
+  obj.instance_variable_set(variable_name name)
+end
+
+# given a name in any of these formats "foo", :foo, :@foo and "@foo" it returns a valid instance_variable name (symbol), i.e. :@foo
+def variable_name(name)
+  s = name.to_s
+  # p s
+  s = "@#{s}" unless s.start_with? '@'
+  s.to_sym
+end

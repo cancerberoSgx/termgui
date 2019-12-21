@@ -1,4 +1,5 @@
 
+p 'hello'.start_with? 'hello'
 
 class A
   attr_accessor  :b, :a
@@ -8,8 +9,11 @@ class A
     @a = 1
   end
 end
+aa22 = A.new
+aa33 = aa22.class.new
+p aa33
+# p A.singleton_class.instance_methods.map{|s|s.to_s} .sort
 dd=A.new
-
 p (dd.instance_variables.map{|v|v.to_s}).sort
 def object_variables_to_hash(obj)
   hash = {}
