@@ -3,7 +3,6 @@ require_relative '../src/util'
 require_relative '../src/style'
 require_relative '../src/color'
 
-N = 2
 screen = Screen.new
 screen.event.add_key_listener('q', proc { |_e| screen.destroy })
 # previous listener for 'q' won't be notified until ungrab is called

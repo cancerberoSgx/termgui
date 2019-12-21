@@ -62,8 +62,9 @@ end
 class Style < BaseStyle
   attr_accessor :border, :wrap
 
-  def initialize(fg: nil, bg: nil, border: nil)
+  def initialize(fg: nil, bg: nil, border: nil, wrap: false)
     super(fg: fg, bg: bg)
+    @wrap=wrap
     if border.nil?
       @border = nil
     elsif border.instance_of?(Border)

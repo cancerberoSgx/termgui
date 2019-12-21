@@ -8,8 +8,9 @@
 
 
 ### TODO / Status
-
+ - [ ] make all character attributes work in style (see color.rb ATTRIBUTES)
  - [x] cli-driver for testing interactions / see probes/pty*
+   - waitForData
  - [x] change camelCase to snake_case
  - [x] rubocop
  - [x] styled box drawing to string

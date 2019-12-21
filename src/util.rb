@@ -21,7 +21,7 @@ end
 
 # returns true if given value is between 0.0 and 1.0
 def is_percent(val)
-  val&.positive? && val < 1
+  val && val > 0 && val < 1
 end
 
 def unquote(s)

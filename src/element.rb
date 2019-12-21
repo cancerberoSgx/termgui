@@ -17,10 +17,13 @@ class Element < Node
   include ElementRender
 
   def initialize(x: 0, y: 0, width: 0, height: 0, ch: Pixel.EMPTY_CH, children: [], text: '', name: 'element',
-                 margin: Offset.new, padding: Offset.new, attributes: {})
+                 margin: Offset.new, padding: Offset.new, attributes: {}, style: default_style)
     super(name: name, text: text, children: children, attributes: attributes)
     attributes(attributes.merge(x: x, y: y, width: width, height: height, ch: ch,
                                 margin: margin, padding: padding, style: attributes[:style] || Style.new))
+    if style
+      self.style=style
+    end
   end
 
   def style
@@ -41,7 +44,7 @@ class Element < Node
   end
 
   def default_style
-    style
+    Style.new
   end
 
   # build in widget implementations will *grow* to fit their parent.
