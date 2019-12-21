@@ -48,7 +48,7 @@ module ElementRender
   end
 
   def render_text_lines
-    p 'style.wrap', style.wrap
+    # p 'style.wrap', style.wrap
     style.wrap ? wrap_text(@text, abs_content_width) : @text.split('\n')
   end
 
@@ -57,6 +57,7 @@ module ElementRender
     lines = render_text_lines
     width = lines.map(&:length).max
     height = lines.length
+    p lines, width, height, style.wrap
     { width: width, height: height }
   end
 end

@@ -26,4 +26,9 @@ module RendererPrint
     end
     rows
   end
+
+  # prints to stdout a representation in ruby string concatenated syntax so its easy for devs copy&paste for test asserts
+  def print_dev
+    print.split('\\n').each { |line| puts "'#{line}\\n' + " }
+  end
 end

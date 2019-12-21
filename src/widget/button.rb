@@ -1,14 +1,15 @@
-require_relative '../element'
+require_relative 'label'
 
 # A button widget
 # Button.new(text: 'click me', style: {bg: 'blue'}, action: proc {|e| p 'actioned!'})
-class Button < Element
+class Button < Label
+  
   def initialize(*args)
     super args
     @name = 'button'
     install(:action)
     add_listener(:action, args[:action]) if args[:action]
-    self.style = default_style.clone
+    set_attribute('focusable', true)
   end
 
   def default_style

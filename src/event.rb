@@ -18,6 +18,10 @@ class KeyEvent < Event
     @key = key
     @raw = raw
   end
+
+  def to_s
+    "KeyEvent#{{name: @name, key: @key, raw: @raw}}"
+  end
 end
 
 # responsible of observe/emit user input events (KeyEvent)

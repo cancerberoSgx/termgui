@@ -1,3 +1,5 @@
+require_relative 'event'
+
 # action manager - it notifies focused elements on user input
 # WIP
 # defines action concept semantics like "action", "input"
@@ -18,16 +20,21 @@ class ActionManager
   def initialize(focus, input)
     @focus = focus
     @input = input
-    # @input.add_listener(:key, proc { |e| handle_key e })
+    @input.add_listener(:key, proc { |e| handle_key e })
   end
 
   def handle_enter(e)
-    if @focus.focused&.get_attribute('enterable')
-
+    if @focus.focused&.get_attribute('focusable')
+      event = ActionEvent.new 'enter'
+      @focus.focused.handle_enter(e)
     end
   end
 
-  # def handle_key(e)
-  #   @focus.focused&.handle_focused_input e
-  # end
+  def handle_key(e)
+    p e
+    # @focus.focused&.handle_focused_input e
+  end
+end
+
+class ActionEvent < Event
 end

@@ -14,6 +14,9 @@ class BaseStyle
   def assign(style)
     @fg = style.fg || @fg
     @bg = style.bg || @bg
+    # TODO: all subclass attrs hardcoded here
+    @wrap = style.wrap == false ? false : style.wrap.nil? ? @wrap : style.wrap
+    @border = style.border || @border
   end
 
   def equals(style)
@@ -34,7 +37,8 @@ class BaseStyle
     if !obj
       nil
     elsif obj.instance_of? Hash
-      Style.new(fg: obj[:fg], bg: obj[:bg])
+      # TODO: all subclass attrs hardcoded here
+      Style.new(fg: obj[:fg], bg: obj[:bg], wrap: obj[:wrap], border: obj[:border])
     else
       obj
     end
@@ -64,7 +68,7 @@ class Style < BaseStyle
 
   def initialize(fg: nil, bg: nil, border: nil, wrap: false)
     super(fg: fg, bg: bg)
-    @wrap=wrap
+    @wrap = wrap
     if border.nil?
       @border = nil
     elsif border.instance_of?(Border)
@@ -73,7 +77,6 @@ class Style < BaseStyle
       # @border = Border.new()
       throw 'seva'
     end
-    @wrap = false
   end
 
   # def self.from_hash(obj)
@@ -94,27 +97,25 @@ class Style < BaseStyle
   # end
 end
 
-# Parses a string CSS-like "bg: red; fg: white; border-style: classic"
-# Notice that `border-style` is assigned to @border.style and treated specially
-def parse_style(s)
-  statements = s.split(';')
-  # style = Style.new
-  statements.each do |statement|
-    a = statement.split(':')
-    throw "Syntax error in statement: #{statement}" if a.length != 2
-    property = a[0]
-    value = a[1]
-    parse_style_set_property(s, property, value)
-  end
-end
+# # Parses a string CSS-like "bg: red; fg: white; border-style: classic"
+# # Notice that `border-style` is assigned to @border.style and treated specially
+# def parse_style(s)
+#   statements = s.split(';')
+#   statements.each do |statement|
+#     a = statement.split(':')
+#     throw "Syntax error in statement: #{statement}" if a.length != 2
+#     property = a[0]
+#     value = a[1]
+#     parse_style_set_property(s, property, value)
+#   end
+# end
 
-def parse_style_set_property(_s, property, value)
-  if property.starts_with? 'border-'
-    throw "TODO, not implemented : property.starts_with? 'border-'"
-  else
-    o = {}
-    o[property] = value
-    # s.
-    throw 'TODO, not implemented '
-  end
-end
+# def parse_style_set_property(_s, property, value)
+#   if property.starts_with? 'border-'
+#     throw "TODO, not implemented : property.starts_with? 'border-'"
+#   else
+#     o = {}
+#     o[property] = value
+#     throw 'TODO, not implemented '
+#   end
+# end
