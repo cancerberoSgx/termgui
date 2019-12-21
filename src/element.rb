@@ -39,6 +39,12 @@ class Element < Node
     get_attribute('style').assign(style)
   end
 
+  def set_style(name, value)
+    o = {}
+    o[name] = value
+    get_attribute('style').assign(o)
+  end
+
   def ch
     get_attribute('ch')
   end

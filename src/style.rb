@@ -13,8 +13,9 @@ class BaseStyle
     @bg = bg
   end
 
+  # assign properties to this on given hash or Style object
   def assign(style)
-    object_assign(self, style)
+    object_assign(self, BaseStyle.from_hash(style))
     # @fg = style.fg || @fg
     # @bg = style.bg || @bg
     # # TODO: all subclass attrs hardcoded here
@@ -22,14 +23,14 @@ class BaseStyle
     # @border = style.border || @border
   end
 
-
   def equals(style)
-    @bg == style.bg && 
-    @fg == style.fg && 
-    # TODO: all subclass attrs hardcoded here
-      # @border ? @border.equals(style.border) : @border==style.border && 
-      @wrap==style.wrap
-    end
+    object_equal(self, BaseStyle.from_hash(style))
+    # @bg == style.bg &&
+    #   @fg == style.fg &&
+    #   # TODO: all subclass attrs hardcoded here
+    #   # @border ? @border.equals(style.border) : @border==style.border &&
+    #   @wrap == style.wrap
+  end
 
   # Prints the style as escape sequences.
   # This method shouln't be overriden by subclasses since it only makes sense for basic properties defined here.
@@ -46,18 +47,24 @@ class BaseStyle
   end
 
   def to_hash
-    {bg: @bg, fg: @fg, 
-    # TODO: all subclass attrs hardcoded here
-    wrap: @wrap, 
-    border: @border
-  }
+    object_variables_to_hash self
+    # {
+    #   bg: @bg,
+    #   fg: @fg,
+    #   # TODO: all subclass attrs hardcoded here
+    #   wrap: @wrap,
+    #   border: @border
+    # }
   end
 
   def self.from_hash(obj)
     if !obj
       nil
     elsif obj.instance_of? Hash
-      Style.new(fg: obj[:fg], bg: obj[:bg], wrap: obj[:wrap], border: obj[:border])
+      s = Style.new
+      merge_hash_into_object obj, s
+      s
+      # Style.new(fg: obj[:fg], bg: obj[:bg], wrap: obj[:wrap], border: obj[:border])
       # TODO: all subclass attrs hardcoded here
     else
       obj
