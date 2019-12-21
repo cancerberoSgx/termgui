@@ -20,8 +20,12 @@ class BaseStyle
   end
 
   def equals(style)
-    @bg == style.bg && @fg == style.fg
-  end
+    @bg == style.bg && 
+    @fg == style.fg && 
+    # TODO: all subclass attrs hardcoded here
+      # @border ? @border.equals(style.border) : @border==style.border && 
+      @wrap==style.wrap
+    end
 
   # Prints the style as escape sequences.
   # This method shouln't be overriden by subclasses since it only makes sense for basic properties defined here.
@@ -30,15 +34,27 @@ class BaseStyle
   end
 
   def reset
-    @bg = @fg = nil
+    @bg = @fg = @wrap = @border = nil
+  end
+
+  def to_s
+    to_hash.to_s
+  end
+
+  def to_hash
+    {bg: @bg, fg: @fg, 
+    # TODO: all subclass attrs hardcoded here
+    wrap: @wrap, 
+    border: @border
+  }
   end
 
   def self.from_hash(obj)
     if !obj
       nil
     elsif obj.instance_of? Hash
-      # TODO: all subclass attrs hardcoded here
       Style.new(fg: obj[:fg], bg: obj[:bg], wrap: obj[:wrap], border: obj[:border])
+      # TODO: all subclass attrs hardcoded here
     else
       obj
     end
