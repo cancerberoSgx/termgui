@@ -1,6 +1,6 @@
 require_relative 'color'
 require_relative 'util'
-require_relative 'style_hash_object'
+require_relative 'util/hash_object'
 
 # refers to properties directly implemented using ansi escape codes
 # responsible of printing escape ansi codes for style

@@ -16,17 +16,29 @@ class Element < Node
   include ElementBox
   include ElementRender
 
-  def initialize(x: 0, y: 0, width: 0, height: 0, ch: Pixel.EMPTY_CH, children: [], text: '', name: 'element',
-                 margin: Offset.new, padding: Offset.new, attributes: {}, style: default_style)
+  def initialize(
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    ch: Pixel.EMPTY_CH,
+    children: [],
+    text: '',
+    name: 'element',
+    attributes: {},
+    style: nil
+  )
     super(name: name, text: text, children: children, attributes: attributes)
-    attributes(attributes.merge(x: x, y: y, width: width, height: height, ch: ch,
-                                # margin: margin, padding: padding, 
-                                style: attributes[:style] || Style.new
-                                )
-                                )
-    if style
-      self.style=style
-    end
+    attributes(
+      attributes.merge(
+        x: x, y: y, width: width, height: height, ch: ch,
+        style:
+          Style.from_hash(attributes[:style]) ||
+          Style.from_hash(style) ||
+          default_style
+      )
+    )
+    self.style = style if style
   end
 
   def style
@@ -61,13 +73,13 @@ class Element < Node
     Style.new
   end
 
-  # build in widget implementations will *grow* to fit their parent.
-  # However, if implemented, a widget like a button can be smart enough to declare its size,
-  # independently of current layout (in the button's case, the preferred size could be
-  # computed from its text length plus maring/padding)
-  def preferred_size
-    { width: abs_width, height: abs_height }
-  end
+  # # build in widget implementations will *grow* to fit their parent.
+  # # However, if implemented, a widget like a button can be smart enough to declare its size,
+  # # independently of current layout (in the button's case, the preferred size could be
+  # # computed from its text length plus maring/padding)
+  # def preferred_size
+  #   { width: abs_width, height: abs_height }
+  # end
 
   # will be called by ActionManager whenever an user input occurs while this element has focus.
   # TODO: move to element_focus module

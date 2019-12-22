@@ -88,11 +88,6 @@ class Offset
   end
 
   def self.from_hash(hash)
-    Offset.new(
-      top: hash[:top] || 0,
-      left: hash[:left] || 0,
-      right: hash[:right] || 0,
-      bottom: hash[:bottom] || 0
-    )
+    merge_hash_into_object hash, Offset.new
   end
 end

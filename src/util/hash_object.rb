@@ -1,8 +1,7 @@
-require_relative 'color'
-require_relative 'util'
+require_relative '../util'
 
+# Adds hash compatibility using instance_variable
 module HashObject
-
   # assign properties to this on given hash or Style object
   def assign(style)
     object_assign(self, BaseStyle.from_hash(style))
@@ -24,5 +23,4 @@ module HashObject
   def to_hash
     object_variables_to_hash self
   end
-
 end
