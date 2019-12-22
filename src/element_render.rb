@@ -17,6 +17,8 @@ module ElementRender
     s = style.clone
     s = s.assign(border) if border
     s
+    p s
+    style
   end
 
   protected
@@ -36,6 +38,8 @@ module ElementRender
 
   # IMPORTANT: border is rendered in a +2 bigger rectangle that sourounds actual element bounds (abs_* methods)
   def render_border(screen)
+    screen.style = border_style
+    # p border_style
     screen.box abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, style if border
   end
 

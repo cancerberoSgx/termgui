@@ -82,7 +82,8 @@ def object_assign(dest, src)
     val = src.instance_variable_get(name)
     dest.instance_variable_set name, val unless val.nil?
   end
-end
+  dest
+end 
 
 def object_equal(obj1, obj2)
   vars1 = obj1.instance_variables
