@@ -6,16 +6,13 @@ class Row < Element
   def initialize(*args)
     super *args
     @name = 'row'
-    # width args[:wi]
   end
 
-  def render_children(screen)
+  def layout
     init_x = abs_content_x
-    # init_y = abs_content_y
     last_x = init_x
     @children.each do |c|
       c.x = last_x - init_x
-      c.render screen
       last_x += c.abs_width
     end
   end

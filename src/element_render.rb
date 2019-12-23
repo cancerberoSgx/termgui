@@ -62,4 +62,12 @@ module ElementRender
     p lines, width, height, style.wrap
     { width: width, height: height }
   end
+
+  def render_children(screen)
+    layout
+    @children.each { |c| c.render screen }
+  end
+
+  def layout
+  end
 end

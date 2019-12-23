@@ -43,8 +43,8 @@ class Node < Emitter
     throw 'Abstract method'
   end
 
-  def render_children(screen)
-    @children.each { |c| c.render screen }
+  def render_children(_screen)
+    throw 'Abstract method'
   end
 
   def render_text(_screen)
