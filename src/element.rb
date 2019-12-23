@@ -41,6 +41,10 @@ class Element < Node
     self.style = style if style
   end
 
+  def ch
+    get_attribute('ch')
+  end
+
   def style
     get_attribute('style')
   end
@@ -65,10 +69,6 @@ class Element < Node
     s.get(name)
   end
 
-  def ch
-    get_attribute('ch')
-  end
-
   def default_style
     Style.new
   end
@@ -87,3 +87,4 @@ class Element < Node
     super
   end
 end
+

@@ -120,4 +120,8 @@ class Screen < Node
   def clear_interval(_listener)
     @input.clear_interval(block)
   end
+
+  def install_exit_keys
+    @input.install_exit_keys
+  end
 end

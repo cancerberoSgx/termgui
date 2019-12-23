@@ -1,8 +1,8 @@
 require 'test/unit'
 include Test::Unit::Assertions
-require_relative '../src/screen'
-require_relative '../src/style'
-require_relative '../src/widget/label'
+require_relative '../../src/screen'
+require_relative '../../src/style'
+require_relative '../../src/widget/label'
 
 class LabelTest < Test::Unit::TestCase
   def test_size_autoadjust

@@ -17,8 +17,6 @@ module ElementRender
     s = style.clone
     s = s.assign(border) if border
     s
-    p s
-    style
   end
 
   protected

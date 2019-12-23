@@ -31,7 +31,7 @@ class ActionManager
   end
 
   def handle_key(e)
-    p e
+    # p e
     # @focus.focused&.handle_focused_input e
   end
 end
