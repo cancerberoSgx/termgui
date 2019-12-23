@@ -30,4 +30,8 @@ module ElementStyle
   def default_style
     Style.new
   end
+
+  # def style_focus
+    # style.focus ? 
+  # end
 end

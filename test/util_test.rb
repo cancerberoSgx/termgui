@@ -65,4 +65,8 @@ class UtilTest < Test::Unit::TestCase
     b.c = 9
     assert_equal true, object_equal(a, b)
   end
+
+  def test_variable_key
+    assert_equal :a, variable_key('@a')
+  end
 end

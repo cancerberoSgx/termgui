@@ -24,3 +24,5 @@ Style/EmptyMethod:
   Enabled: false
 Metrics/ModuleLength:
   Enabled: false
+Style/NilComparison:
+  Enabled: false

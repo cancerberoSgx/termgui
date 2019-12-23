@@ -58,13 +58,14 @@ class Style < BaseStyle
   def initialize(fg: nil, bg: nil, border: nil, wrap: false, padding: nil)
     super(fg: fg, bg: bg)
     @wrap = wrap
+    # TODO: move this border checking & init to hash_object
     if border.nil?
       @border = nil
-    elsif border.instance_of?(Border)
+    elsif border.instance_of? Border
       @border = border
-    else
-      # @border = Border.new()
-      throw 'seva'
+    elsif border.instance_of? Hash
+      @border = Border.new
+      @border.assign(border)
     end
     @padding = padding
   end

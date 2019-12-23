@@ -16,12 +16,12 @@ class Renderer
   def initialize(width = 80, height = 20)
     @width = width
     @height = height
+    @style = Style.new
     @buffer = (0...@height).to_a.map do
       (0...@width).to_a.map do
         Pixel.new Pixel.EMPTY_CH, Style.new
       end
     end
-    @style = Style.new
   end
 
   # all writing must be done using me
