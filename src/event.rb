@@ -20,7 +20,7 @@ class KeyEvent < Event
   end
 
   def to_s
-    "KeyEvent#{{name: @name, key: @key, raw: @raw}}"
+    "KeyEvent#{{ name: @name, key: @key, raw: @raw }}"
   end
 end
 

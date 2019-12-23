@@ -4,6 +4,7 @@ require_relative 'renderer'
 require_relative 'element_bounds'
 require_relative 'element_box'
 require_relative 'element_render'
+require_relative 'element_style'
 
 # Node responsible of
 #  * x, y, width, height, abs_x, abs_y
@@ -15,6 +16,7 @@ class Element < Node
   include ElementBounds
   include ElementBox
   include ElementRender
+  include ElementStyle
 
   def initialize(
     x: 0,
@@ -45,34 +47,6 @@ class Element < Node
     get_attribute('ch')
   end
 
-  def style
-    get_attribute('style')
-  end
-
-  def style=(style)
-    s = style.instance_of?(Hash) ? Style.from_hash(style) : style
-    set_attribute('style', s)
-  end
-
-  def style_assign(style)
-    get_attribute('style').assign(style)
-  end
-
-  def set_style(name, value)
-    o = {}
-    o[name] = value
-    get_attribute('style').assign(o)
-  end
-
-  def get_style(name)
-    s = get_attribute('style')
-    s.get(name)
-  end
-
-  def default_style
-    Style.new
-  end
-
   # # build in widget implementations will *grow* to fit their parent.
   # # However, if implemented, a widget like a button can be smart enough to declare its size,
   # # independently of current layout (in the button's case, the preferred size could be
@@ -87,4 +61,3 @@ class Element < Node
     super
   end
 end
-

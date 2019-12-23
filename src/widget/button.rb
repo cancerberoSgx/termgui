@@ -3,7 +3,6 @@ require_relative 'label'
 # A button widget
 # Button.new(text: 'click me', style: {bg: 'blue'}, action: proc {|e| p 'actioned!'})
 class Button < Label
-  
   def initialize(*args)
     super args
     @name = 'button'

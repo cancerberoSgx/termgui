@@ -14,7 +14,7 @@ class NodeTest < Test::Unit::TestCase
 
   def test_render_text
     s = Screen.new(width: 12, height: 7)
-    e = Element.new(x: 1, y: 2, width: 9, height: 3, text: 'hello', ch: '·', style: {padding: Offset.new(top: 1, left: 2)})
+    e = Element.new(x: 1, y: 2, width: 9, height: 3, text: 'hello', ch: '·', style: { padding: Offset.new(top: 1, left: 2) })
     s.append_child(e)
     s.render
     assert_equal(

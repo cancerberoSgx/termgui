@@ -7,7 +7,7 @@ module HashObject
     object_assign(self, new_from_hash(style))
   end
 
-  # creates a new empty instance and assign values in given hash or instance. 
+  # creates a new empty instance and assign values in given hash or instance.
   # This could be class method, but we want to be available to user classes
   def new_from_hash(hash)
     hash_obj = hash

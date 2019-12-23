@@ -83,7 +83,7 @@ def object_assign(dest, src)
     dest.instance_variable_set name, val unless val.nil?
   end
   dest
-end 
+end
 
 def object_equal(obj1, obj2)
   vars1 = obj1.instance_variables
@@ -91,6 +91,7 @@ def object_equal(obj1, obj2)
   return false unless vars1.length == vars2.length
   # if they don't have exactly the same instance_variables names then return false
   return false unless vars1.map(&:to_s).sort.to_s == vars2.map(&:to_s).sort.to_s
+
   equal = true
   some(vars1, proc { |v|
     val1 = obj1.instance_variable_get(v)
@@ -107,12 +108,12 @@ end
 
 # uses obj.instance_variable_get but supports the variable name in these formats "foo", :foo, :@foo and "@foo"
 def get_instance_variable(obj, name)
-  obj.instance_variable_get(variable_name name)
+  obj.instance_variable_get(variable_name(name))
 end
 
 # uses obj.instance_variable_set but supports the variable name in these formats "foo", :foo, :@foo and "@foo"
 def set_instance_variable(obj, name)
-  obj.instance_variable_set(variable_name name)
+  obj.instance_variable_set(variable_name(name))
 end
 
 # given a name in any of these formats "foo", :foo, :@foo and "@foo" it returns a valid instance_variable name (symbol), i.e. :@foo
