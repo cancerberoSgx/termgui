@@ -33,7 +33,6 @@ class EmitterTest < Test::Unit::TestCase
     b = 0
     e.subscribe(:play, proc {
       a += 1
-      p 'kjashdkjahsd'
     })
     e.emit(:play)
     assert_equal 1, a
@@ -56,5 +55,19 @@ class EmitterTest < Test::Unit::TestCase
     e.emit(:play)
     assert_equal 2, a
     assert_equal 2, b
+  end
+
+  def test_block
+    e = Emitter.new
+    e.install(:play)
+    a = 0
+    b = 0
+    e.subscribe(:play) { a += 1 }
+    e.on(:play) { b += 1 }
+    assert_equal 0, a
+    assert_equal 0, b
+    e.emit(:play)
+    assert_equal 1, a
+    assert_equal 1, b
   end
 end

@@ -27,6 +27,7 @@ class NodeTest < Test::Unit::TestCase
     child1 = Element.new(x: 4, y: 3, width: 10, height: 8, ch: '1', children: [child2])
     node = Element.new(children: [child1])
     screen = Screen.new(width: 16, height: 11)
+    screen.silent=true
     node.render screen
     s3 =
       '                \\n' \
@@ -73,6 +74,7 @@ class NodeTest < Test::Unit::TestCase
 
   def test_render_text
     s = Screen.new(width: 12, height: 7)
+    s.silent = true
     e = Element.new(x: 1, y: 2, width: 6, height: 3, text: 'hello', ch: '·')
     s.append_child(e)
     s.render

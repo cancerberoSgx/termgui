@@ -7,14 +7,11 @@ require_relative '../../src/widget/label'
 class LabelTest < Test::Unit::TestCase
   def test_size_autoadjust
     screen = Screen.new(width: 30, height: 10)
-    # screen.input.install_exit_keys
     screen.silent = true
     label = Label.new(text: 'hello world', x: 12, y: 3)
-    # label.style = { bg: 'white', fg: 'black' }
     label.style.border = Border.new
     screen.clear
     label.render screen
-    # screen.print.split('\\n').each { |line| puts "'#{line}\\n' + " }
     expected = '                              \n' \
                '                              \n' \
                '           ┌───────────┐      \n' \
@@ -31,7 +28,6 @@ class LabelTest < Test::Unit::TestCase
       text: 'hello longer world', x: 3, y: 5, width: 10,
       style: Style.new(bg: 'white', fg: 'blue', wrap: true, border: Border.new)
     )
-    # label2.style = { bg: 'white', fg: 'blue', wrap: true }
     label2.style.wrap = true
     label2.style.border = Border.new
     screen.clear
