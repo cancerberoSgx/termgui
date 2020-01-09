@@ -28,7 +28,13 @@ module RendererPrint
   end
 
   # prints to stdout a representation in ruby string concatenated syntax so its easy for devs copy&paste for test asserts
-  def print_dev
+  def print_dev_stdout
     print.split('\\n').each { |line| puts "'#{line}\\n' + " }
+  end
+
+  def print_dev
+    s = "'' + \n"
+    print.split('\\n').each { |line| s = "#{s}'#{line}\\n' + \n" }
+    s + "''"
   end
 end

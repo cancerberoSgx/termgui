@@ -25,6 +25,10 @@ class Screen < Node
     @input = Input.new
     @event = EventManager.new @input
     @focus = FocusManager.new(root: self, input: @input)
+    @focus.on(:focus, proc { |event|
+      event[:focused]&.render self
+      event[:previous]&.render self
+    })
     @silent = false
     install(:destroy)
   end
@@ -68,7 +72,8 @@ class Screen < Node
   def render(element = nil)
     if element == self || element.nil?
       children.each { |child| child.render self }
-    elsif element.render self
+    elsif element != nil 
+      element.render self
     end
   end
 

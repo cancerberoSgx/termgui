@@ -4,6 +4,9 @@ require_relative 'util'
 # adds utilities around style
 module ElementStyle
   def style
+    if get_attribute('style')==nil
+      set_attribute('style', ElementStyle.default_style)
+    end
     get_attribute('style')
   end
 
@@ -32,6 +35,6 @@ module ElementStyle
   end
 
   # def style_focus
-    # style.focus ? 
+  # style.focus ?
   # end
 end

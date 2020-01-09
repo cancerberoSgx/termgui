@@ -6,10 +6,12 @@ module ElementBox
   include ElementBounds
 
   def abs_content_x
+    # abs_x + abs_padding.left - (border_x_size / 2).truncate
     abs_x + abs_padding.left
   end
 
   def abs_content_y
+    # abs_y + abs_padding.top - (border_y_size / 2).truncate
     abs_y + abs_padding.top
   end
 
@@ -50,6 +52,16 @@ module ElementBox
       left: is_percent(p.left) ? (p.left * abs_width).truncate : p.left,
       right: is_percent(p.right) ? (p.right * abs_width).truncate : p.right
     )
+  end
+
+  protected
+
+  def border_x_size
+    style.border ? 2 : 0
+  end
+
+  def border_y_size
+    style.border ? 2 : 0
   end
 
   # # returns margin as Offset instance

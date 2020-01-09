@@ -8,15 +8,16 @@ class Node < Emitter
   include NodeVisit
 
   attr_reader :children, :text, :parent, :name
-  attr_writer :parent
+  attr_writer :parent, :text
 
-  def initialize(name: 'node', children: [], text: '', attributes: {}, parent: nil)
-    @name = name
-    @attributes = Attributes.new attributes
-    @children = children
+  def initialize(**args)
+    # def initialize(name: 'node', children: [], text: '', attributes: {}, parent: nil)
+    @name = args[:name] || 'node'
+    @attributes = Attributes.new args[:attributes] || {}
+    @children = args[:children] || []
     children.each { |child| child.parent = self }
-    @text = text
-    @parent = parent
+    @text = args[:text] || ''
+    @parent = args[:parent] || nil
     install(:after_render)
     install(:before_render)
   end
@@ -29,26 +30,6 @@ class Node < Emitter
       child.parent = self
     end
     children.sample
-  end
-
-  def render(screen)
-    trigger(:before_render)
-    render_self screen
-    render_children screen
-    render_text screen
-    trigger(:after_render)
-  end
-
-  def render_self(_screen)
-    throw 'Abstract method'
-  end
-
-  def render_children(_screen)
-    throw 'Abstract method'
-  end
-
-  def render_text(_screen)
-    throw 'Abstract method'
   end
 
   def attributes(attrs = nil)

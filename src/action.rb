@@ -26,7 +26,7 @@ class ActionManager
   def handle_enter(e)
     if @focus.focused&.get_attribute('focusable')
       event = ActionEvent.new 'enter'
-      @focus.focused.handle_enter(e)
+      @focus.focused.handle_enter(event)
     end
   end
 

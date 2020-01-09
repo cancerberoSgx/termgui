@@ -8,7 +8,7 @@ module Log
     file = @file || 'tmp_log.txt'
     s = arg.nil? ? 'nil' : arg.to_s
     s = "------\n#{title ? title + '\n' : ''}#{s}\n"
-    File.open(file, 'w') { |f| f.puts s }
+    File.open(file, 'a') { |f| f.puts s }
   end
 end
 

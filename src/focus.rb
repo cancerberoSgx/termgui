@@ -31,7 +31,8 @@ class FocusManager < Emitter
   def focus_next
     i = focusables.index(@focused) || 0
     new_i = i == focusables.length - 1 ? 0 : i + 1
-    self.focused = focusables[new_i]
+    next_focusable = focusables[new_i]
+    self.focused = next_focusable if next_focusable
   end
 
   # focus previous focusable node

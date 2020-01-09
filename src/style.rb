@@ -27,7 +27,7 @@ class BaseStyle
 
   # if a hash is given returns a new Style instance with given properties. If an Style instance if given, returns it.
   def self.from_hash(obj)
-    if !obj
+    if obj == nil
       nil
     elsif obj.instance_of? Hash
       merge_hash_into_object obj, new
@@ -53,9 +53,9 @@ end
 
 # Element style (`element.style` type)
 class Style < BaseStyle
-  attr_accessor :border, :wrap, :padding
+  attr_accessor :border, :wrap, :padding, :focus
 
-  def initialize(fg: nil, bg: nil, border: nil, wrap: false, padding: nil)
+  def initialize(fg: nil, bg: nil, border: nil, wrap: false, padding: nil, focus: nil)
     super(fg: fg, bg: bg)
     @wrap = wrap
     # TODO: move this border checking & init to hash_object
@@ -68,6 +68,7 @@ class Style < BaseStyle
       @border.assign(border)
     end
     @padding = padding
+    @focus = focus || self.clone
   end
 end
 

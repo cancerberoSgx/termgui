@@ -21,10 +21,12 @@ class Emitter
   # @param event_name [String, Symbol]
   # @param handler_proc [Proc]
   #   Proc with [Symbol, Object]
-  def subscribe(event_name, handler_proc)
+  def subscribe(event_name, handler_proc = nil, &block)
+    throw 'No block or handler given' if handler_proc==nil && !block_given?
+    handler = handler_proc==nil ? block : handler_proc
     handler_id = "#{event_name}_#{handler_proc.object_id}"
     events[event_name.to_sym]&.push(
-      id: handler_id, proc: handler_proc
+      id: handler_id, proc: handler
     )
     handler_id
   end

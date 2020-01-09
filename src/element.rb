@@ -19,28 +19,27 @@ class Element < Node
   include ElementStyle
 
   def initialize(
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0,
-    ch: Pixel.EMPTY_CH,
-    children: [],
-    text: '',
-    name: 'element',
-    attributes: {},
-    style: nil
+    # x: 0,
+    # y: 0,
+    # width: 0,
+    # height: 0,
+    # # ch: Pixel.EMPTY_CH,
+    # # children: [],
+    # # text: '',
+    # # attributes: {},
+    # name: 'element',
+    # style: nil,
+    **args
   )
-    super(name: name, text: text, children: children, attributes: attributes)
-    attributes(
-      attributes.merge(
-        x: x, y: y, width: width, height: height, ch: ch,
-        style:
-          Style.from_hash(attributes[:style]) ||
-          Style.from_hash(style) ||
-          default_style
-      )
-    )
-    self.style = style if style
+    super
+    args[:attributes] = {x: args[:x]||0, y: args[:y]||0, width: args[:width]||0, height: args[:height]||0} if args[:attributes] == nil
+    a = {}
+    # args[:attributes] args[:attributes]
+    a.merge!(args)
+    a.merge!(args[:attributes])
+    a[:style] = Style.from_hash(args[:attributes][:style] || args[:style] || default_style)
+    attributes(a)
+    self.style = style if a[:style]
   end
 
   def ch

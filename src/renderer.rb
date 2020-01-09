@@ -35,7 +35,7 @@ class Renderer
       #   @last_style = style
       # end
       # "#{style}#{move x, y}#{ch}"
-      "#{move x, y}#{ch}"
+      "#{move x, y + 1}#{ch}" # TODO: investigate why y + 1
     else
       ''
     end
@@ -51,6 +51,8 @@ class Renderer
 
   def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH)
     s = ''
+    ch = Pixel.EMPTY_CH if ch == nil
+    # p 'seba: '+({ch: ch, width: width}).to_s
     height.times do |y_|
       s += write(x, y + y_, ch * width).to_s
     end
