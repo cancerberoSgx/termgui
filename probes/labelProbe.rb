@@ -46,7 +46,7 @@ screen.append_child(label2)
 screen.render
 
 
-# screen.renderer.print_dev
+# screen.renderer.print_dev_stdout
 
 
 # screen.start
