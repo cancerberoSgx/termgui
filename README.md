@@ -6,7 +6,7 @@
  * 100% ruby, no binaries, no dependencies
  * some ideas taken from npm.org/blessed
 
-
+ 
 ### TODO / Status
  - [ ] make all character attributes work in style (see color.rb ATTRIBUTES)
  - [x] cli-driver for testing interactions / see probes/pty*
