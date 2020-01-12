@@ -9,12 +9,12 @@ class Attributes
   end
 
   def set_attribute(name, value)
-    @attrs[name] = value
+    @attrs[name.to_sym] = value
     self
   end
 
   def get_attribute(name)
-    @attrs[name]
+    @attrs[name.to_sym]
   end
 
   def to_s

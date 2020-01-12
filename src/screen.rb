@@ -27,18 +27,24 @@ class Screen < Node
     @input = Input.new
     @event = EventManager.new @input
     @focus = FocusManager.new(root: self, input: @input)
-    @focus.on(:focus, proc { |event|
+    @focus.on(:focus) { |event|
       event[:focused]&.render self
       event[:previous]&.render self
-    })
+    }
     @action = ActionManager.new @focus, @input
     @silent = false
     install(:destroy)
+    install(:start)
   end
 
   # start listening for user input. This starts an user input event loop
   # that ends when screen.destroy is called
   def start
+    emit :start
+    clear
+    query_by_attribute('focusable', true).length.times {@focus.focus_next}
+    cursor_hide
+    render
     @input.start
   end
 

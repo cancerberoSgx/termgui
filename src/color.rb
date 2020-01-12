@@ -62,25 +62,24 @@ ATTRIBUTES = {
 # Usage: screen.write attributes(blink: true).
 # Attributes supported: bold, inverse, blink, slowBlink, rapidBlink, invisible, fraktur, framed, encircled, normal,
 # italic, underline, faint
-# 
+#
 # Esc[Value;...;Valuem  Set Graphics Mode:
 # Calls the graphics functions specified by the following values.
 # These specified functions remain active until the next occurrence of this escape sequence. Graphics mode changes the
 # colors and attributes of text (such as bold and underline) displayed on the screen
 def attributes(**args)
-  output = ''
+  output = []
   args.keys.each do |key|
-    # key = key.to_sym
     if args[key] == true
-      output += "#{CSI}#{ATTRIBUTES[key]}"
+      output.push "#{ATTRIBUTES[key]}"
     elsif args[key] == false
-      output += "#{CSI}#{ATTRIBUTES[:blinkOff]}" if key == :blink
-      output += "#{CSI}#{ATTRIBUTES[:boldOff]}" if key == :bold
+      output.push "#{ATTRIBUTES[:blinkOff]}" if key == :blink
+      output.push "#{CSI}#{ATTRIBUTES[:boldOff]}" if key == :bold
       # TODO: the rest
     end
   end
-  p output
-  output
+  # p output
+  output.length>0 ? "#{CSI}#{output.join(';')}m" : ''
 end
 
 def random_color

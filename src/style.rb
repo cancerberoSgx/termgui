@@ -10,15 +10,17 @@ class BaseStyle
 
   attr_accessor :fg, :bg
 
-  def initialize(fg: nil, bg: nil)
+  def initialize(fg: nil, bg: nil, bold: nil, blink: nil)
     @fg = fg
     @bg = bg
+    @bold = bold
+    @blink = blink
   end
 
   # Prints the style as escape sequences.
   # This method shouln't be overriden by subclasses since it only makes sense for basic properties defined here.
   def print
-    color @fg, @bg
+    "#{color @fg, @bg}#{attributes(bold: @bold, blink: @blink)}"
   end
 
   def reset

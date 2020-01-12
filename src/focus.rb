@@ -10,11 +10,11 @@ class FocusManager < Emitter
                  keys: { next: 'tab', prev: 'S-tab' },
                  focus_first: true)
     throw 'root Element and input InputManager are required' unless root && input
-    @root = root
+    @screen = root
     @keys = keys
     @input = input
     focusables.each { |n| n.set_attribute(:focused, false) }
-    @focused = @root.query_one_by_attribute(:focusable, true)
+    @focused = @screen.query_one_by_attribute(:focusable, true)
     install(:focus)
     @focused = focusables.first || nil if focus_first && !@focused
     @focused&.set_attribute(:focused, true)
@@ -24,7 +24,7 @@ class FocusManager < Emitter
   end
 
   def focusables
-    @root.query_by_attribute(:focusable, true)
+    @screen.query_by_attribute(:focusable, true)
   end
 
   # focus next focusable node

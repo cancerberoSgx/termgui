@@ -20,6 +20,7 @@ end
 screen.set_timeout(3) do
   # screen.cursor_show('blink')
   screen.write attributes(bold: true, blink: true)
+  screen.write screen.renderer.cursor_shape('block', true)
 end
 screen.clear
 screen.render

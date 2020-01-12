@@ -2,10 +2,10 @@ require_relative 'label'
 
 # A button widget
 # Button.new(text: 'click me', style: {bg: 'blue'}, action: proc {|e| p 'actioned!'})
-class Button < Label
+class Input < Label
   def initialize(**args)
     super
-    @name = 'button'
+    @name = 'input'
     install(:action)
     install(:input)
     add_listener(:action, args[:action]) if args[:action]
