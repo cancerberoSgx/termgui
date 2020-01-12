@@ -60,6 +60,11 @@ class Screen < Node
     @output_stream.write s unless @silent
   end
 
+  # renders given text at given position
+  def text(x, y, text)
+    write @renderer.write(x, y, text)
+  end
+
   def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH)
     write @renderer.rect x: x, y: y, width: width, height: height, ch: ch
   end
@@ -85,10 +90,6 @@ class Screen < Node
     elsif !element.nil?
       element.render self
     end
-  end
-
-  def text(x, y, text)
-    write @renderer.write(x, y, text)
   end
 
   def box(x, y, width, height, border_style = :classic, style = nil)
