@@ -13,4 +13,15 @@ class InputTest < Test::Unit::TestCase
     i.start
     assert_equal t, 'timeout'
   end
+
+  def test_set_timeout_block
+    i = Input.new
+    t = nil
+    i.set_timeout(0.1) do
+      t = 'timeout'
+      i.stop
+    end
+    i.start
+    assert_equal t, 'timeout'
+  end
 end

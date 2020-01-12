@@ -74,7 +74,7 @@ class Screen < Node
   def render(element = nil)
     if element == self || element.nil?
       children.each { |child| child.render self }
-    elsif element != nil 
+    elsif !element.nil?
       element.render self
     end
   end
@@ -111,12 +111,14 @@ class Screen < Node
     @renderer.print
   end
 
-  def set_timeout(seconds, block)
-    @input.set_timeout(seconds, block)
+  def set_timeout(seconds, listener, &block)
+    the_listener = listener == nil ? block : listener
+    throw 'No listener provided' if the_listener == nil
+    @input.set_timeout(seconds, the_listener)
   end
 
-  def clear_timeout(_listener)
-    @input.clear_timeout(block)
+  def clear_timeout(listener)
+    @input.clear_timeout(listener)
   end
 
   # TODO: seconds not implemented - block will be called on each input interval
@@ -130,5 +132,17 @@ class Screen < Node
 
   def install_exit_keys
     @input.install_exit_keys
+  end
+
+  def cursor_move(x, y)
+    write @renderer.move(x, y)
+  end
+
+  def cursor_show
+    write @renderer.cursor_show
+  end
+
+  def cursor_hide
+    write @renderer.cursor_hide
   end
 end

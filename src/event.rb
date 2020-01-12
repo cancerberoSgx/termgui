@@ -43,9 +43,11 @@ class EventManager
     input.add_listener('key') { |e| handle_key e }
   end
 
-  def add_key_listener(key, listener)
+  def add_key_listener(key, listener = nil, &block)
+    the_listener = listener == nil ? block : listener
+    throw 'No listener provided' if the_listener == nil
     @key_listeners[key] = @key_listeners[key] || []
-    @key_listeners[key].push listener
+    @key_listeners[key].push the_listener
   end
 
   def remove_key_listener(key, listener)
