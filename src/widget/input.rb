@@ -21,7 +21,7 @@ class Button < Label
   end
 
   def handle_focused_input(event)
-    p event
+    # p event
   end
 
   def preferred_size

@@ -1,4 +1,5 @@
 require_relative 'event'
+require_relative 'emitter'
 
 # action manager - it notifies focused elements on user input
 # WIP
@@ -16,20 +17,22 @@ require_relative 'event'
 # "focusable"
 # in the case of scape it will be enabled iff enterable is true
 # For example a Label is not focusable or enterable. A Button is focusable but not enterable. A textatra is focusable and enterable.
-class ActionManager
+class ActionManager < Emitter
   def initialize(focus, input)
+    super()
     @focus = focus
     @input = input
     @input.add_listener(:key) { |e| handle_key e }
     install(:action)
   end
 
-  def handle_enter(_e)
-    focused @focus.focused
+  def handle_enter(e)
+    focused = @focus.focused
+    # p 'action'+focused.to_s
     if focused&.get_attribute('focusable')
-      event = ActionEvent.new focused
-      action = focused.get_attribute('action')
-      action(event) if action
+      event = ActionEvent.new focused, e
+      focused_action = focused.get_attribute('action')
+      focused_action&.call(event) 
       trigger event.name, event
       # handle_enter(event)
     end
@@ -42,9 +45,8 @@ class ActionManager
   end
 end
 
-class ActionEvent < Event
+class ActionEvent < NodeEvent
   def initialize(target, original_event)
-    super 'action', target
-    @original_event = original_event
+    super 'action', target, original_event
   end
 end

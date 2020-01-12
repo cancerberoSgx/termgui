@@ -3,6 +3,7 @@ require_relative 'renderer'
 require_relative 'input'
 require_relative 'event'
 require_relative 'focus'
+require_relative 'action'
 require_relative 'util'
 
 # Main user API entry point
@@ -11,7 +12,7 @@ require_relative 'util'
 # Once `start`is called it will block execution and start an event loop
 # on each interval user input is read and event listeners are called
 class Screen < Node
-  attr_reader :width, :height, :input_stream, :output_stream, :renderer, :input, :event, :focus
+  attr_reader :width, :height, :input_stream, :output_stream, :renderer, :input, :event, :focus, :action
   attr_accessor :silent
 
   def initialize(children: [], text: '', attributes: {},
@@ -29,6 +30,7 @@ class Screen < Node
       event[:focused]&.render self
       event[:previous]&.render self
     })
+    @action = ActionManager.new @focus, @input
     @silent = false
     install(:destroy)
   end
@@ -40,7 +42,7 @@ class Screen < Node
   end
 
   def destroy
-    p 'destroy'
+    # p 'destroy'
     emit :destroy
     @input.stop
   end

@@ -7,7 +7,7 @@ module ElementBounds
   end
 
   def x
-    get_attribute('x')
+    get_attribute('x') || 0
   end
 
   def abs_x
@@ -27,7 +27,7 @@ module ElementBounds
   end
 
   def y
-    get_attribute 'y'
+    get_attribute('y') || 0
   end
 
   def abs_y
@@ -47,11 +47,11 @@ module ElementBounds
   end
 
   def width
-    get_attribute 'width'
+    get_attribute( 'width')||0
   end
 
   def abs_width
-    width = get_attribute 'width' || 0
+    # width = get_attribute 'width' || 0
 
     if (is_percent width) && @parent
       (@parent.abs_width * width).truncate
@@ -78,11 +78,11 @@ module ElementBounds
   end
 
   def height
-    get_attribute 'height'
+    get_attribute( 'height')||0
   end
 
   def abs_height
-    height = get_attribute 'height' || 0
+    # height = get_attribute( 'height') || 0
 
     if is_percent height
       (@parent ? @parent.abs_height * height : 0).truncate
