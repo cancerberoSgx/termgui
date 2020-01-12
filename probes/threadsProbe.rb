@@ -1,4 +1,3 @@
-
 x = 1
 t = Thread.new { sleep 1; puts 't ' + x.to_s; x += 1 }
 sleep 2

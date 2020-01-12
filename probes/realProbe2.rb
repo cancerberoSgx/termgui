@@ -21,6 +21,8 @@ right_buttons = (0..4).map { |i| right.append_child Button.new(text: "Button_#{i
 b1 = screen.append_child Button.new(text: 'hello', y: 0.6, x: 0.4, attributes: { focusable: true })
 b2 = screen.append_child Button.new(text: 'world', y: 0.8, x: 0.2, attributes: { focusable: true })
 
+b1.on(:action){log 'action'}
+
 # p right_buttons[0].style
 screen.focus.subscribe(:focus, proc { |e|
   e[:focused]&.style&.bg= 'white'

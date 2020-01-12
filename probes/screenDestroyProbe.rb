@@ -1,4 +1,3 @@
-
 require_relative '../src/screen'
 
 s = Screen.new width: 12, height: 8

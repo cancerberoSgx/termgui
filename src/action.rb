@@ -20,21 +20,31 @@ class ActionManager
   def initialize(focus, input)
     @focus = focus
     @input = input
-    @input.add_listener(:key, proc { |e| handle_key e })
+    @input.add_listener(:key) { |e| handle_key e }
+    install(:action)
   end
 
-  def handle_enter(e)
-    if @focus.focused&.get_attribute('focusable')
-      event = ActionEvent.new 'enter'
-      @focus.focused.handle_enter(event)
+  def handle_enter(_e)
+    focused @focus.focused
+    if focused&.get_attribute('focusable')
+      event = ActionEvent.new focused
+      action = focused.get_attribute('action')
+      action(event) if action
+      trigger event.name, event
+      # handle_enter(event)
     end
   end
 
   def handle_key(e)
+    handle_enter e if e.raw == '\r'
     # p e
     # @focus.focused&.handle_focused_input e
   end
 end
 
 class ActionEvent < Event
+  def initialize(target, original_event)
+    super 'action', target
+    @original_event = original_event
+  end
 end

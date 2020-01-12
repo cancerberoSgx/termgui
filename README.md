@@ -1,4 +1,4 @@
-# termui
+# termgui
 
  * Command line graphical user interface Ruby toolkit. 
  * Create desktop-like interfaces in the command line.
@@ -8,6 +8,7 @@
 
  
 ### TODO / Status
+
  - [ ] make all character attributes work in style (see color.rb ATTRIBUTES)
  - [x] cli-driver for testing interactions / see probes/pty*
    - waitForData

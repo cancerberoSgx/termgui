@@ -1,4 +1,3 @@
-
 # require 'open3'
 # if __FILE__ == $0
 #   Open3.popen3("ruby probes/stdin.rb") do |i, o, e, t|

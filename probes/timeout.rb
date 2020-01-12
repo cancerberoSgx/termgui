@@ -1,4 +1,3 @@
-
 require 'timeout'
 
 def setTimeout(sec, block)

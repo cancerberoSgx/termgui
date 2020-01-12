@@ -11,8 +11,10 @@ module InputTime
 
   # register a timeout listener that will be called in given seconds (aprox).
   # Returns a listener object that can be used with clear_timeout to remove the listener
-  def set_timeout(seconds, block)
-    listener = { seconds: seconds, block: block, time: @time, target: @time + seconds }
+  def set_timeout(seconds, block = nil, &proc_block)
+    the_block = block == nil ? proc_block : block
+    throw 'No block provided' if the_block == nil
+    listener = { seconds: seconds, block: the_block, time: @time, target: @time + seconds }
     @timeout_listeners.push listener
     listener
   end

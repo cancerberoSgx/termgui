@@ -36,8 +36,9 @@ class Input < Emitter
         if char
           key = char.inspect
           key = key[1..key.length - 2]
-          event = KeyEvent.new key, char
-          emit 'key', event
+          emit_key char, key
+          # event = KeyEvent.new key, char
+          # emit 'key', event
         else
           sleep @interval
         end
@@ -45,6 +46,11 @@ class Input < Emitter
         break if @stopped
       end
     end
+  end
+
+  def emit_key(char, key=char)
+    event = KeyEvent.new key, char
+    emit 'key', event
   end
 
   def write(s)

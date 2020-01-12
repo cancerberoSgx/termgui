@@ -1,1 +1,1 @@
-Please verify that tests are green.
+Any contributions or feedback is most welcome!
