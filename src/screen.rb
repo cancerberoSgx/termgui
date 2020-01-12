@@ -5,6 +5,7 @@ require_relative 'event'
 require_relative 'focus'
 require_relative 'action'
 require_relative 'util'
+require_relative 'color'
 
 # Main user API entry point
 # Manages instances of Input, Event, Renderer
@@ -42,7 +43,6 @@ class Screen < Node
   end
 
   def destroy
-    # p 'destroy'
     emit :destroy
     @input.stop
   end
@@ -70,7 +70,7 @@ class Screen < Node
     end
   end
 
-  # complies with Element::render and also is capable of rendering given elements
+  # complies with Element#render and also is capable of rendering given elements
   def render(element = nil)
     if element == self || element.nil?
       children.each { |child| child.render self }
@@ -111,7 +111,7 @@ class Screen < Node
     @renderer.print
   end
 
-  def set_timeout(seconds, listener, &block)
+  def set_timeout(seconds, listener = nil, &block)
     the_listener = listener == nil ? block : listener
     throw 'No listener provided' if the_listener == nil
     @input.set_timeout(seconds, the_listener)
@@ -138,11 +138,23 @@ class Screen < Node
     write @renderer.move(x, y)
   end
 
-  def cursor_show
-    write @renderer.cursor_show
+  def cursor_show(style = nil)
+    if style == nil
+      write @renderer.cursor_show
+    elsif style == 'blink'
+      write color(ATTRIBUTES[:blink])
+    end
   end
 
   def cursor_hide
     write @renderer.cursor_hide
   end
+
+  # def cursor_style(style)
+  #   if style == 'hidden'
+  #     write @renderer.cursor_hide
+  #   elsif style == 'show'
+  #     write @renderer.cursor_show
+  #   end
+  # end
 end
