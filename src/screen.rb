@@ -39,12 +39,14 @@ class Screen < Node
 
   # start listening for user input. This starts an user input event loop
   # that ends when screen.destroy is called
-  def start
+  def start(clean: false)
     emit :start
-    clear
-    query_by_attribute('focusable', true).length.times {@focus.focus_next}
-    cursor_hide
-    render
+    unless clean
+      clear
+      query_by_attribute('focusable', true).length.times {@focus.focus_next}
+      cursor_hide
+      render
+    end
     @input.start
   end
 

@@ -32,7 +32,9 @@ class Element < Node
     **args
   )
     super
-    args[:attributes] = {x: args[:x]||0, y: args[:y]||0, width: args[:width]||0, height: args[:height]||0} if args[:attributes] == nil
+    if args[:attributes] == nil
+      args[:attributes] = { x: args[:x] || 0, y: args[:y] || 0, width: args[:width] || 0, height: args[:height] || 0 }
+    end
     a = {}
     # args[:attributes] args[:attributes]
     a.merge!(args)

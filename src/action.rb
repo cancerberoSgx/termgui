@@ -22,7 +22,9 @@ class ActionManager < Emitter
     super()
     @focus = focus
     @input = input
-    @input.add_listener(:key) { |e| handle_key e }
+    @input.subscribe('key', proc { |e|
+      handle_key e
+    })
     install(:action)
   end
 
@@ -33,13 +35,17 @@ class ActionManager < Emitter
       event = ActionEvent.new focused, e
       focused_action = focused.get_attribute('action')
       focused_action&.call(event) 
+      # log 'handle_enter'+event.name
       trigger event.name, event
+      focused.trigger event.name, event
       # handle_enter(event)
     end
   end
 
   def handle_key(e)
-    handle_enter e if e.raw == '\r'
+    is_enter = e.key == '\\r'
+    # log "#{is_enter}"
+    handle_enter e if is_enter
     # p e
     # @focus.focused&.handle_focused_input e
   end
