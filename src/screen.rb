@@ -17,24 +17,36 @@ class Screen < Node
   attr_accessor :silent
 
   def initialize(children: [], text: '', attributes: {},
-                 width: $stdout.winsize[1], height: $stdout.winsize[0])
+                 width: nil, height: nil)
     super(name: 'screen', children: children, text: text, attributes: attributes, parent: nil)
-    @width = width
-    @height = height
+    @width = width == nil ? terminal_width : width
+    @height = height == nil ? terminal_height : height
     @input_stream = $stdin
     @output_stream = $stdout
     @renderer = Renderer.new(@width, @height)
     @input = Input.new
     @event = EventManager.new @input
     @focus = FocusManager.new(root: self, input: @input)
-    @focus.on(:focus) { |event|
+    @focus.on(:focus) do |event|
       event[:focused]&.render self
       event[:previous]&.render self
-    }
+    end
     @action = ActionManager.new @focus, @input
     @silent = false
     install(:destroy)
     install(:start)
+  end
+
+  def terminal_width
+    $stdout.winsize[1]
+  rescue StandardError
+    80
+  end
+
+  def terminal_height
+    $stdout.winsize[0]
+  rescue StandardError
+    36
   end
 
   # start listening for user input. This starts an user input event loop
@@ -43,8 +55,8 @@ class Screen < Node
     emit :start
     unless clean
       clear
-      # TODO Hack. Move to FocusManger :start listener
-      query_by_attribute('focusable', true).length.times {@focus.focus_next}
+      # TODO: Hack. Move to FocusManger :start listener
+      query_by_attribute('focusable', true).length.times { @focus.focus_next }
       # TODO: this shouldn't be neccesary, when Element#final_style is implemented
       @focus.subscribe(:focus) do |e|
         e[:focused]&.style&.bg= 'white'
@@ -54,7 +66,7 @@ class Screen < Node
         render e[:focused]
         render e[:previous]
       end
-      cursor_hide
+      cursor_hide # TODO: move this to a CursorManager :start listener
       render
     end
     @input.start
@@ -63,6 +75,7 @@ class Screen < Node
   def destroy
     emit :destroy
     @input.stop
+    cursor_show # TODO: move this to a CursorManager :destroy listener
   end
 
   # writes directly to @output_stream. Shouldn't be used directly since these changes won't be tracked by the buffer.
@@ -86,11 +99,11 @@ class Screen < Node
   end
 
   def style=(style)
-    style = Style.from_hash style
-    unless @renderer.style.equals style
-      @renderer.style = style
-      write @renderer.style.print
-    end
+    # style = Style.from_hash style
+    # unless @renderer.style.equals style
+    @renderer.style = style
+    write @renderer.style.print
+    # end
   end
 
   # complies with Element#render and also is capable of rendering given elements

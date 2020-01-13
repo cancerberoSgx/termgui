@@ -32,11 +32,18 @@ class Node < Emitter
     children.sample
   end
 
+  def empty
+    children.each do |child|
+      child.parent = nil
+    end
+    @children = []
+  end
+
   def attributes(attrs = nil)
     attrs&.each_key { |key| set_attribute(key.to_s, attrs[key]) }
     @attributes
   end
-  
+
   def attributes=(attrs = nil)
     self.attributes(attrs)
   end

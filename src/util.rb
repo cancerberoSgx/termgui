@@ -32,6 +32,10 @@ def next_tick
   sleep 0.0000001
 end
 
+def random_int(min=0, max=10)
+  (min..max).to_a.sample
+end
+
 CHARS = ('a'..'z').to_a.concat(('A'..'Z').to_a).push('_', '-', '@', '!', '#', '$', '%', '^', '&', '*', '=', '+')
 
 def random_char

@@ -28,22 +28,28 @@ class Input < Emitter
   # starts listening for user input. Implemented like an event loop reading from @input_stream each @interval
   def start
     return self unless @stopped
-
     @stdin.raw do |io|
+      @io = io
       @stopped = false
       loop do
-        char = get_char_or_sequence(io)
-        if char
-          key = char.inspect
-          key = key[1..key.length - 2]
-          emit_key char, key
-        else
-          sleep @interval
-        end
-        update_status
+        tick
         break if @stopped
       end
     end
+  end
+
+  # Once it `start`s this method is called on the loop to read input and update timeouts.
+  # Could be useful for applications with their own loops to notify input/timeouts
+  def tick
+    char = get_char_or_sequence
+    if char
+      key = char.inspect
+      key = key[1..key.length - 2]
+      emit_key char, key
+    else
+      sleep @interval
+    end
+    update_status
   end
 
   def emit_key(char, key = char)
@@ -63,12 +69,7 @@ class Input < Emitter
 
   protected
 
-  # called on each iteration, can be overriden by extenders
-  def update_status
-    super
-  end
-
-  def get_char_or_sequence(io)
+  def get_char_or_sequence(io = @io)
     if io.ready?
       result = io.sysread(1)
       while (CSI.start_with?(result) ||

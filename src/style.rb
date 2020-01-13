@@ -48,9 +48,9 @@ end
 class Border < BaseStyle
   attr_reader :style
 
-  def initialize(fg: nil, bg: nil, style: nil)
+  def initialize(fg: nil, bg: nil, style: 'single')
     super(fg: fg, bg: bg)
-    @style = style.nil? ? nil : style.to_s
+    @style = style.to_s
   end
 
   def style=(style)

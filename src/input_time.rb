@@ -23,9 +23,11 @@ module InputTime
     @timeout_listeners.delete listener
   end
 
-  def set_interval(seconds = @interval, block)
+  def set_interval(seconds = @interval, block = nil, &proc_block)
     # TODO: seconds not implemented - block will be called on each input interval
-    listener = { seconds: seconds, block: block, time: @time, target: @time + seconds }
+    the_block = block == nil ? proc_block : block
+    throw 'No block provided' if the_block == nil
+    listener = { seconds: seconds, block: the_block, time: @time, target: @time + seconds }
     @interval_listeners.push listener
     listener
   end
@@ -33,8 +35,6 @@ module InputTime
   def clear_interval(listener)
     @interval_listeners.delete listener
   end
-
-  # protected
 
   def update_status
     @time = Time.now
