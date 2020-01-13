@@ -34,6 +34,15 @@ module ElementStyle
     Style.new
   end
 
+  # while "normal" style is defined in @style, focused extra style is defined in @style.focus, 
+  # so dependently on attributes like `focused` this method performs computation of the "final" style
+  def final_style
+    result = style.clone()
+    # if get_attribute('focused')
+    #   result.merge
+    # end
+    result
+  end
   # def style_focus
   # style.focus ?
   # end

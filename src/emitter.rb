@@ -13,7 +13,7 @@ class Emitter
 
   # turn off the event
   # @param event_name [String, Symbol]
-  def off(event_name)
+  def uninstall(event_name)
     events.delete(event_name.to_sym)
   end
 
@@ -45,6 +45,7 @@ class Emitter
   end
 
   alias remove_listener unsubscribe
+  alias off unsubscribe
 
   # emit the event
   # @param event_name [String, Event]

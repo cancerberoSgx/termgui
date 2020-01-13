@@ -1,6 +1,7 @@
 require_relative 'style'
 require_relative 'key'
 require_relative 'renderer_print'
+require_relative 'renderer_cursor'
 
 # Responsible of (TODO: we should split Renderer into several delegate classes
 #  * build charsequences to render text on a position. these are directly write to $stdout by screen
@@ -9,6 +10,7 @@ require_relative 'renderer_print'
 # TODO: add line, empty-rect and more drawing primitives
 class Renderer
   include RendererPrint
+  include RendererCursor
 
   attr_reader :width, :height, :buffer, :style
   attr_writer :style
@@ -30,11 +32,6 @@ class Renderer
       (x...[x + ch.length, @width].min).to_a.each do |i|
         @buffer[y][i].ch = ch[i - x]
       end
-      # style = @style==nil ? '' : @style.print
-      # if style != @last_style
-      #   @last_style = style
-      # end
-      # "#{style}#{move x, y}#{ch}"
       "#{move x, y + 1}#{ch}" # TODO: investigate why y + 1
     else
       ''
@@ -57,14 +54,6 @@ class Renderer
       s += write(x, y + y_, ch * width).to_s
     end
     s
-  end
-
-  def save_cursor
-    "#{CSI}s"
-  end
-
-  def restore_cursor
-    "#{CSI}u"
   end
 
   def clear

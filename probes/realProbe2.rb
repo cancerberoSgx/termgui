@@ -6,33 +6,53 @@ require_relative '../src/color'
 require_relative '../src/log'
 require_relative '../src/widget/col'
 require_relative '../src/widget/row'
+require_relative '../src/widget/modal'
 require_relative '../src/widget/button'
 require_relative '../src/widget/label'
 
+
 screen = Screen.new
 screen.input.install_exit_keys
+# screen.event.add_key_listener('q', proc { |_e| screen.destroy })
+
+# screen.set_timeout(0.5){
+#   screen.rect(x: 2, y: 2, width: 12, height: 3, ch: 'x')
+#   }
 
 left = Col.new(width: 0.4, height: 0.99, style: { bg: 'red' })
 left_labels = (0..8).map { |i| left.append_child Label.new(text: "Label_#{i}") }
 right = Col.new(width: 0.6, height: 0.99, x: 0.4, style: Style.new(bg: 'blue'))
-right_buttons = (0..4).map { |i| right.append_child Button.new(text: "Button_#{i}", x: 0.5) }
+right_buttons = (0..4).map do |i|
+  right.append_child Button.new(
+    text: "Button_#{i}", x: 0.5,
+    action: proc { open_modal(screen: screen, title: "Button_#{i}") }
+  )
+end
 [left, right].each { |widget| screen.append_child widget }
 
-b1 = screen.append_child Button.new(text: 'hello', y: 0.6, x: 0.4, attributes: { focusable: true })
-b2 = screen.append_child Button.new(text: 'world', y: 0.8, x: 0.2, attributes: { focusable: true })
+b1 = screen.append_child Button.new(text: 'hello', y: 0.6, x: 0.4, action: proc {
+  open_modal(screen: screen, title: 'button 1')
+})
+
+b2 = screen.append_child Button.new(text: 'world' + screen.query_by_attribute('focusable', true).length.to_s, y: 0.8, x: 0.2)
+b2.set_attribute('action', proc {
+  open_modal(screen: screen, title: 'button 2')
+})
+# b2.style.focus = Style.new(bold: true, bg: 'white')
+
+b1.on(:action) { log 'action' }
+b1.on('action') { log 'action' }
 
 # p right_buttons[0].style
-screen.focus.subscribe(:focus, proc { |e|
+screen.focus.subscribe(:focus) do |e|
   e[:focused]&.style&.bg= 'white'
+  e[:focused]&.style&.fg= 'blue'
   e[:previous]&.style&.bg= 'black'
+  e[:previous]&.style&.fg= 'magenta'
   screen.render e[:focused]
   screen.render e[:previous]
   # log 'focused'
-})
-
-screen.clear
-# screen.rect(x: 0,y: 0,width: 4,height: 4,ch: 'x')
-screen.render
-# screen.renderer.print_dev_stdout
+end
+# screen.query_by_attribute('focusable', true).length.times {screen.focus.focus_next}
 
 screen.start

@@ -10,21 +10,28 @@ class BaseStyle
 
   attr_accessor :fg, :bg
 
-  def initialize(fg: nil, bg: nil)
+  def initialize(fg: nil, bg: nil, bold: nil, blink: nil)
     @fg = fg
     @bg = bg
+    @bold = bold
+    @blink = blink
   end
 
   # Prints the style as escape sequences.
   # This method shouln't be overriden by subclasses since it only makes sense for basic properties defined here.
   def print
-    color @fg, @bg
+    "#{color @fg, @bg}#{attributes(bold: @bold, blink: @blink)}"
   end
 
   def reset
     @bg = @fg = @wrap = @border = nil
   end
 
+  # returns true if self has the same properties of given hash or Style and each property value is equals (comparission using ==)
+  def equals(style)
+    object_equal(self, BaseStyle.from_hash(style))
+  end
+  
   # if a hash is given returns a new Style instance with given properties. If an Style instance if given, returns it.
   def self.from_hash(obj)
     if obj == nil
@@ -41,9 +48,9 @@ end
 class Border < BaseStyle
   attr_reader :style
 
-  def initialize(fg: nil, bg: nil, style: nil)
+  def initialize(fg: nil, bg: nil, style: 'single')
     super(fg: fg, bg: bg)
-    @style = style.nil? ? nil : style.to_s
+    @style = style.to_s
   end
 
   def style=(style)

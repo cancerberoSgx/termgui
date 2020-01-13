@@ -1,5 +1,4 @@
-test
-# termui
+# termgui
 
  * Command line graphical user interface Ruby toolkit. 
  * Create desktop-like interfaces in the command line.
@@ -7,8 +6,9 @@ test
  * 100% ruby, no binaries, no dependencies
  * some ideas taken from npm.org/blessed
 
-
+ 
 ### TODO / Status
+
  - [ ] make all character attributes work in style (see color.rb ATTRIBUTES)
  - [x] cli-driver for testing interactions / see probes/pty*
    - waitForData
@@ -28,6 +28,7 @@ test
    - [ ] publish
  - [ ] element's margin
  - [ ] CursorManager - hide cursor - only show it when an input-box has focus by default
+ - [x] issue when pipe to file, i.e. ruby a_screen_start_app.rb > file.txt `screen.rb:22:in winsize': Inappropriate ioctl for device (Errno::ENOTTY)`
  - [ ] Layouts
    - [ ] So I don't need to specify element bounds: `col = Col.new; top = Row.new(height: 9,4); bottom= Row.new(height: 0.6); col.append_child(top, bottom)`
    - [ ] introduce yoga-layout ? are there any layout gems ? 

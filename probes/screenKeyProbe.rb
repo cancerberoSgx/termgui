@@ -1,4 +1,3 @@
-
 require_relative '../src/screen'
 
 screen = Screen.new

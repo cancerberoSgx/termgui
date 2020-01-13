@@ -1,6 +1,7 @@
 require_relative 'input'
+require_relative 'key'
 
-# Base event class
+# Base event class. Independent of Element.
 class Event
   attr_reader :name
 
@@ -9,12 +10,23 @@ class Event
   end
 end
 
-# Represents a keyboard event
+# Event related with a Node (`target`) and a native event (`original_event`).
+class NodeEvent < Event
+  attr_reader :target, :original_event
+
+  def initialize(name, target, original_event)
+    super name
+    @target = target
+    @original_event = original_event
+  end
+end
+
+# Represents a keyboard event. Independent of Element.
 class KeyEvent < Event
   attr_reader :key, :raw
 
   def initialize(key, raw)
-    super('key')
+    super 'key'
     @key = key
     @raw = raw
   end
@@ -28,17 +40,19 @@ end
 class EventManager
   def initialize(input = Input.new)
     @key_listeners = {}
-    input.add_listener('key', proc { |e| handle_key e })
+    input.add_listener('key') { |e| handle_key e }
   end
 
-  def add_key_listener(key, listener)
+  def add_key_listener(key, listener = nil, &block)
+    the_listener = listener == nil ? block : listener
+    throw 'No listener provided' if the_listener == nil
     @key_listeners[key] = @key_listeners[key] || []
-    @key_listeners[key].push(listener)
+    @key_listeners[key].push the_listener
   end
 
   def remove_key_listener(key, listener)
     @key_listeners[key] = @key_listeners[key] || []
-    @key_listeners[key].delete(listener)
+    @key_listeners[key].delete listener
   end
 
   def handle_key(e)

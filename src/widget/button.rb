@@ -1,14 +1,16 @@
 require_relative 'label'
 
-# A button widget
+# A button widget. Usage:
 # Button.new(text: 'click me', style: {bg: 'blue'}, action: proc {|e| p 'actioned!'})
 class Button < Label
-  def initialize(**args)
+  def initialize(**args, &block)
     super
     @name = 'button'
     install(:action)
-    add_listener(:action, args[:action]) if args[:action]
-    set_attribute('focusable', true)
+    the_block = args[:action]==nil ? block : args[:action]
+    # throw 'Action block not given' unless the_block
+    add_listener(:action, args[:action]) if the_block
+    set_attribute(:focusable, true)
   end
 
   def default_style
@@ -18,10 +20,4 @@ class Button < Label
     s
   end
 
-  def handle_focused_input(event)
-    p event
-  end
-
-  def preferred_size
-  end
 end

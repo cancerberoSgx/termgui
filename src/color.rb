@@ -1,4 +1,5 @@
-# color enumerations and utilities
+# color enumerations and utilities. See http://ascii-table.com/ansi-escape-sequences.phpsss
+require_relative 'key'
 
 COLORS = {
   black: 0,
@@ -11,7 +12,7 @@ COLORS = {
   white: 7
 }.freeze
 
-def colorNames
+def color_names
   %w[black red green yellow blue magenta cyan white]
 end
 
@@ -52,14 +53,37 @@ ATTRIBUTES = {
 
   framed: 51,
   encircled: 52,
-  ovelrined: 53,
+  overlined: 53,
 
   framedOff: 54,
   encircledOff: 54
 }.freeze
 
+# Usage: screen.write attributes(blink: true).
+# Attributes supported: bold, inverse, blink, slowBlink, rapidBlink, invisible, fraktur, framed, encircled, normal,
+# italic, underline, faint
+#
+# Esc[Value;...;Valuem  Set Graphics Mode:
+# Calls the graphics functions specified by the following values.
+# These specified functions remain active until the next occurrence of this escape sequence. Graphics mode changes the
+# colors and attributes of text (such as bold and underline) displayed on the screen
+def attributes(**args)
+  output = []
+  args.keys.each do |key|
+    if args[key] == true
+      output.push "#{ATTRIBUTES[key]}"
+    elsif args[key] == false
+      output.push "#{ATTRIBUTES[:blinkOff]}" if key == :blink
+      output.push "#{CSI}#{ATTRIBUTES[:boldOff]}" if key == :bold
+      # TODO: the rest
+    end
+  end
+  # p output
+  output.length>0 ? "#{CSI}#{output.join(';')}m" : ''
+end
+
 def random_color
-  colorNames.sample
+  color_names.sample
 end
 
 def color_text(content, fg = nil, bg = nil)
