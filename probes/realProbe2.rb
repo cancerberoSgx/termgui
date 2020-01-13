@@ -6,44 +6,14 @@ require_relative '../src/color'
 require_relative '../src/log'
 require_relative '../src/widget/col'
 require_relative '../src/widget/row'
+require_relative '../src/widget/modal'
 require_relative '../src/widget/button'
 require_relative '../src/widget/label'
 
-def open_modal(
-  screen: nil,
-  title: 'Modal',
-  content: Label.new(text: 'Content'),
-  buttons: [
-    Button.new(text: 'OK', action: proc { close_modal screen })
-  ]
-)
-  # content = content.instance_of? String ? Label.new(text: content) : content
-  screen.rect(x: 2, y: 2, width: [content.width, '(press q to close)'.length].max + 3, height: 7 + content.height, ch: ' ')
-  screen.text 3, 3, title
-  screen.text 3, 4, '(press q to close)'
-  content.x = 3
-  content.y = 5
-  content.render screen
-  buttons.each do |b|
-    b.y = content.height + 6
-    b.x = 3
-    b.render screen
-  end
-  # screen.input.grab(proc { |e|
-  #   log 'hello'
-  #   screen.destroy
-  #   # screen.text 3, 3, 'HELLO'
-  #   # close_modal screen if e.key == 'q'
-  #   # screen.text 2, 2, "grab #{e.key}"
-  # })                                                                     
-end
-
-def close_modal(screen)
-  screen.render
-end
 
 screen = Screen.new
 screen.input.install_exit_keys
+# screen.event.add_key_listener('q', proc { |_e| screen.destroy })
 
 # screen.set_timeout(0.5){
 #   screen.rect(x: 2, y: 2, width: 12, height: 3, ch: 'x')

@@ -43,7 +43,17 @@ class Screen < Node
     emit :start
     unless clean
       clear
+      # TODO Hack. Move to FocusManger :start listener
       query_by_attribute('focusable', true).length.times {@focus.focus_next}
+      # TODO: this shouldn't be neccesary, when Element#final_style is implemented
+      @focus.subscribe(:focus) do |e|
+        e[:focused]&.style&.bg= 'white'
+        e[:focused]&.style&.fg= 'blue'
+        e[:previous]&.style&.bg= 'black'
+        e[:previous]&.style&.fg= 'magenta'
+        render e[:focused]
+        render e[:previous]
+      end
       cursor_hide
       render
     end

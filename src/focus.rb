@@ -5,16 +5,18 @@ require_relative 'key'
 class FocusManager < Emitter
   attr_reader :focused
 
-  def initialize(root: nil,
-                 input: nil,
-                 keys: { next: 'tab', prev: 'S-tab' },
-                 focus_first: true)
+  def initialize(
+    root: nil, # the root element inside of which to look up for focusables
+    input: nil, # Input instance - needed for subscribe to key events
+    keys: { next: 'tab', prev: 'S-tab' }, # the keys for focusing the next and previous focusable
+    focus_first: true # if true will set focus (attribute focused == true) on the first focusable automatically
+  )
     throw 'root Element and input InputManager are required' unless root && input
-    @screen = root
+    @root = root
     @keys = keys
     @input = input
     focusables.each { |n| n.set_attribute(:focused, false) }
-    @focused = @screen.query_one_by_attribute(:focusable, true)
+    @focused = @root.query_one_by_attribute(:focusable, true)
     install(:focus)
     @focused = focusables.first || nil if focus_first && !@focused
     @focused&.set_attribute(:focused, true)
@@ -24,7 +26,7 @@ class FocusManager < Emitter
   end
 
   def focusables
-    @screen.query_by_attribute(:focusable, true)
+    @root.query_by_attribute(:focusable, true)
   end
 
   # focus next focusable node
