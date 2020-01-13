@@ -36,6 +36,10 @@ class Node < Emitter
     attrs&.each_key { |key| set_attribute(key.to_s, attrs[key]) }
     @attributes
   end
+  
+  def attributes=(attrs = nil)
+    self.attributes(attrs)
+  end
 
   def set_attribute(name, value)
     @attributes.set_attribute(name, value)

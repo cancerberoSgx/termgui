@@ -1,5 +1,5 @@
 require_relative 'element_bounds'
-require_relative 'util'
+require_relative 'util/hash_object'
 
 # Adds html-like box-model support for Element: margin, padding, border
 module ElementBox

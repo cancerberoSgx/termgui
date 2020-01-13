@@ -17,9 +17,10 @@ def open_modal(
     Button.new(text: 'OK', action: proc { close_modal screen })
   ]
 )
-  screen.rect(x: 2, y: 2, width: [content.width, '(press ESC to close)'.length].max + 3, height: 7 + content.height, ch: ' ')
+  # content = content.instance_of? String ? Label.new(text: content) : content
+  screen.rect(x: 2, y: 2, width: [content.width, '(press q to close)'.length].max + 3, height: 7 + content.height, ch: ' ')
   screen.text 3, 3, title
-  screen.text 3, 4, '(press ESC to close)'
+  screen.text 3, 4, '(press q to close)'
   content.x = 3
   content.y = 5
   content.render screen
@@ -28,6 +29,13 @@ def open_modal(
     b.x = 3
     b.render screen
   end
+  # screen.input.grab(proc { |e|
+  #   log 'hello'
+  #   screen.destroy
+  #   # screen.text 3, 3, 'HELLO'
+  #   # close_modal screen if e.key == 'q'
+  #   # screen.text 2, 2, "grab #{e.key}"
+  # })                                                                     
 end
 
 def close_modal(screen)
@@ -44,16 +52,21 @@ screen.input.install_exit_keys
 left = Col.new(width: 0.4, height: 0.99, style: { bg: 'red' })
 left_labels = (0..8).map { |i| left.append_child Label.new(text: "Label_#{i}") }
 right = Col.new(width: 0.6, height: 0.99, x: 0.4, style: Style.new(bg: 'blue'))
-right_buttons = (0..4).map { |i| right.append_child Button.new(text: "Button_#{i}", x: 0.5) }
+right_buttons = (0..4).map do |i|
+  right.append_child Button.new(
+    text: "Button_#{i}", x: 0.5,
+    action: proc { open_modal(screen: screen, title: "Button_#{i}") }
+  )
+end
 [left, right].each { |widget| screen.append_child widget }
 
 b1 = screen.append_child Button.new(text: 'hello', y: 0.6, x: 0.4, action: proc {
-  open_modal(screen: screen)
+  open_modal(screen: screen, title: 'button 1')
 })
 
 b2 = screen.append_child Button.new(text: 'world' + screen.query_by_attribute('focusable', true).length.to_s, y: 0.8, x: 0.2)
 b2.set_attribute('action', proc {
-  open_modal(screen: screen)
+  open_modal(screen: screen, title: 'button 2')
 })
 # b2.style.focus = Style.new(bold: true, bg: 'white')
 

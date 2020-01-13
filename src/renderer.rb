@@ -32,11 +32,6 @@ class Renderer
       (x...[x + ch.length, @width].min).to_a.each do |i|
         @buffer[y][i].ch = ch[i - x]
       end
-      # style = @style==nil ? '' : @style.print
-      # if style != @last_style
-      #   @last_style = style
-      # end
-      # "#{style}#{move x, y}#{ch}"
       "#{move x, y + 1}#{ch}" # TODO: investigate why y + 1
     else
       ''

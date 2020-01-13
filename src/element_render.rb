@@ -43,7 +43,7 @@ module ElementRender
 
   def render_self(screen)
     render_border screen
-    screen.style = style if style
+    screen.style = final_style
     screen.rect(
       x: abs_x,
       y: abs_y,

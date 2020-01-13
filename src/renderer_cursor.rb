@@ -16,6 +16,7 @@ module RendererCursor
     "#{CSI}?25l"
   end
 
+  # TODO; not working
   def cursor_shape(shape, blink = false)
     # from https://github.com/chjj/blessed/blob/master/lib/program.js#L1846
     output = ''

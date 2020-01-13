@@ -27,6 +27,11 @@ class BaseStyle
     @bg = @fg = @wrap = @border = nil
   end
 
+  # returns true if self has the same properties of given hash or Style and each property value is equals (comparission using ==)
+  def equals(style)
+    object_equal(self, BaseStyle.from_hash(style))
+  end
+  
   # if a hash is given returns a new Style instance with given properties. If an Style instance if given, returns it.
   def self.from_hash(obj)
     if obj == nil
