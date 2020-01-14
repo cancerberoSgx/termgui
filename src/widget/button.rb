@@ -16,7 +16,10 @@ class Button < Label
   def default_style
     s = super
     s.border = Border.new
+    s.bg = 'white'
+    s.fg = 'blue'
     s.focus.fg = 'red'
+    s.focus.bg = 'blue'
     s
   end
 end

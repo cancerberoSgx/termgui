@@ -56,7 +56,7 @@ class Screen < Node
     unless clean
       clear
       # # TODO: Hack. Move to FocusManger :start listener
-      # query_by_attribute('focusable', true).length.times { @focus.focus_next }
+      query_by_attribute('focusable', true).length.times { @focus.focus_next }
       # # TODO: this shouldn't be neccesary, when Element#final_style is implemented
       # @focus.subscribe(:focus) do |e|
       #   e[:focused]&.style&.bg= 'white'
@@ -66,7 +66,7 @@ class Screen < Node
       #   render e[:focused]
       #   render e[:previous]
       # end
-      # query_by_attribute('focusable', true).length.times { @focus.focus_next }
+      query_by_attribute('focusable', true).length.times { @focus.focus_next }
 
       cursor_hide # TODO: move this to a CursorManager :start listener
       render
