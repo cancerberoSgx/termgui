@@ -18,7 +18,7 @@ class Button < Label
     s.border = Border.new
     s.bg = 'white'
     s.fg = 'blue'
-    s.focus.fg = 'red'
+    s.focus.fg = 'green'
     s.focus.bg = 'blue'
     s
   end

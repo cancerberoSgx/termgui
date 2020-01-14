@@ -1,5 +1,6 @@
 require_relative 'action_test'
 require_relative 'box_test'
+require_relative 'css_test'
 require_relative 'element_box_test'
 require_relative 'element_render_test'
 require_relative 'element_test'
