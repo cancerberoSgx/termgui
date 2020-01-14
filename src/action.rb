@@ -43,6 +43,7 @@ class ActionManager < Emitter
   end
 end
 
+# An event representing an action, like a button "clicked"
 class ActionEvent < NodeEvent
   def initialize(target, original_event)
     super 'action', target, original_event

@@ -40,6 +40,7 @@ end
 class EventManager
   def initialize(input = Input.new)
     @key_listeners = {}
+    @any_key_listener = []
     input.add_listener('key') { |e| handle_key e }
   end
 
@@ -55,10 +56,23 @@ class EventManager
     @key_listeners[key].delete listener
   end
 
+  def add_any_key_listener(listener = nil, &block)
+    the_listener = listener == nil ? block : listener
+    throw 'No listener provided' if the_listener == nil
+    @any_key_listener.push the_listener
+  end
+
+  def remove_any_key_listener(listener)
+    @any_key_listener.delete listener
+  end
+
   def handle_key(e)
     key = e.key
     @key_listeners[key] = @key_listeners[key] || []
     @key_listeners[key].each do |listener|
+      listener.call(e)
+    end
+    @any_key_listener.each do |listener|
       listener.call(e)
     end
   end

@@ -58,16 +58,16 @@ class ColTest < Test::Unit::TestCase
     screen.silent = true
 
     left = Col.new(width: 0.4, height: 0.99, style: { bg: 'red' })
-    left_labels = (0..8).map { |i| left.append_child Label.new(text: "Label_#{i}") }
+    (0..8).map { |i| left.append_child Label.new(text: "Label_#{i}") }
     right = Col.new(width: 0.6, height: 0.99, x: 0.4, style: Style.new(bg: 'blue'))
-    right_buttons = (0..4).map { |i| right.append_child Button.new(text: "Button_#{i}") }
+    (0..4).map { |i| right.append_child Button.new(text: "Button_#{i}") }
 
     [left, right].each { |widget| screen.append_child widget }
     screen.clear
     screen.render
     # screen.renderer.print_dev_stdout
     assert_equal '' \
-    'Label_0                        ┌────────┐                                       \n' \
+                 'Label_0                        ┌────────┐                                       \n' \
                  'Label_1                        │Button_0│                                       \n' \
                  'Label_2                        └────────┘                                       \n' \
                  'Label_3                        ┌────────┐                                       \n' \

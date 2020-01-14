@@ -10,7 +10,7 @@ class ActionTest < Test::Unit::TestCase
     s = ''
     global = ''
     e1 = screen.append_child Element.new(text: '1', attributes: { focusable: true })
-    e2 = screen.append_child Element.new(text: '2', attributes: { focusable: true, action: proc { |_e| s = 'e2' } })
+    screen.append_child Element.new(text: '2', attributes: { focusable: true, action: proc { |_e| s = 'e2' } })
     e1.set_attribute('action', proc { s = 'e1' })
     screen.action.on('action') do |e|
       global = 'e' + e.target.text

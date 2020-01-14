@@ -71,9 +71,9 @@ def attributes(**args)
   output = []
   args.keys.each do |key|
     if args[key] == true
-      output.push (ATTRIBUTES[key]).to_s
+      output.push ATTRIBUTES[key].to_s
     elsif args[key] == false
-      output.push (ATTRIBUTES[:blinkOff]).to_s if key == :blink
+      output.push ATTRIBUTES[:blinkOff].to_s if key == :blink
       output.push "#{CSI}#{ATTRIBUTES[:boldOff]}" if key == :bold
       # TODO: the rest
     end

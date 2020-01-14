@@ -62,7 +62,7 @@ CHAR_NAMES = {
 }.freeze
 
 def name_to_char(name)
-  char = CHAR_NAMES.keys.find { |char| CHAR_NAMES[char] == name }
+  char = CHAR_NAMES.keys.find { |c| CHAR_NAMES[c] == name }
   char.nil? ? nil : char.to_s
 end
 
@@ -70,14 +70,14 @@ def char_to_name(ch)
   CHAR_NAMES[ch]
 end
 
-def decodeName(name)
-  decoded = {
-    control: false,
-    meta: false,
-    shift: false,
-    name: name
-  }
-end
+# def decodeName(name)
+#   decoded = {
+#     control: false,
+#     meta: false,
+#     shift: false,
+#     name: name
+#   }
+# end
 
 # TODO: C-c, escape, enter, return, tab, left,
 

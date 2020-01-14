@@ -66,6 +66,8 @@ class Screen < Node
         render e[:focused]
         render e[:previous]
       end
+      query_by_attribute('focusable', true).length.times { @focus.focus_next }
+
       cursor_hide # TODO: move this to a CursorManager :start listener
       render
     end
