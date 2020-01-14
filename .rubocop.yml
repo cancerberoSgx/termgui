@@ -34,3 +34,5 @@ Metrics/BlockLength:
   Enabled: false
 Metrics/PerceivedComplexity:
   Enabled: false
+Metrics/ClassLength:
+  Enabled: false

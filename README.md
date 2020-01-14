@@ -12,6 +12,7 @@
  - [ ] make all character attributes work in style (see color.rb ATTRIBUTES)
  - [x] cli-driver for testing interactions / see probes/pty*
    - waitForData
+ - [ ] final_style performance - always cloning/merging even if elements don't have any focus or border style...
  - [x] change camelCase to snake_case
  - [x] rubocop
  - [x] styled box drawing to string

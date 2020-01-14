@@ -7,6 +7,8 @@ module HashObject
     object_assign(self, hash)
   end
 
+  # alias merge assign
+
   # creates a new empty instance and assign values in given hash or instance.
   # This could be class method, but we want to be available to user classes.
   # Warning: since `new` is called variables will be initialized even though not present in given hash.

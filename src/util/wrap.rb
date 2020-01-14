@@ -81,7 +81,7 @@ class Wrapper
 
     while !at.nil? && at < width
       last_at = at
-      at = line.index(/\s/), last_at + 1
+      at = line.index(/\s/, last_at + 1)
     end
 
     if last_at.nil?
