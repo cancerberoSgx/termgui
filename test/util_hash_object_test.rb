@@ -45,9 +45,6 @@ class UtilHashObjectTest < Test::Unit::TestCase
     assert_equal '{:a=>2, :b=>4, :c=>8}', b.to_s
   end
 
-
-  
-
   def test_merge_hash_into_object
     a = A.new
     a.a = 2

@@ -37,7 +37,6 @@ module HashObject
   end
 end
 
-
 def object_variables_to_hash(obj)
   hash = {}
   obj.instance_variables.each do |name|

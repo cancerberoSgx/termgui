@@ -1,8 +1,7 @@
-
 p 'hello'.start_with? 'hello'
 
 class A
-  attr_accessor  :b, :a
+  attr_accessor :b, :a
   # @var1 = 1
   def initialize
     @b = 1
@@ -13,8 +12,8 @@ aa22 = A.new
 aa33 = aa22.class.new
 p aa33
 # p A.singleton_class.instance_methods.map{|s|s.to_s} .sort
-dd=A.new
-p (dd.instance_variables.map{|v|v.to_s}).sort
+dd = A.new
+p dd.instance_variables.map(&:to_s).sort
 def object_variables_to_hash(obj)
   hash = {}
   obj.instance_variables.each do |name|
@@ -22,6 +21,7 @@ def object_variables_to_hash(obj)
   end
   hash
 end
+
 def merge_hash_into_object(hash, obj)
   hash.keys do |key|
     if obj.instance_variable_defined?
@@ -33,7 +33,7 @@ def merge_hash_into_object(hash, obj)
 end
 a = A.new
 a.a = 2
-obj = merge_hash_into_object({b: 1}, a)
+obj = merge_hash_into_object({ b: 1 }, a)
 p obj
 # p A.new.instance_variables
 # p A.instance_variables

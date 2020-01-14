@@ -22,7 +22,7 @@ class ActionManager < Emitter
     super()
     @focus = focus
     @input = input
-    @input.subscribe('key') { |e|      handle_key e    }
+    @input.subscribe('key') { |e| handle_key e }
     install(:action)
   end
 
@@ -31,7 +31,7 @@ class ActionManager < Emitter
     if focused&.get_attribute('focusable')
       event = ActionEvent.new focused, e
       focused_action = focused.get_attribute('action')
-      focused_action&.call(event) 
+      focused_action&.call(event)
       trigger event.name, event
       focused.trigger event.name, event
     end

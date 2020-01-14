@@ -22,8 +22,8 @@ Config: #{config} \r"
   end
   s.install_exit_keys
   p = proc {
-    box_count.times do |i|
-      s.append_child Button.new(x: random_int(2, s.width - 20), y: random_int(1, s.height - 4), text: "button#{i}")
+    box_count.times do |j|
+      s.append_child Button.new(x: random_int(2, s.width - 20), y: random_int(1, s.height - 4), text: "button#{j}")
     end
   }
   p2 = proc {

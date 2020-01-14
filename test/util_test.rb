@@ -23,5 +23,4 @@ class UtilTest < Test::Unit::TestCase
     assert_equal [1, 2, 3], b
     assert_equal 3, result
   end
-
 end

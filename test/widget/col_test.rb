@@ -67,24 +67,24 @@ class ColTest < Test::Unit::TestCase
     screen.render
     # screen.renderer.print_dev_stdout
     assert_equal '' \
-    'Label_0                        ┌────────┐                                       \n' + 
-    'Label_1                        │Button_0│                                       \n' + 
-    'Label_2                        └────────┘                                       \n' + 
-    'Label_3                        ┌────────┐                                       \n' + 
-    'Label_4                        │Button_1│                                       \n' + 
-    'Label_5                        └────────┘                                       \n' + 
-    'Label_6                        ┌────────┐                                       \n' + 
-    'Label_7                        │Button_2│                                       \n' + 
-    'Label_8                        └────────┘                                       \n' + 
-    '                               ┌────────┐                                       \n' + 
-    '                               │Button_3│                                       \n' + 
-    '                               └────────┘                                       \n' + 
-    '                               ┌────────┐                                       \n' + 
-    '                               │Button_4│                                       \n' + 
-    '                               └────────┘                                       \n' + 
-    '                                                                                \n' + 
-    '                                                                                \n' + 
-    '                                                                                \n' + 
-      '', screen.print
+    'Label_0                        ┌────────┐                                       \n' \
+                 'Label_1                        │Button_0│                                       \n' \
+                 'Label_2                        └────────┘                                       \n' \
+                 'Label_3                        ┌────────┐                                       \n' \
+                 'Label_4                        │Button_1│                                       \n' \
+                 'Label_5                        └────────┘                                       \n' \
+                 'Label_6                        ┌────────┐                                       \n' \
+                 'Label_7                        │Button_2│                                       \n' \
+                 'Label_8                        └────────┘                                       \n' \
+                 '                               ┌────────┐                                       \n' \
+                 '                               │Button_3│                                       \n' \
+                 '                               └────────┘                                       \n' \
+                 '                               ┌────────┐                                       \n' \
+                 '                               │Button_4│                                       \n' \
+                 '                               └────────┘                                       \n' \
+                 '                                                                                \n' \
+                 '                                                                                \n' \
+                 '                                                                                \n' \
+                 '', screen.print
   end
 end

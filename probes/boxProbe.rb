@@ -1,4 +1,3 @@
-
 require_relative '../src/box'
 require_relative '../src/util'
 b = draw_box(x: 8, y: 3)

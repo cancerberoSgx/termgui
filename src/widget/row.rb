@@ -14,14 +14,10 @@ class Row < Element
     init_x = abs_content_x
     last_x = init_x
     @children.each do |c|
-      if c.style.border
-        last_x += 1
-      end
+      last_x += 1 if c.style.border
       c.abs_x = last_x - init_x
       last_x += c.abs_width
-      if c.style.border
-        last_x += 1
-      end
+      last_x += 1 if c.style.border
     end
   end
 end

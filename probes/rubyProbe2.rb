@@ -1,5 +1,5 @@
 class A
-  def initialize(a: 1, **args)
+  def initialize(a: 1, **_args)
     @a = 1
   end
 end

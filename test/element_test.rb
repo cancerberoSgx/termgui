@@ -27,7 +27,7 @@ class NodeTest < Test::Unit::TestCase
     child1 = Element.new(x: 4, y: 3, width: 10, height: 8, ch: '1', children: [child2])
     node = Element.new(children: [child1])
     screen = Screen.new(width: 16, height: 11)
-    screen.silent=true
+    screen.silent = true
     node.render screen
     s3 =
       '                \\n' \

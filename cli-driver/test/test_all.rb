@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require_relative 'read_test'
 require_relative 'run_test'

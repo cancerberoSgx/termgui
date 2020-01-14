@@ -71,15 +71,15 @@ def attributes(**args)
   output = []
   args.keys.each do |key|
     if args[key] == true
-      output.push "#{ATTRIBUTES[key]}"
+      output.push (ATTRIBUTES[key]).to_s
     elsif args[key] == false
-      output.push "#{ATTRIBUTES[:blinkOff]}" if key == :blink
+      output.push (ATTRIBUTES[:blinkOff]).to_s if key == :blink
       output.push "#{CSI}#{ATTRIBUTES[:boldOff]}" if key == :bold
       # TODO: the rest
     end
   end
   # p output
-  output.length>0 ? "#{CSI}#{output.join(';')}m" : ''
+  !output.empty? ? "#{CSI}#{output.join(';')}m" : ''
 end
 
 def random_color

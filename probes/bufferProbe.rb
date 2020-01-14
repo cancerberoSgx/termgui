@@ -1,4 +1,3 @@
-
 require_relative '../src/renderer'
 
 height = 10

@@ -31,7 +31,7 @@ class BaseStyle
   def equals(style)
     object_equal(self, BaseStyle.from_hash(style))
   end
-  
+
   # if a hash is given returns a new Style instance with given properties. If an Style instance if given, returns it.
   def self.from_hash(obj)
     if obj == nil
@@ -75,7 +75,7 @@ class Style < BaseStyle
       @border.assign(border)
     end
     @padding = padding
-    @focus = focus || self.clone
+    @focus = focus || clone
   end
 end
 

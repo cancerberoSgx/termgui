@@ -1,4 +1,3 @@
-
 # def f1
 #   p 'f1'
 #   yield
@@ -28,10 +27,11 @@ class Timer
     @running = false
     @interval_listeners = []
   end
-  # def 
+
+  # def
   def start
-    @running=true
-    while @running 
+    @running = true
+    while @running
 
     end
   end
@@ -39,7 +39,6 @@ end
 
 # implement promise signatures
 class Promise
-
   def self.next_tick
   end
 
@@ -47,7 +46,7 @@ class Promise
     @then_listeners = []
     @catch_listeners = []
     @resolve_handler = proc { |value|
-    # p 'constru', @then_listeners
+      # p 'constru', @then_listeners
       @then_listeners.each { |listener| listener.call value }
     }
     @reject_handler = proc { |value|
@@ -76,6 +75,6 @@ def test1
   })
 end
 test1.then(proc { |value|
-p 'seba'
+  p 'seba'
   p value
 })

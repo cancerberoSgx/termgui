@@ -1,7 +1,7 @@
 Style/Encoding:
   Enabled: false
 Metrics/LineLength:
-  Max: 130
+  Max: 150
 Lint/SuppressedException: 
   Enabled: false
 Style/ClassAndModuleChildren:
@@ -25,4 +25,8 @@ Style/EmptyMethod:
 Metrics/ModuleLength:
   Enabled: false
 Style/NilComparison:
+  Enabled: false
+Style/AsciiComments:
+  Enabled: false
+Metrics/CyclomaticComplexity:
   Enabled: false

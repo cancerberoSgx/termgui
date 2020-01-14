@@ -47,7 +47,7 @@ module ElementBounds
   end
 
   def width
-    get_attribute( 'width')||0
+    get_attribute('width') || 0
   end
 
   def abs_width
@@ -78,7 +78,7 @@ module ElementBounds
   end
 
   def height
-    get_attribute( 'height')||0
+    get_attribute('height') || 0
   end
 
   def abs_height

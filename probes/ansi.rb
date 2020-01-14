@@ -1,4 +1,3 @@
-
 # https://ruby-doc.org/core-2.6.5/IO.html#class-IO-label-io-2Fconsole
 # IO#raw, IO#raw!, IO#cooked, IO#cooked!, IO#getch, IO#echo=, IO#echo?, IO#noecho, IO#winsize, IO#winsize=, IO#iflush, IO#ioflush, IO#oflush,
 require 'io/console'
@@ -7,7 +6,7 @@ p rows, columns
 
 # http://graysoftinc.com/terminal-tricks/random-access-terminal
 
-CSI = "\e["
+CSI = "\e[".freeze
 
 $stdout.puts 'onez'
 $stdout.puts 'twos'

@@ -1,5 +1,4 @@
-
-CSI = "\e["
+CSI = "\e[".freeze
 COLORS = {
   black: 0,
   red: 1,

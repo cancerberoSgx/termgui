@@ -13,16 +13,12 @@ class Col < Element
 
   def layout
     init_y = abs_content_y
-    last_y = init_y 
+    last_y = init_y
     @children.each do |c|
-      if c.style.border
-        last_y += 1
-      end
+      last_y += 1 if c.style.border
       c.abs_y = last_y - init_y
       last_y += c.abs_height
-      if c.style.border
-        last_y += 1
-      end
+      last_y += 1 if c.style.border
     end
   end
 end

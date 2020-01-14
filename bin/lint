@@ -1,1 +1,1 @@
-rubocop -a src test
+rubocop --auto-correct src test

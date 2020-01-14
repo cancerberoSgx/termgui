@@ -70,7 +70,7 @@ p ' print_dev_stdout '
 p ' print_dev_stdout '
 p ' print_dev_stdout '
 screen.renderer.print_dev_stdout
-log('*'+screen.print+'*')
+log('*' + screen.print + '*')
 
 # right_rows = (0..2).map{|i|
 #   row = Row.new(height: 0.4)

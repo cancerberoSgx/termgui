@@ -1,5 +1,5 @@
-# temporary modal window solution. 
-# TODO: reimplement this using actual screen children elements and remove it for closing 
+# temporary modal window solution.
+# TODO: reimplement this using actual screen children elements and remove it for closing
 
 require_relative '../screen'
 require_relative '../util'
@@ -13,20 +13,18 @@ require_relative '../widget/label'
 @modal_open = nil
 
 def open_modal(
-    screen: nil,
-    title: 'Modal',
-    content: Label.new(text: 'Content'),
-    buttons: [
-      Button.new(text: 'OK', action: proc { close_modal screen })
-    ]
-  )
+  screen: nil,
+  title: 'Modal',
+  content: Label.new(text: 'Content'),
+  buttons: [
+    Button.new(text: 'OK', action: proc { close_modal screen })
+  ]
+)
   # first time called we set up 'c' key for closing modals
-  if @modal_open==nil
-    screen.event.add_key_listener('c', proc { |_e| close_modal screen })
-  end
+  screen.event.add_key_listener('c', proc { |_e| close_modal screen }) if @modal_open == nil
 
   @modal_open = true
-  
+
   # content = content.instance_of? String ? Label.new(text: content) : content
   screen.rect(x: 2, y: 2, width: [content.width, '(press c to close)'.length].max + 3, height: 7 + content.height, ch: ' ')
   screen.text 3, 3, title

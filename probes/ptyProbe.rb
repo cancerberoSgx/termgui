@@ -1,4 +1,3 @@
-
 require 'pty'
 
 master, slave = PTY.open

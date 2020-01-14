@@ -1,8 +1,7 @@
-
 require 'io/console'
 require 'io/wait'
 
-CSI = "\e["
+CSI = "\e[".freeze
 
 def get_char_or_sequence(io)
   if io.ready?

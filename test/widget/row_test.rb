@@ -38,11 +38,11 @@ class RowTest < Test::Unit::TestCase
     screen.render
     # screen.renderer.print_dev_stdout
     assert_equal '' \
-    '                                        \n' + 
-    '┌──────┐┌──────┐┌──────┐                \n' + 
-    '│label1││label2││label3│                \n' + 
-    '└──────┘└──────┘└──────┘                \n' + 
-    '                                        \n' + 
+    '                                        \n' \
+                 '┌──────┐┌──────┐┌──────┐                \n' \
+                 '│label1││label2││label3│                \n' \
+                 '└──────┘└──────┘└──────┘                \n' \
+                 '                                        \n' \
                  '', screen.print
     # screen.start
   end

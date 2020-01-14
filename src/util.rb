@@ -32,7 +32,7 @@ def next_tick
   sleep 0.0000001
 end
 
-def random_int(min=0, max=10)
+def random_int(min = 0, max = 10)
   (min..max).to_a.sample
 end
 

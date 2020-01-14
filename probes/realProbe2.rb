@@ -10,7 +10,6 @@ require_relative '../src/widget/modal'
 require_relative '../src/widget/button'
 require_relative '../src/widget/label'
 
-
 screen = Screen.new
 screen.input.install_exit_keys
 # screen.event.add_key_listener('q', proc { |_e| screen.destroy })

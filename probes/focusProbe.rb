@@ -1,4 +1,3 @@
-
 require_relative '../src/screen'
 require_relative '../src/element'
 
