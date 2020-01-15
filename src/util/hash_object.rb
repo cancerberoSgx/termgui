@@ -60,7 +60,9 @@ def merge_hash_into_object(hash, obj)
   obj
 end
 
-def object_assign(dest, src)
+# assign properties from `src` to `dest`. by default it ignores nil properties.
+# TODO: option to recurse on object descendants
+def object_assign(dest, src, ignore_nil = true)
   unless src.nil?
     dest.instance_variables.each do |name|
       val = nil
@@ -70,7 +72,7 @@ def object_assign(dest, src)
       else
         val = src.instance_variable_get(name)
       end
-      dest.instance_variable_set name, val unless val == nil
+      dest.instance_variable_set name, val unless ignore_nil && val == nil
     end
   end
   dest

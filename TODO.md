@@ -51,7 +51,11 @@
  - [x] element's padding
  - [x] input.grab / ungrab
  - [x] focus manager
- - [x] element query cssish query support : `element.queryAll '[a="b"] .item > add-button'`
+ - [w] element query cssish query support : `element.queryAll '[a="b"] .item > add-button'`
+   - [x] query_by_attribute, query_one_by_attribute
+   - [x] CSS like language parser
+   - [ ] query engine based on css like language below. 
+
 
 ### Ideas - nice to have
 

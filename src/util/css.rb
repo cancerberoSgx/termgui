@@ -10,7 +10,7 @@ class CSSParser
   def parse(code)
     rules = parse_rules code
     rules = parse_rules_properties rules
-    rules = parse_selectors rules
+    rules = parse_rules_selectors rules
     rules
   end
 
@@ -45,20 +45,12 @@ class CSSParser
   end
 
   # given rules are the output of `parse_rules_properties`, it returns a similar object but for each rule, instead `selector` string have
-  # a parsed selector object: `Array<{name: string, type?: 'class'|'id'|nil, attribute?: {name: string, value: string} }>`
-  def parse_selectors(rules)
+  # a parsed selector object: `Array<Array<{name: string, operator: nil|'>'|' '}>>`
+  def parse_rules_selectors(rules)
     rules.map do |rule|
       selectors = rule[:selector].split(',').map(&:strip)
       selectors = selectors.map do |s|
-        a = s.split(/([\s>])/)
-        i = 0
-        results = []
-        while i < a.length
-          results.push(name: a[i], operator: a[i + 1])
-          i += 2
-        end
-        results = results.reject { |result| result[:name].strip == '' }
-        results
+        parse_selector s
       end
       {
         selectors: selectors,
@@ -66,12 +58,25 @@ class CSSParser
       }
     end
   end
+
+  # independent method to parse string selectors like 'a>b c' to `Array<{name: string, operator: nil|'>'|' '}>`
+  def parse_selector(s)
+    a = s.split(/([\s>])/)
+    i = 0
+    results = []
+    while i < a.length
+      results.push(name: a[i], operator: a[i + 1])
+      i += 2
+    end
+    results = results.reject { |result| result[:name].strip == '' }
+    results
+  end
 end
 
 # p = CSSParser.new
 # # p.parse('foo {bg: red; padding-top: 3} .bar .primary {border: double black}; .sidebar .container { padding: 1}')
 # s = 'a>  b c>d f'
-
+p CSSParser.new.parse_selector 'a>  b c>d f'
 # a = s.split(/([\s>])/) # .select{|s|s.strip!=''}
 # p a
 # i = 0
@@ -86,5 +91,5 @@ end
 # parser = CSSParser.new
 # expected = '[{:selector=>"foo", :properties=>[{:name=>"bg", :value=>"red"}, {:name=>"padding-top", :value=>"3"}]}, {:selector=>".bar .primary", :properties=>[{:name=>"border", :value=>"double black"}]}, {:selector=>"; .sidebar .container", :properties=>[{:name=>"padding", :value=>"1"}]}]'
 # rules = parser.parse_rules_properties(parser.parse_rules('foo {bg: red; padding-top: 3} .bar .primary {border: double black}; .sidebar .container { padding: 1}'))
-# actual = parser.parse_selectors(rules)
+# actual = parser.parse_rules_selectors(rules)
 # p actual
