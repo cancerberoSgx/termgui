@@ -1,12 +1,12 @@
 # termgui
 
- * Command line graphical user interface Ruby toolkit. 
+ * Command line graphical user interface Ruby toolkit.
  * Create desktop-like interfaces in the command line.
  * Personal ruby-learning project right now
  * 100% ruby, no binaries, no dependencies
  * some ideas taken from npm.org/blessed
 
- 
+
 ### TODO / Status
 
 See [TODO](TODO.md)
@@ -33,7 +33,7 @@ gem install termgui # TODO
 require 'termgui'
 
 screen = Screen.new
-screen.input.install_exit_keys
+screen.install_exit_keys
 
 left = Col.new(width: 0.4, height: 0.99, style: { bg: 'red' })
 (0..8).map { |i| left.append_child Label.new(text: "Label_#{i}") }
@@ -49,7 +49,7 @@ end
 screen.start
 ```
 
-Result: 
+Result:
 
 ![readme_screenshot01](readme_screenshot01.jpg)
 
@@ -61,16 +61,16 @@ require 'termgui'
 screen = Screen.new
 
 # install exit keys, by default 'q' will quit the program
-screen.input.install_exit_keys
+screen.install_exit_keys
 
 # when user press 's' we clear the screen and paint a rectangle full with 's' char
-screen.event.add_key_listener("s", Proc.new { |e| 
+screen.event.add_key_listener("s", Proc.new { |e|
   rect=Element.new 2,3,4,3,'S'
   screen.clear
   rect.render screen
 })
 
-# starts reading user input. 
+# starts reading user input.
 screen.start
 ```
 
@@ -83,6 +83,10 @@ sh bin/test
 sh bin/dev   # rails server
 sh bin/watch # tests in watch mode
 
+
+## Performance notes
+
+ * disabling renderer buffer speeds up rendering about 30%: `screen.renderer.no_buffer = true`. Genereally don't needed in production.
 
 
 ## API example prototypes (WIP)
@@ -212,49 +216,48 @@ Input: responsible of user input - notifies screen - emitter
 
 ## Summary
 
-I'm author of npm.org/flor that although has superior terminal support (tput) I would like to re implement a similar library for ruby, writing it from scratch (currently learning ruby). 
+I'm author of npm.org/flor that although has superior terminal support (tput) I would like to re implement a similar library for ruby, writing it from scratch (currently learning ruby).
 
  * low level html-canvas like to set attributes and write strings
   * try to stick to html canvas api for Renderer
   * user is responsible of setting the 'active style' like canvas' stroke-width - this simplifies renderer
- * renderer of styled strings supporting cursor management, 
+ * renderer of styled strings supporting cursor management,
   *  responsible of translating user's `{bg: 'red', s: 'hello'}` into a string with ansi codes
  * screen maintains a virtual Buffer so current drawn screen can be accessed like a bitmap
  * a DOM like API for children, attributes, box model, style
   * supports user input events also like html dom EventSource (element.add_listener('key', ...))
   * basic widget implementations: button,input,textarea
- * style: fg, bg, ch, bold, etc. 
+ * style: fg, bg, ch, bold, etc.
  * focus management: focused/focusable - element.style.focus
  * input event loop : set_timeout
  * easy keyboard event representation and API
 
 ## Future
 
-add features from npm.org/flor: 
+add features from npm.org/flor:
 
  * scroll (element.scrollX=0.2) - dom support
- * a xmlish syntax for defining GUI. 
+ * a xmlish syntax for defining GUI.
    * support function attributes for event handlers as ruby fragments
 
 ## Side projects
 
- * cli/driver for ruby : for properly testing termgui we need cli-driver for ruby. see probes/stdin.rb for working exec and writing to process stdin async 
+ * cli/driver for ruby : for properly testing termgui we need cli-driver for ruby. see probes/stdin.rb for working exec and writing to process stdin async
 
 
 ## Design notes
 
 TODO
 
-Screen, renderer, input are responsible of basic terminal styles like bg, fg, bold, etc. 
+Screen, renderer, input are responsible of basic terminal styles like bg, fg, bold, etc.
 
-On top of the screen, renderer and input a document object model like HTML DOM is supported. See Node, Element, Style, etc. Some features based on HTML supported are: 
+On top of the screen, renderer and input a document object model like HTML DOM is supported. See Node, Element, Style, etc. Some features based on HTML supported are:
 
- * box model similar 
- * children rendering 
+ * box model similar
+ * children rendering
  * text
  * element query
  * border
  * padding
 
 Some high level utilities, like the focus/action management, work on top of this DOM so probably 99% of users will want to go that way for building their GUIs.
-

@@ -54,7 +54,7 @@ class ColTest < Test::Unit::TestCase
 
   def test_two_labels_buttons
     screen = Screen.new(width: 80, height: 18)
-    # screen.input.install_exit_keys
+    # screen.install_exit_keys
     screen.silent = true
 
     left = Col.new(width: 0.4, height: 0.99, style: { bg: 'red' })

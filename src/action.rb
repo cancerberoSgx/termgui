@@ -26,20 +26,32 @@ class ActionManager < Emitter
     install(:action)
   end
 
-  def handle_enter(e)
+  # def handle_enter(e)
+  #   focused = @focus.focused
+  #   if focused&.get_attribute('focusable')
+  #     event = ActionEvent.new focused, e
+  #     focused_action = focused.get_attribute('action')
+  #     focused_action&.call(event)
+  #     trigger event.name, event
+  #     focused.trigger event.name, event
+  #   end
+  # end
+
+  def handle_key(e)
     focused = @focus.focused
-    if focused&.get_attribute('focusable')
+    if !focused
+      return
+    end
+    action_key = focused.get_attribute('action-key') || '\\r'
+    is_action = e.key == action_key
+    if is_action && focused.get_attribute('focusable')
       event = ActionEvent.new focused, e
       focused_action = focused.get_attribute('action')
       focused_action&.call(event)
       trigger event.name, event
       focused.trigger event.name, event
     end
-  end
-
-  def handle_key(e)
-    is_enter = e.key == '\\r'
-    handle_enter e if is_enter
+    # handle_enter e if is_enter
   end
 end
 

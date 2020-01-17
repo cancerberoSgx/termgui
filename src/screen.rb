@@ -6,6 +6,7 @@ require_relative 'focus'
 require_relative 'action'
 require_relative 'util'
 require_relative 'color'
+require_relative 'screen_element'
 
 # Main user API entry point
 # Manages instances of Input, Event, Renderer
@@ -13,6 +14,7 @@ require_relative 'color'
 # Once `start`is called it will block execution and start an event loop
 # on each interval user input is read and event listeners are called
 class Screen < Node
+  include ScreenElement
   attr_reader :width, :height, :input_stream, :output_stream, :renderer, :input, :event, :focus, :action
   attr_accessor :silent
 
@@ -125,22 +127,6 @@ class Screen < Node
     end
   end
 
-  def abs_x
-    0
-  end
-
-  def abs_y
-    0
-  end
-
-  def abs_width
-    @width
-  end
-
-  def abs_height
-    @height
-  end
-
   def print
     @renderer.print
   end
@@ -182,6 +168,13 @@ class Screen < Node
 
   def cursor_hide
     write @renderer.cursor_hide
+  end
+
+  def install_exit_keys
+    @input.subscribe('key') do |e|
+      log "install_exit_keys #{e}"
+      destroy if e.key == 'q'
+    end
   end
 
   # def cursor_style(style)

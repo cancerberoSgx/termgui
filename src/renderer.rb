@@ -13,7 +13,7 @@ class Renderer
   include RendererCursor
 
   attr_reader :width, :height, :buffer, :style
-  attr_writer :style
+  attr_writer :style, :no_buffer
 
   def initialize(width = 80, height = 20)
     @width = width
@@ -29,8 +29,10 @@ class Renderer
   # all writing must be done using me
   def write(x, y, ch)
     if y < @buffer.length && y >= 0
-      (x...[x + ch.length, @width].min).to_a.each do |i|
-        @buffer[y][i].ch = ch[i - x]
+      unless @no_buffer
+        (x...[x + ch.length, @width].min).to_a.each do |i|
+          @buffer[y][i].ch = ch[i - x]
+        end
       end
       "#{move x, y + 1}#{ch}" # TODO: investigate why y + 1
     else

@@ -1,4 +1,5 @@
 require_relative 'emitter'
+require_relative 'log'
 require_relative 'event'
 require_relative 'input_time'
 require_relative 'input_grab'
@@ -13,12 +14,12 @@ class Input < Emitter
 
   attr_reader :interval, :stdin, :stopped
 
-  def initialize(stdin = $stdin, interval = 0.05)
+  def initialize(stdin = $stdin, interval = 0.0000001)
     super
     @interval = interval
     @stdin = stdin
     @stopped = true
-    install(:key) # enables the 'key' event
+    install(:key)
   end
 
   def stop
@@ -28,7 +29,6 @@ class Input < Emitter
   # starts listening for user input. Implemented like an event loop reading from @input_stream each @interval
   def start
     return self unless @stopped
-
     @stdin.raw do |io|
       @io = io
       @stopped = false
@@ -46,6 +46,8 @@ class Input < Emitter
     if char
       key = char.inspect
       key = key[1..key.length - 2]
+      # log "char: #{char}, key: #{key}, 1: #{char_to_name(char)}, 2: #{char_to_name(key)}"
+      key = char_to_name(key) || char
       emit_key char, key
     else
       sleep @interval
@@ -60,12 +62,6 @@ class Input < Emitter
 
   def write(s)
     @stdin.write s
-  end
-
-  def install_exit_keys
-    subscribe('key', proc do |e|
-      stop if e.key == 'q'
-    end)
   end
 
   protected

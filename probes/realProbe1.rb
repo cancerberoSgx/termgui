@@ -9,7 +9,7 @@ require_relative '../src/widget/button'
 require_relative '../src/widget/label'
 
 screen = Screen.new(width: 70, height: 18)
-screen.input.install_exit_keys
+screen.install_exit_keys
 
 # col = screen.append_child Col.new(x: 1, y: 1)
 # col.append_child Button.new(text: 'hello', style: { bg: 'blue'}, action: proc { p 'hello!' })

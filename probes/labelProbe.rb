@@ -3,7 +3,7 @@ require_relative '../src/style'
 require_relative '../src/widget/label'
 
 screen = Screen.new(width: 30, height: 10)
-screen.input.install_exit_keys
+screen.install_exit_keys
 # screen.silent = true
 label = Label.new(text: 'hello world', x: 12, y: 3, style: { bg: 'white', fg: 'black' })
 # label.style = { bg: 'white', fg: 'black' }

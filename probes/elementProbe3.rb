@@ -5,7 +5,7 @@ require_relative '../src/style'
 require_relative '../src/color'
 
 screen = Screen.new
-screen.input.install_exit_keys
+screen.install_exit_keys
 screen.add_listener('destroy', proc {
   screen.clear
 })

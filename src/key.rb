@@ -62,13 +62,18 @@ CHAR_NAMES = {
 }.freeze
 
 def name_to_char(name)
+  # p 'nale_to_char', name, char
   char = CHAR_NAMES.keys.find { |c| CHAR_NAMES[c] == name }
-  char.nil? ? nil : char.to_s
+  # log "#{name} #{char.nil? ? nil : char.to_s}"
+  char ? char.to_s : name
 end
 
 def char_to_name(ch)
-  CHAR_NAMES[ch]
+  key = :"#{ch}"
+  # p CHAR_NAMES[:'\x1A'], 'laksjdlkajslkdjalksjd', :'\x1A', key
+  CHAR_NAMES[key]
 end
+
 
 # def decodeName(name)
 #   decoded = {

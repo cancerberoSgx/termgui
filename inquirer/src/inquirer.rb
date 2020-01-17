@@ -5,13 +5,8 @@ class AbstractInquirer
   def initialize(on_answer: proc { |answer| answer })
     @screen = Screen.new
     @on_answer = on_answer
-    # install
     render
   end
-
-  # def install
-  #   @screen.install_exit_keys
-  # end
 
   def render
     @screen.event.add_key_listener('q') { @on_answer.call(3); stop }
@@ -72,14 +67,14 @@ def inquire(question, &block)
   end
 end
 
-p (''.instance_of? String), ({}.instance_of? String)
+# p (''.instance_of? String), ({}.instance_of? String)
 
-inquire(
-  type: 'select',
-  options: [
-    { value: 'green', label: 'Green' },
-    { value: 'red', label: 'Red' }
-  ]
-) do |answer|
-  p 'asdasdasd', answer
-end
+# inquire(
+#   type: 'select',
+#   options: [
+#     { value: 'green', label: 'Green' },
+#     { value: 'red', label: 'Red' }
+#   ]
+# ) do |answer|
+#   p 'asdasdasd', answer
+# end

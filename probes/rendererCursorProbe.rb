@@ -2,7 +2,7 @@ require_relative '../src/screen'
 require_relative '../src/color'
 
 screen = Screen.new(width: 22, height: 8)
-screen.input.install_exit_keys
+screen.install_exit_keys
 screen.event.add_key_listener('h') do |_e|
   screen.cursor_hide
   p 'hiding'

@@ -19,7 +19,8 @@ module ElementRender
     s
   end
 
-  def render(screen)
+  def render(screen=nil)
+    screen = screen == nil ? root_screen : screen
     trigger(:before_render)
     render_self screen
     render_children screen
@@ -93,5 +94,17 @@ module ElementRender
   end
 
   def layout
+  end
+
+  def root_screen
+    # if @parent
+    #   @parent.root_screen
+    # elsif self.instance_of? Screen
+    #   self
+    # else
+    #   nil
+    # end
+      @parent.root_screen
+
   end
 end

@@ -5,7 +5,7 @@ require_relative '../src/style'
 require_relative '../src/color'
 
 screen = Screen.new(width: 60, height: 14, ch: '.')
-screen.input.install_exit_keys
+screen.install_exit_keys
 e = Element.new x: 0.15, y: 0.2, width: 0.3, height: 0.5, ch: ' ', text: 'Hello long long wraped text let get bigger and bigger'
 e.padding = Offset.new(top: 0.5, left: 0.4)
 e.style = { bg: 'blue', fg: 'yellow' }

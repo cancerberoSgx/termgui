@@ -7,7 +7,7 @@ require_relative '../src/widget/button'
 require_relative '../src/widget/label'
 
 screen = Screen.new
-screen.input.install_exit_keys
+screen.install_exit_keys
 
 left = Col.new(width: 0.4, height: 0.99, style: { bg: 'red' })
 (0..8).map { |i| left.append_child Label.new(text: "Label_#{i}") }

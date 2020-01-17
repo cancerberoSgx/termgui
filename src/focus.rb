@@ -8,7 +8,7 @@ class FocusManager < Emitter
   def initialize(
     root: nil, # the root element inside of which to look up for focusables
     input: nil, # Input instance - needed for subscribe to key events
-    keys: { next: 'tab', prev: 'S-tab' }, # the keys for focusing the next and previous focusable
+    keys: { next: ['tab'], prev: ['S-tab'] }, # the keys for focusing the next and previous focusable
     focus_first: true # if true will set focus (attribute focused == true) on the first focusable automatically
   )
     throw 'root Element and input InputManager are required' unless root && input
@@ -20,9 +20,7 @@ class FocusManager < Emitter
     install(:focus)
     @focused = focusables.first || nil if focus_first && !@focused
     @focused&.set_attribute(:focused, true)
-    @input.subscribe('key', proc { |e|
-      handle_key e
-    })
+    @input.subscribe('key') { |e| handle_key e }
   end
 
   def focusables
@@ -51,12 +49,16 @@ class FocusManager < Emitter
     emit :focus, focused: @focused, previous: previous
   end
 
+  def keys
+    @keys
+  end
+
   protected
 
   def handle_key(e)
-    if e.key == name_to_char(@keys[:next])
+    if @keys[:next].include? e.key
       focus_next
-    elsif e.key == name_to_char(@keys[:prev])
+    elsif @keys[:prev].include? e.key
       focus_prev
     end
   end

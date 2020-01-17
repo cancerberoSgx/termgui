@@ -9,7 +9,7 @@ class Button < Label
     install(:action)
     the_block = args[:action] == nil ? block : args[:action]
     # throw 'Action block not given' unless the_block
-    add_listener(:action, args[:action]) if the_block
+    # add_listener(:action, args[:action]) if the_block
     set_attribute(:focusable, true)
   end
 
