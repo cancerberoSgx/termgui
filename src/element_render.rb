@@ -19,7 +19,7 @@ module ElementRender
     s
   end
 
-  def render(screen=nil)
+  def render(screen = nil)
     screen = screen == nil ? root_screen : screen
     trigger(:before_render)
     render_self screen
@@ -27,18 +27,6 @@ module ElementRender
     render_text screen
     trigger(:after_render)
   end
-
-  # def render_self(_screen)
-  #   throw 'Abstract method'
-  # end
-
-  # def render_children(_screen)
-  #   throw 'Abstract method'
-  # end
-
-  # def render_text(_screen)
-  #   throw 'Abstract method'
-  # end
 
   protected
 
@@ -75,7 +63,6 @@ module ElementRender
   end
 
   def render_text_lines
-    # p 'style.wrap', style.wrap
     style.wrap ? wrap_text(@text, abs_content_width) : @text.split('\n')
   end
 
@@ -84,7 +71,6 @@ module ElementRender
     lines = render_text_lines
     width = lines.map(&:length).max
     height = lines.length
-    # p lines, width, height, style.wrap
     { width: width, height: height }
   end
 
@@ -97,14 +83,6 @@ module ElementRender
   end
 
   def root_screen
-    # if @parent
-    #   @parent.root_screen
-    # elsif self.instance_of? Screen
-    #   self
-    # else
-    #   nil
-    # end
-      @parent.root_screen
-
+    @parent.root_screen
   end
 end

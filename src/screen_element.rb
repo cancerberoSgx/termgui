@@ -19,5 +19,4 @@ module ScreenElement
   def root_screen
     self
   end
-
 end

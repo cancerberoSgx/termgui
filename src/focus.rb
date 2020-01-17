@@ -3,7 +3,7 @@ require_relative 'key'
 
 # provides support for focused, focusable attributes management and emit focus-related events
 class FocusManager < Emitter
-  attr_reader :focused
+  attr_reader :focused, :keys
 
   def initialize(
     root: nil, # the root element inside of which to look up for focusables
@@ -47,10 +47,6 @@ class FocusManager < Emitter
     @focused = focused
     @focused.set_attribute(:focused, true)
     emit :focus, focused: @focused, previous: previous
-  end
-
-  def keys
-    @keys
   end
 
   protected

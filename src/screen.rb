@@ -57,19 +57,7 @@ class Screen < Node
     emit :start
     unless clean
       clear
-      # # TODO: Hack. Move to FocusManger :start listener
-      query_by_attribute('focusable', true).length.times { @focus.focus_next }
-      # # TODO: this shouldn't be neccesary, when Element#final_style is implemented
-      # @focus.subscribe(:focus) do |e|
-      #   e[:focused]&.style&.bg= 'white'
-      #   e[:focused]&.style&.fg= 'blue'
-      #   e[:previous]&.style&.bg= 'black'
-      #   e[:previous]&.style&.fg= 'magenta'
-      #   render e[:focused]
-      #   render e[:previous]
-      # end
-      query_by_attribute('focusable', true).length.times { @focus.focus_next }
-
+      query_by_attribute('focusable', true).length.times { @focus.focus_next } # TODO: Hack. Move to FocusManger :start listener
       cursor_hide # TODO: move this to a CursorManager :start listener
       render
     end
@@ -103,11 +91,8 @@ class Screen < Node
   end
 
   def style=(style)
-    # style = Style.from_hash style
-    # unless @renderer.style.equals style
     @renderer.style = style
     write @renderer.style.print
-    # end
   end
 
   # complies with Element#render and also is capable of rendering given elements
@@ -142,7 +127,7 @@ class Screen < Node
   end
 
   # TODO: seconds not implemented - block will be called on each input interval
-  def set_interval(seconds = @interval, listener=nil, &block)
+  def set_interval(seconds = @interval, listener = nil, &block)
     the_listener = listener == nil ? block : listener
     throw 'No listener provided' if the_listener == nil
     @input.set_interval(seconds, the_listener)

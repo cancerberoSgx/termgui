@@ -29,15 +29,11 @@ Config: #{config} \r"
   }
   step = proc {
     i += 1
-    # render_count.times {
-      s.empty
-      s.clear
-      draw.call
-      l = s.append_child Label.new(text: "iteration ##{i} **")
-      # s.render
-    # }
+    s.empty
+    s.clear
+    draw.call
+    l = s.append_child Label.new(text: "iteration ##{i} **")
     render_count.times { s.render }
-    # sleep interval
     s.set_timeout(interval) do
       step.call
     end

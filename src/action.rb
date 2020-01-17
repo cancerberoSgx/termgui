@@ -39,9 +39,8 @@ class ActionManager < Emitter
 
   def handle_key(e)
     focused = @focus.focused
-    if !focused
-      return
-    end
+    return unless focused
+
     action_key = focused.get_attribute('action-key') || 'enter'
     is_action = e.key == action_key
     if is_action && focused.get_attribute('focusable')
