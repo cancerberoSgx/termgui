@@ -15,19 +15,19 @@ class ActionTest < Test::Unit::TestCase
     screen.action.on('action') do |e|
       global = 'e' + e.target.text
     end
-    screen.input.emit_key '\r'
+    screen.input.emit_key 'enter'
     assert_equal '', s
     assert_equal '', global
     screen.focus.focus_next
     assert_equal '', s
     assert_equal '', global
-    screen.input.emit_key '\r'
+    screen.input.emit_key 'enter'
     assert_equal 'e2', s
     assert_equal 'e2', global
     screen.focus.focus_next
     assert_equal 'e2', s
     assert_equal 'e2', global
-    screen.input.emit_key '\r'
+    screen.input.emit_key 'enter'
     assert_equal 'e1', s
     assert_equal 'e1', global
   end
