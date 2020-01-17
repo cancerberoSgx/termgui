@@ -27,7 +27,7 @@ module InputTime
     # TODO: seconds not implemented - block will be called on each input interval
     the_block = block == nil ? proc_block : block
     throw 'No block provided' if the_block == nil
-    listener = { seconds: seconds, block: the_block, time: @time, target: @time + seconds }
+    listener = { seconds: seconds, block: the_block, time: @time }
     @interval_listeners.push listener
     listener
   end

@@ -1,5 +1,5 @@
 require_relative 'input'
-require_relative 'key'
+# require_relative 'key'
 
 # Base event class. Independent of Element.
 class Event

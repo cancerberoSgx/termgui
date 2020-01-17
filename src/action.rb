@@ -42,7 +42,7 @@ class ActionManager < Emitter
     if !focused
       return
     end
-    action_key = focused.get_attribute('action-key') || '\\r'
+    action_key = focused.get_attribute('action-key') || 'enter'
     is_action = e.key == action_key
     if is_action && focused.get_attribute('focusable')
       event = ActionEvent.new focused, e

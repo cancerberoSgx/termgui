@@ -142,16 +142,14 @@ class Screen < Node
   end
 
   # TODO: seconds not implemented - block will be called on each input interval
-  def set_interval(seconds = @interval, block)
-    @input.set_interval(seconds, block)
+  def set_interval(seconds = @interval, listener=nil, &block)
+    the_listener = listener == nil ? block : listener
+    throw 'No listener provided' if the_listener == nil
+    @input.set_interval(seconds, the_listener)
   end
 
   def clear_interval(_listener)
     @input.clear_interval(block)
-  end
-
-  def install_exit_keys
-    @input.install_exit_keys
   end
 
   def cursor_move(x, y)

@@ -39,7 +39,7 @@ left = Col.new(width: 0.4, height: 0.99, style: { bg: 'red' })
 (0..8).map { |i| left.append_child Label.new(text: "Label_#{i}") }
 right = Col.new(width: 0.6, height: 0.99, x: 0.4, style: Style.new(bg: 'blue'))
 (0..4).map do |i|
-  ight.append_child Button.new(
+  right.append_child Button.new(
     text: "Button_#{i}", x: 0.5,
     action: proc { open_modal(screen: screen, title: "Button_#{i}") }
   )
@@ -180,6 +180,7 @@ s.start
 
 ### example low level
 
+(no HTML DOM at all, just drawing)
 ```
 screen = Screen.new
 screen.renderer.rect(2,3,9,3,'-', {fg: 'yellow', bg: 'gray'})
