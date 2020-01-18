@@ -1,25 +1,8 @@
+# rubocop:disable Naming/VariableName,  Layout/EndAlignment,  Naming/MethodName
+
+# adapted from tco
 # tco - terminal colouring application and library
 # Copyright (c) 2013, 2014 Radek Pazdera
-
-# MIT License
-
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
 
 module Tco
   class Unknown
@@ -37,9 +20,9 @@ module Tco
   class Colour
     attr_reader :rgb, :lab
 
-    def initialize(rgb, lab=nil)
+    def initialize(rgb, lab = nil)
       @rgb = rgb
-      @lab = lab ? lab : rgb_to_lab(rgb)
+      @lab = lab || rgb_to_lab(rgb)
       @hsl = nil
       @yiq = nil
     end
@@ -49,7 +32,7 @@ module Tco
     end
 
     def <=>(other)
-      self.hsl[0] <=> other.hsl[0]
+      hsl[0] <=> other.hsl[0]
     end
 
     def to_s
@@ -57,13 +40,13 @@ module Tco
         v = v.to_i.to_s 16
 
         case v.length
-        when 0 then "00"
-        when 1 then "0" + v
+        when 0 then '00'
+        when 1 then '0' + v
         when 2 then v
         end
       end
 
-      "#" + values.join("")
+      '#' + values.join('')
     end
 
     def hsl
@@ -87,36 +70,37 @@ module Tco
     # source: http://www.easyrgb.com/index.php?X=MATH&H=02#text2
     def rgb_to_xyz(colour)
       r, g, b = colour.map do |v|
-          v /= 255.0
-          if v > 0.04045
-              v = ((v + 0.055 ) / 1.055)**2.4
-          else
-              v = v / 12.92
-          end
-          v *= 100
+        v /= 255.0
+        v = if v > 0.04045
+              ((v + 0.055) / 1.055)**2.4
+            else
+              v / 12.92
+            end
+        v *= 100
       end
 
-      #Observer = 2°, Illuminant = D65
+      # Observer = 2°, Illuminant = D65
       x = r * 0.4124 + g * 0.3576 + b * 0.1805
       y = r * 0.2126 + g * 0.7152 + b * 0.0722
       z = r * 0.0193 + g * 0.1192 + b * 0.9505
 
-      return [x, y, z]
+      [x, y, z]
     end
 
     def xyz_to_lab(colour)
       f = lambda { |t|
-        return t**(1.0/3) if t > (6.0 / 29)**3
+        return t**(1.0 / 3) if t > (6.0 / 29)**3
+
         return (1.0 / 3) * ((29.0 / 6)**2) * t + (4.0 / 29)
       }
 
       x, y, z = colour
       xn, yn, zn = rgb_to_xyz([255, 255, 255])
-      l = 116 * f.call(y/yn) - 16
-      a = 500 * (f.call(x/xn) - f.call(y/yn))
-      b = 200 * (f.call(y/yn) - f.call(z/zn))
+      l = 116 * f.call(y / yn) - 16
+      a = 500 * (f.call(x / xn) - f.call(y / yn))
+      b = 200 * (f.call(y / yn) - f.call(z / zn))
 
-      return [l, a, b]
+      [l, a, b]
     end
 
     def rgb_to_lab(rgb_val)
@@ -132,27 +116,27 @@ module Tco
       lig = (max + min) / 2.0
 
       if delta == 0
-         hue = 0
-         sat = 0
+        hue = 0
+        sat = 0
       else
-         sat = if lig < 0.5
-                 delta / (0.0 + (max + min))
-               else
-                 delta / (2.0 - max - min)
-               end
+        sat = if lig < 0.5
+                delta / (0.0 + (max + min))
+              else
+                delta / (2.0 - max - min)
+              end
 
-         delta_r = (((max - r) / 6.0 ) + (delta / 2.0)) / delta
-         delta_g = (((max - g) / 6.0 ) + (delta / 2.0)) / delta
-         delta_b = (((max - b) / 6.0 ) + (delta / 2.0)) / delta
+        delta_r = (((max - r) / 6.0) + (delta / 2.0)) / delta
+        delta_g = (((max - g) / 6.0) + (delta / 2.0)) / delta
+        delta_b = (((max - b) / 6.0) + (delta / 2.0)) / delta
 
-         hue = case max
-               when r then delta_b - delta_g
-               when g then (1.0/3) + delta_r - delta_b
-               when b then (2.0/3) + delta_g - delta_r
-               end
+        hue = case max
+              when r then delta_b - delta_g
+              when g then (1.0 / 3) + delta_r - delta_b
+              when b then (2.0 / 3) + delta_g - delta_r
+              end
 
-         hue += 1 if hue < 0
-         hue -= 1 if hue > 1
+        hue += 1 if hue < 0
+        hue -= 1 if hue > 1
       end
 
       [360 * hue, 100 * sat, 100 * lig]
@@ -161,9 +145,9 @@ module Tco
     def rgb_to_yiq(rgb_val)
       r, g, b = rgb_val
 
-      y = 0.299*r + 0.587*g + 0.114*b
-      i = 0.569*r - 0.275*g - 0.321*b
-      q = 0.212*r - 0.523*g + 0.311*b
+      y = 0.299 * r + 0.587 * g + 0.114 * b
+      i = 0.569 * r - 0.275 * g - 0.321 * b
+      q = 0.212 * r - 0.523 * g + 0.311 * b
 
       [y, i, q]
     end
@@ -178,15 +162,14 @@ module Tco
 
     def CieLab2Hue(a, b)
       bias = 0
-      return 0 if (a >= 0 && b == 0)
-      return 180 if (a <  0 && b == 0)
-      return 90 if (a == 0 && b > 0)
-      return 270 if (a == 0 && b < 0)
+      return 0 if a >= 0 && b == 0
+      return 180 if a <  0 && b == 0
+      return 90 if a == 0 && b > 0
+      return 270 if a == 0 && b < 0
 
-      bias = case
-      when a > 0 && b > 0 then 0
-      when a < 0 then 180
-      when a > 0 && b < 0 then 360
+      bias = if a > 0 && b > 0 then 0
+             elsif a < 0 then 180
+             elsif a > 0 && b < 0 then 360
       end
 
       rad_to_deg(Math.atan(b / a)) + bias
@@ -195,7 +178,9 @@ module Tco
     def delta_e_2000(lab1, lab2)
       l1, a1, b1 = lab1
       l2, a2, b2 = lab2
-      kl, kc, kh = [1, 1, 1]
+      kl = 1
+      kc = 1
+      kh = 1
 
       xC1 = Math.sqrt(a1**2 + b1**2)
       xC2 = Math.sqrt(a2**2 + b2**2)
@@ -213,15 +198,15 @@ module Tco
         xDH = 0
       else
         xNN = (xH2 - xH1).round(12)
-        if xNN.abs <= 180
-          xDH = xH2 - xH1
-        else
-          if xNN > 180
-            xDH = xH2 - xH1 - 360
-          else
-            xDH = xH2 - xH1 + 360
-          end
-        end
+        xDH = if xNN.abs <= 180
+                xH2 - xH1
+              else
+                if xNN > 180
+                  xH2 - xH1 - 360
+                else
+                  xH2 - xH1 + 360
+                      end
+              end
       end
       xDH = 2 * Math.sqrt(xC1 * xC2) * Math.sin(deg_to_rad(xDH / 2.0))
       xLX = (l1 + l2) / 2.0
@@ -230,31 +215,31 @@ module Tco
         xHX = xH1 + xH2
       else
         xNN = (xH1 - xH2).round(12).abs
-        if xNN > 180
-          if xH2 + xH1 < 360
-            xHX = xH1 + xH2 + 360
-          else
-            xHX = xH1 + xH2 - 360
-          end
-        else
-          xHX = xH1 + xH2
-        end
+        xHX = if xNN > 180
+                if xH2 + xH1 < 360
+                  xH1 + xH2 + 360
+                else
+                  xH1 + xH2 - 360
+                      end
+              else
+                xH1 + xH2
+              end
         xHX /= 2.0
       end
       xTX = 1 - 0.17 * Math.cos(deg_to_rad(xHX - 30)) + 0.24 *
-                       Math.cos(deg_to_rad(2 * xHX)) + 0.32 *
-                       Math.cos(deg_to_rad(3 * xHX + 6)) - 0.20 *
-                       Math.cos(deg_to_rad(4 * xHX - 63 ))
-      xPH = 30 * Math.exp(-((xHX - 275) / 25.0) * ((xHX  - 275) / 25.0))
+                                                        Math.cos(deg_to_rad(2 * xHX)) + 0.32 *
+                                                                                        Math.cos(deg_to_rad(3 * xHX + 6)) - 0.20 *
+                                                                                                                            Math.cos(deg_to_rad(4 * xHX - 63))
+      xPH = 30 * Math.exp(-((xHX - 275) / 25.0) * ((xHX - 275) / 25.0))
       xRC = 2 * Math.sqrt(xCY**7 / (xCY**7 + 25**7))
       xSL = 1 + ((0.015 * ((xLX - 50) * (xLX - 50))) /
             Math.sqrt(20 + ((xLX - 50) * (xLX - 50))))
       xSC = 1 + 0.045 * xCY
       xSH = 1 + 0.015 * xCY * xTX
       xRT = -Math.sin(deg_to_rad(2 * xPH)) * xRC
-      xDL = xDL / (kl * xSL)
-      xDC = xDC / (kc * xSC)
-      xDH = xDH / (kh * xSH)
+      xDL /= (kl * xSL)
+      xDC /= (kc * xSC)
+      xDH /= (kh * xSH)
 
       Math.sqrt(xDL**2 + xDC**2 + xDH**2 + xRT * xDC * xDH)
     end
@@ -536,33 +521,36 @@ module Tco
     end
 
     def set_colour_value(id, rgb_colour)
-      raise "Id '#{id}' out of range." unless id.between?(0, @palette.length-1)
+      raise "Id '#{id}' out of range." unless id.between?(0, @palette.length - 1)
+
       @palette[id] = Colour.new(rgb_colour)
     end
 
     def get_colour_value(id)
-      raise "Id '#{id}' out of range." unless id.between?(0, @palette.length-1)
+      raise "Id '#{id}' out of range." unless id.between?(0, @palette.length - 1)
       raise "Value of colour '#{id}' is unknown" if @palette[id].is_a? Unknown
-      @palette[id].rgb if @palette[id]
+
+      @palette[id]&.rgb
     end
 
     def is_known?(id)
-      raise "Id '#{id}' out of range." unless id.between?(0, @palette.length-1)
+      raise "Id '#{id}' out of range." unless id.between?(0, @palette.length - 1)
+
       !@palette[id].is_a? Unknown
     end
 
     def match_colour(colour)
       unless colour.is_a? Colour
         msg = "Unsupported argument type '#{colour.class}', must be 'Colour'."
-        raise ArgumentError.new msg
+        raise ArgumentError, msg
       end
 
       colours = case @type
-                when "extended" then @palette
-                when "ansi" then @palette[0,8]
+                when 'extended' then @palette
+                when 'ansi' then @palette[0, 8]
                 end
 
-      if @cache.has_key? colour.to_s
+      if @cache.key? colour.to_s
         @cache[colour.to_s]
       else
         distances = colours.map { |c| c.is_a?(Colour) ? c - colour : Float::INFINITY }
@@ -576,10 +564,10 @@ module Tco
     end
 
     def colours
-      if @type == "extended"
+      if @type == 'extended'
         @palette
       else
-        @palette[0,8]
+        @palette[0, 8]
       end
     end
 
@@ -588,18 +576,19 @@ module Tco
     end
 
     private
+
     def set_type(type)
       @type = case type
-              when "auto"[0, type.length]
-                if ENV.has_key? "TERM" and ENV["TERM"] == "xterm-256color"
-                  "extended"
+              when 'auto'[0, type.length]
+                if ENV.key?('TERM') && (ENV['TERM'] == 'xterm-256color')
+                  'extended'
                 else
-                  "ansi"
+                  'ansi'
                 end
-              when "ansi"[0, type.length]
-                "ansi"
-              when "extended"[0, type.length]
-                "extended"
+              when 'ansi'[0, type.length]
+                'ansi'
+              when 'extended'[0, type.length]
+                'extended'
               else
                 raise "Unknown palette type '#{type}'."
               end

@@ -1,14 +1,43 @@
 # require "tco"
-require_relative '../src/color'
-require_relative 'tco/colouring'
-require_relative 'tco/config'
+require_relative '../src/style'
+require_relative '../src/tco/colouring'
+require_relative '../src/tco/config'
 
 config = Tco::Config.new
 colouring = Tco::Colouring.new config
-style = Tco::Style.new('red', 'blue', true, true)
-puts colouring.decorate('KJSDHFKJH', style)
-color = Tco::Colour.new [222, 111, 11]
-p color
+# style1 = Tco::Style.new('red', 'blue', true, true)
+style2 = TermGui::Style.new(fg: 'red', bg: 'blue', bold: false)
+style3 = TermGui::Style.new(fg: '#33aa44', bg: '#333399', bold: true)
+# p colouring.decorate('KJSDHFKJH', style3)
+# p colouring.decorate('', style3)
+# puts 'seba'
+def print_style(style, colouring)
+  s = colouring.decorate('__', style)
+  s = s.slice(0, s.length - 4 - 2)
+  s
+end
+def close_style(colouring)
+     colouring.decorate('', TermGui::Style.new(fg: 'red', bg: 'red', bold: true, underline: true))
+
+end
+
+puts colouring.decorate('style2', style2)
+puts colouring.decorate('style3', style3)
+puts colouring.decorate('style2', style2)
+puts colouring.decorate('style3', style3)
+puts colouring.decorate('style2', style2)
+
+puts print_style(style2, colouring)+'seba'+close_style(colouring)
+puts print_style(style3, colouring)+'seba'+close_style(colouring)
+# puts close_style(colouring)
+style3.bold = false
+puts print_style(style3, colouring)+'seba'
+
+
+# puts 'seba'
+# p style1, style2
+# color = Tco::Colour.new [222, 111, 11]
+# p color
 
 # # puts 'seba'
 # # puts Tco::fg("#ff0000", 'ass')

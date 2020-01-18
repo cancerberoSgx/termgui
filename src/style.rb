@@ -1,6 +1,6 @@
-require_relative 'color'
 require_relative 'util'
 require_relative 'util/hash_object'
+require_relative 'tco/tco_termgui'
 
 module TermGui
   # refers to properties directly implemented using ansi escape codes
@@ -9,9 +9,9 @@ module TermGui
   class BaseStyle
     include HashObject
 
-    attr_accessor :fg, :bg
+    attr_accessor :fg, :bg, :underline, :bold, :blink
 
-    def initialize(fg: nil, bg: nil, bold: nil, blink: nil)
+    def initialize(fg: nil, bg: nil, bold: nil, blink: nil, underline: nil, bright: nil, wrap: nil, border: nil)
       @fg = fg
       @bg = bg
       @bold = bold
@@ -20,8 +20,13 @@ module TermGui
 
     # Prints the style as escape sequences.
     # This method shouln't be overriden by subclasses since it only makes sense for basic properties defined here.
-    def print
-      "#{color @fg, @bg}#{attributes(bold: @bold, blink: @blink)}"
+    def print(s = nil)
+      # "#{color @fg, @bg}#{attributes bold: @bold, blink: @blink}"
+      if s == nil
+        TermGui.open_style(self)
+      else
+        TermGui.print(s, self)
+      end
     end
 
     def reset
@@ -43,6 +48,14 @@ module TermGui
         obj
       end
     end
+
+    def bright
+      @bold
+    end
+
+    def bright=(value)
+      @bold = value
+    end
   end
 
   # style for the border
@@ -63,45 +76,22 @@ module TermGui
   class Style < BaseStyle
     attr_accessor :border, :wrap, :padding, :focus
 
-    def initialize(fg: nil, bg: nil, border: nil, wrap: false, padding: nil, focus: nil)
-      super(fg: fg, bg: bg)
-      @wrap = wrap
+    def initialize(**args)
+      super
+      @wrap = args[:wrap]
       # TODO: move this border checking & init to hash_object
-      if border.nil?
+      if args[:border].nil?
         @border = nil
-      elsif border.instance_of? Border
-        @border = border
-      elsif border.instance_of? Hash
+      elsif args[:border].instance_of? Border
+        @border = args[:border]
+      elsif args[:border].instance_of? Hash
         @border = Border.new
-        @border.assign(border)
+        @border.assign(args[:border])
       end
-      @padding = padding
-      @focus = focus || clone
+      @padding = args[:padding]
+      @focus = args[:focus] || clone
     end
   end
-
-  # # Parses a string CSS-like "bg: red; fg: white; border-style: classic"
-  # # Notice that `border-style` is assigned to @border.style and treated specially
-  # def parse_style(s)
-  #   statements = s.split(';')
-  #   statements.each do |statement|
-  #     a = statement.split(':')
-  #     throw "Syntax error in statement: #{statement}" if a.length != 2
-  #     property = a[0]
-  #     value = a[1]
-  #     parse_style_set_property(s, property, value)
-  #   end
-  # end
-
-  # def parse_style_set_property(_s, property, value)
-  #   if property.starts_with? 'border-'
-  #     throw "TODO, not implemented : property.starts_with? 'border-'"
-  #   else
-  #     o = {}
-  #     o[property] = value
-  #     throw 'TODO, not implemented '
-  #   end
-  # end
 end
 
 BaseStyle = TermGui::BaseStyle
