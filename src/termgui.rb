@@ -1,10 +1,10 @@
-require_relative 'screen'
-require_relative 'node'
+require_relative 'action'
 require_relative 'element'
-require_relative 'key'
-
-module TermGui
-  Screen = Screen
-  Node = Node
-  Element = Element
-end
+require_relative 'emitter'
+require_relative 'event'
+require_relative 'focus'
+require_relative 'input'
+require_relative 'node'
+require_relative 'renderer'
+require_relative 'screen'
+require_relative 'style'

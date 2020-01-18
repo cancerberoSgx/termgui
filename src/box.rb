@@ -57,8 +57,6 @@ BOXES = {
   }
 }.freeze
 
-# p BOXES.keys
-
 def boxes
   BOXES
 end
