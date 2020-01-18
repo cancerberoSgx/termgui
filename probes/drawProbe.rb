@@ -18,7 +18,7 @@ def test3
     values = screen.width.times.map { |i| (Math.sin(time + i * frequency) * screen.height + screen.height).round }
     screen.clear
     values.each_with_index do |value, index|
-      screen.text(index, value, 'x')
+      screen.text(x: index, y: value, text: 'x')
     end
   end
   screen.start
@@ -43,7 +43,7 @@ def test2
     screen.clear
     values.each_with_index do |value, index|
       # p index, value
-      screen.text(index, value, 'x')
+      screen.text(x: index, y: value, text: 'x')
     end
     sleep interval
   end

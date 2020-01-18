@@ -57,7 +57,7 @@ module ElementRender
   def render_text(screen)
     if @text
       render_text_lines.each_with_index do |line, i|
-        screen.text(abs_content_x, abs_content_y + i, line)
+        screen.text(x: abs_content_x, y: abs_content_y + i, text: line)
       end
     end
   end

@@ -15,7 +15,7 @@ class Thing
     @y = 0
     @speed_x = random_int(-2, -2)
     @speed_y = random_int(0, 2)
-    @color = %w[red blue green].sample
+    @style = Style.new(fg: %w[red blue green].sample)
   end
 
   def tick
@@ -26,7 +26,11 @@ class Thing
   end
 
   def draw(screen)
-    screen.text(@x, @y, random_char, Style.new(fg: @color))
+    screen.text(x: @x, y: @y, text: random_char, style: @style)
+  end
+
+  def erase(screen)
+    screen.text(x: @x, y: @y, text: ' ', style: Style.new)
   end
 end
 
@@ -44,27 +48,21 @@ end
 def test2
   s = Screen.new
   s.install_exit_keys
-  interval = 0.05
+  interval = 0.005
   a = 100.times.map { Thing.new s }
   s.set_interval do
     s.clear
     a.each do |t|
+      t.erase s
       t.tick
       t.draw s
-      if t.y > s.height
-        a.delete t
-      end
+      a.delete t if t.y > s.height
     end
     sleep interval
   end
-  s.event.add_key_listener('p'){
-    a  = a.concat(100.times.map { Thing.new s })
-  }
+  s.event.add_key_listener('p')  do
+    a = a.concat(100.times.map { Thing.new s })
+  end
   s.start
-  # loop do
-  #   t.draw s
-  #   t.tick
-  #   sleep 0.9
-  # end
 end
 test2

@@ -184,7 +184,7 @@ s.start
 ```
 screen = Screen.new
 screen.renderer.rect(2,3,9,3,'-', {fg: 'yellow', bg: 'gray'})
-screen.renderer.text(3,4,'click me', {fg: 'lightblue',bg: 'black' bold: true})
+screen.renderer.text(x: 3, y: 4,text; 'click me', style: Style.new(fg: '#ffee11', bg: 'black', bold: true))
 ```
 
 ### events

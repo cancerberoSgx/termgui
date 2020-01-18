@@ -26,8 +26,8 @@ def open_modal(
 
   # content = content.instance_of? String ? Label.new(text: content) : content
   screen.rect(x: 2, y: 2, width: [content.width, '(press c to close)'.length].max + 3, height: 7 + content.height, ch: ' ')
-  screen.text 3, 3, title
-  screen.text 3, 4, '(press c to close)'
+  screen.text(x: 3, y: 3, text: title)
+  screen.text(x: 3, y: 4, text: '(press c to close)')
   content.x = 3
   content.y = 5
   content.render screen

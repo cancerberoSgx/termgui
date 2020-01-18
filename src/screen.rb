@@ -76,7 +76,7 @@ module TermGui
     end
 
     # renders given text at given position
-    def text(x, y, text, style = nil)
+    def text(x: nil, y: nil, text: ' ', style: nil)
       styled = style == nil ? text : style.print(text)
       write @renderer.write(x, y, styled)
     end
@@ -109,7 +109,7 @@ module TermGui
       self.style = style if style
       box = draw_box(width: width, height: height, style: border_style)
       box.each_with_index do |line, index|
-        text x, y + index, line
+        text(x: x, y: y + index, text: line)
       end
     end
 

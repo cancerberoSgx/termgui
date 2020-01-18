@@ -10,7 +10,6 @@ class AbstractInquirer
 
   def render
     @screen.event.add_key_listener('q') { @on_answer.call(3); stop }
-    # @screen.text(2, 2, 'AbstractInquirer (press q to quit)')
   end
 
   def start
@@ -43,13 +42,12 @@ class SelectInquirer < AbstractInquirer
 
   def render
     super
-    @screen.text(2, 1, @text) if @text
-    @screen.text(2, 2, 'Use arrows and enter to select. Press q to quit')
+    @screen.text(x: 2, y: 1, text: @text) if @text
+    @screen.text(x: 2, y: 2, text: 'Use arrows and enter to select. Press q to quit')
     @options.each_index{|option, i|
     text = (option.instance_of? String) ? option : (option.label||option.value||option||'').to_s
-    @screen.text(2, 3+i, text)
+    @screen.text(x: 2, y: 3 + i, text: text)
     }
-    # col = Col.new(width: 0.4, height: 0.99, style: { bg: 'red' })
   end
 end
 
