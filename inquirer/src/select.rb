@@ -8,6 +8,7 @@ class SelectEntry < Button
     super
     set_attribute('action-key', ' ')
   end
+
   def default_style
     s = super
     s.border = nil
@@ -20,34 +21,41 @@ end
 class SelectOne < Element
   def initialize(**args)
     super
-    throw "No options provided" unless args[:options]
-    @multiple = args[:multiple]||false
+    throw 'No options provided' unless args[:options]
+    @multiple = args[:multiple] || false
     @options = args[:options]
     col = append_child Col.new(width: 0.8, height: 0.99, style: { bg: 'white' })
-    col.append_child Label.new(text: "Please focus with TAB, select with SPACE and press ENTER when ready", width: 0.5, x: 0.2)
-    @entries = @options.map{|option|
+    col.append_child Label.new(text: 'Please focus with TAB, select with SPACE and press ENTER when ready', width: 0.5, x: 0.2)
+    @entries = @options.map do |option|
       selected = (option.instance_of? String) ? false : option[:selected]
       value = (option.instance_of? String) ? option : option[:value]
-      text_only = (option.instance_of? String) ? option : (option[:label]||option[:value])
+      text_only = (option.instance_of? String) ? option : (option[:label] || option[:value])
       text = "#{selected ? '[x]' : '[ ]'} #{text_only}"
-      entry = col.append_child SelectEntry.new(
+      col.append_child SelectEntry.new(
         text: text,
         x: 0.5,
-        attributes: {selected: selected, value: value},
+        attributes: { selected: selected, value: value, text_only: text_only },
         action: proc { |e|
           value = e.target.get_attribute('selected') # TODO: why we cannot just  e.target.set_attribute('selected', !e.target.get_attribute('selected')) ???
           value = !value
-          e.target.text = "#{value ? '[x]' : '[ ]'} #{text_only}"
-          e.target.set_attribute('selected', value)
-          e.target.render
-          if args[:select]
-            args[:select].call(e.target.get_attribute('value'), value)
+          unless @multiple || !value
+            (@entries.reject { |entry| entry == e.target }).each do |entry|
+              update_entry(entry, false)
+            end
           end
+          update_entry(e.target, value)
+          args[:select].call(e.target.get_attribute('value'), value) if args[:select]
         }
       )
       # entry.set_attribute('selected', selected)
-      entry
-    }
+      # entry
+    end
+  end
+
+  def update_entry(e, value)
+    e.text = "#{value ? '[x]' : '[ ]'} #{e.get_attribute('text_only')}"
+    e.set_attribute('selected', value)
+    e.render
   end
 end
 
@@ -61,23 +69,23 @@ def test
     width: 0.999,
     height: 0.999,
     options: [
-      {value: 'green', label: 'Green', selected: true},
-      {value: 'red', label: 'Red'}
+      { value: 'green', label: 'Green', selected: true },
+      { value: 'red', label: 'Red' }
     ],
-    select: proc {|value, selected|
-      log value+selected.to_s
+    select: proc { |value, selected|
+      log value + selected.to_s
     }
   )
   screen.render
-  screen.event.add_key_listener('c'){
+  screen.event.add_key_listener('c') do
     screen.empty
     screen.clear
     screen.render
-    screen.append_child SelectOne.new(width: 0.999, height: 0.999, options: [
-      'hello', 'world'
-    ])
+    screen.append_child SelectOne.new(width: 0.999, height: 0.999, options: %w[
+                                        hello world
+                                      ])
     screen.render
-  }
+  end
   screen.start
 end
 

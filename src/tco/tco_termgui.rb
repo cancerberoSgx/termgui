@@ -11,12 +11,12 @@ module TermGui
     s
   end
 
-  def close_style(colouring = @colouring)
-    colouring.decorate('', TermGui::Style.new(fg: 'red', bg: 'red', bold: true, underline: true))
+  def self.close_style(_colouring = @colouring)
+    @colouring.decorate('', TermGui::Style.new(fg: 'red', bg: 'red', bold: true, underline: true))
   end
 
-  def print(s, style)
-    colouring.decorate(s, style)
+  def self.print(s, style)
+    @colouring.decorate(s, style)
   end
 end
 
