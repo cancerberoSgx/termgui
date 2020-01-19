@@ -1,7 +1,7 @@
 ## TODO
 
 
- - [ ] verify character attributes work in style (see color.rb ATTRIBUTES). Status: bold and others are working but didn't exhaustively test them. 
+ - [ ] verify character attributes work in style (see color.rb ATTRIBUTES). Status: bold and others are working but didn't exhaustively test them. Update: using src/tco now
   - [ ] test in a realProbe
  - [ ] border_final_style
  - [ ] final_style performance - always cloning/merging even if elements don't have any focus or border style...

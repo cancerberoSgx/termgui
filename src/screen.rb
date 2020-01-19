@@ -36,6 +36,7 @@ module TermGui
       @action = ActionManager.new @focus, @input
       @silent = false
       install(:destroy)
+      install(:after_destroy)
       install(:start)
     end
 
@@ -68,6 +69,7 @@ module TermGui
       emit :destroy
       @input.stop
       cursor_show # TODO: move this to a CursorManager :destroy listener
+      emit :after_destroy
     end
 
     # writes directly to @output_stream. Shouldn't be used directly since these changes won't be tracked by the buffer.
