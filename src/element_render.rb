@@ -28,6 +28,11 @@ module ElementRender
     trigger(:after_render)
   end
 
+  def root_screen
+    throw 'cannot get root screen of unnatached element' unless @parent
+    @parent.root_screen
+  end
+  
   protected
 
   def render_self(screen)
@@ -82,7 +87,4 @@ module ElementRender
   def layout
   end
 
-  def root_screen
-    @parent.root_screen
-  end
 end
