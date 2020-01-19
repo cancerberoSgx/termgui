@@ -70,4 +70,39 @@ class EmitterTest < Test::Unit::TestCase
     assert_equal 1, a
     assert_equal 1, b
   end
+
+  def test_unsubscribe
+    e = Emitter.new
+    e.install(:play)
+    a = 0
+    b = 0
+    s1 = e.subscribe(:play) { a += 1 }
+    s2 = e.subscribe(:play) { b += 1 }
+    assert_equal 0, a
+    assert_equal 0, b
+    e.emit(:play)
+    assert_equal 1, a
+    assert_equal 1, b
+    e.unsubscribe(:play, s2)
+    e.emit(:play)
+    assert_equal 2, a
+    assert_equal 1, b
+  end
+
+  def test_once
+    e = Emitter.new
+    e.install(:play)
+    a = 0
+    b = 0
+    e.subscribe(:play) { a += 1 }
+    e.once(:play) { b += 1 }
+    assert_equal 0, a
+    assert_equal 0, b
+    e.emit(:play)
+    assert_equal 1, a
+    assert_equal 1, b
+    e.emit(:play)
+    assert_equal 2, a
+    assert_equal 1, b
+  end
 end

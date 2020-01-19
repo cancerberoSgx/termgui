@@ -1,11 +1,11 @@
 module TermGui
   module Easing
     def self.animate(
-      duration: 1000, 
+      duration: 1000,
       draw: nil, #  (n: number) => void
       timing: nil, # (n: number, c?: number, d?: number, x?: number, y?: number) => number
       lapse: 0.1
-      )
+    )
     end
   end
 end
@@ -296,31 +296,31 @@ end
 
 # // TODO:
 # // easeInOutSine: function (x, t, b, c, d) {
-# // 	return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
+# //   return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
 # // },
 # // easeOutExpo: function (x, t, b, c, d) {
-# // 	return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
+# //   return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
 # // },
 # // easeInCirc: function (x, t, b, c, d) {
-# // 	return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
+# //   return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
 # // },
 # // easeOutCirc: function (x, t, b, c, d) {
-# // 	return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
+# //   return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
 # // },
 # // easeInOutCirc: function (x, t, b, c, d) {
-# // 	if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
-# // 	return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
+# //   if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
+# //   return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
 # // },
 # // easeInBack: function (x, t, b, c, d, s) {
-# // 	if (s == undefined) s = 1.70158;
-# // 	return c*(t/=d)*t*((s+1)*t - s) + b;
+# //   if (s == undefined) s = 1.70158;
+# //   return c*(t/=d)*t*((s+1)*t - s) + b;
 # // },
 # // easeInBounce: function (x, t, b, c, d) {
-# // 	return c - jQuery.easing.easeOutBounce (x, d-t, 0, c, d) + b;
+# //   return c - jQuery.easing.easeOutBounce (x, d-t, 0, c, d) + b;
 # // },
 # // easeInOutBounce: function (x, t, b, c, d) {
-# // 	if (t < d/2) return jQuery.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
-# // 	return jQuery.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
+# //   if (t < d/2) return jQuery.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
+# //   return jQuery.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
 # // }
 
 # // animate({

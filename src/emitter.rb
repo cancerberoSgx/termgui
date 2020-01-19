@@ -25,11 +25,11 @@ module TermGui
     def subscribe(event_name, handler_proc = nil, &block)
       throw 'No block or handler given' if handler_proc == nil && !block_given?
       handler = handler_proc == nil ? block : handler_proc
-      handler_id = "#{event_name}_#{handler_proc.object_id}"
-      events[event_name.to_sym]&.push(
-        id: handler_id, proc: handler
-      )
-      handler_id
+      # handler_id = "#{event_name}_#{handler_proc.object_id}"
+      events[event_name.to_sym]&.push handler
+      # p handler_id
+      # handler_id
+      handler
     end
 
     alias add_listener subscribe
@@ -39,9 +39,10 @@ module TermGui
     # @param event_name [String, Symbol]
     # @param handler [Proc]
     #   Proc with [Symbol, User]
-    def unsubscribe(event_name, handler_id)
+    def unsubscribe(event_name, handler)
       events[event_name.to_sym]&.reject! do |item|
-        item[:id] == handler_id
+        # item[:id] == handler_id
+        item == handler
       end
     end
 
@@ -52,7 +53,7 @@ module TermGui
     # @param event_name [String, Event]
     def emit(event_name, event = { name: event_name })
       events[event_name.to_sym]&.each do |h|
-        h[:proc].call(event)
+        h.call(event)
       end
     end
 
@@ -70,6 +71,15 @@ module TermGui
       events
         .map { |name, arr| [name, arr.size] }
         .flatten
+    end
+
+    def once(event_name, handler_proc = nil, &block)
+      throw 'No block or handler given' if handler_proc == nil && !block_given?
+      handler = handler_proc == nil ? block : handler_proc
+      listener = on(event_name){|event|
+        handler.call(event)
+        off(event_name, listener)
+      }
     end
 
     private
