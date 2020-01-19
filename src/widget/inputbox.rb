@@ -4,7 +4,7 @@ module TermGui
   module Widget
     # # A button widget
     # # Button.new(text: 'click me', style: {bg: 'blue'}, action: proc {|e| p 'actioned!'})
-    class InputText < Label
+    class InputBox < Label
     #   def initialize(**args)
     #     super
     #     @name = 'input'
@@ -32,4 +32,4 @@ module TermGui
   end
 end
 
-InputText = TermGui::Widget::InputText
+InputBox = TermGui::Widget::InputBox

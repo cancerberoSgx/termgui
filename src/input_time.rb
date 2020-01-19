@@ -14,7 +14,7 @@ module InputTime
   def set_timeout(seconds, block = nil, &proc_block)
     the_block = block == nil ? proc_block : block
     throw 'No block provided' if the_block == nil
-    listener = { seconds: seconds, block: the_block, time: @time, target: @time + seconds }
+    listener = { seconds: seconds, block: the_block, target: @time + seconds }
     @timeout_listeners.push listener
     listener
   end
@@ -27,7 +27,7 @@ module InputTime
     # TODO: seconds not implemented - block will be called on each input interval
     the_block = block == nil ? proc_block : block
     throw 'No block provided' if the_block == nil
-    listener = { seconds: seconds, block: the_block, time: @time }
+    listener = { seconds: seconds||@interval, block: the_block, next: @time + seconds }
     @interval_listeners.push listener
     listener
   end
@@ -53,7 +53,16 @@ module InputTime
 
   def dispatch_set_interval
     @interval_listeners.each do |listener|
-      listener[:block].call
+      if listener[:next] < @time
+        listener[:block].call
+        listener[:next] = @time + listener[:seconds]
+      end
+      # listener[:time] += @interval
+      # p "#{listener[:counter]} > #{listener[:seconds]}"
+      # if listener[:counter] > listener[:seconds]
+      #   listener[:block].call
+      #   listener[:counter] = 0
+      # end
     end
   end
 end

@@ -1,5 +1,13 @@
 module TermGui
-  self.animate()
+  module Easing
+    def self.animate(
+      duration: 1000, 
+      draw: nil, #  (n: number) => void
+      timing: nil, # (n: number, c?: number, d?: number, x?: number, y?: number) => number
+      lapse: 0.1
+      )
+    end
+  end
 end
 
 # import { isObject } from 'misc-utils-of-mine-generic'

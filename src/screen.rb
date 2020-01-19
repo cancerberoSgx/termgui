@@ -154,7 +154,7 @@ module TermGui
 
     def install_exit_keys
       @input.subscribe('key') do |e|
-        log "install_exit_keys #{e}"
+        # log "install_exit_keys #{e}"
         destroy if e.key == 'q'
       end
     end
