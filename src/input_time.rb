@@ -19,13 +19,14 @@ module InputTime
     listener
   end
 
+  # clears a previoulsy registered timeout listener. Use the same block (or what set_timeout returned)
   def clear_timeout(listener)
     @timeout_listeners.delete listener
   end
 
+  # similar to HTML window.setInterval
   def set_interval(seconds = @interval, block = nil, &proc_block)
     seconds = seconds == nil ? @interval : seconds
-    # TODO: seconds not implemented - block will be called on each input interval
     the_block = block == nil ? proc_block : block
     throw 'No block provided' if the_block == nil
     listener = { seconds: seconds || @interval, block: the_block, next: @time + seconds }
@@ -33,6 +34,7 @@ module InputTime
     listener
   end
 
+  # clears a previoulsy registered interval listener. Use the same block (or what set_interval returned)
   def clear_interval(listener)
     @interval_listeners.delete listener
   end
