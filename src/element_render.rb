@@ -32,7 +32,7 @@ module ElementRender
     throw 'cannot get root screen of unnatached element' unless @parent
     @parent.root_screen
   end
-  
+
   protected
 
   def render_self(screen)
@@ -86,5 +86,4 @@ module ElementRender
 
   def layout
   end
-
 end
