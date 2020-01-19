@@ -1,6 +1,8 @@
 # maps charsequences like '\n', '\e[1;7C' to objects like {name: 'enter'}, {name: 'right', control: true, meta: true}
 # TODO: support meta-d ('\xC3': 'C-', '\xB0': 'C-') which is defined by two characters
 
+require_relative 'log'
+
 CSI = "\e[".freeze
 
 CHAR_NAMES = {
@@ -29,10 +31,13 @@ CHAR_NAMES = {
   '\e[1;6C': 'S-C-right',
   '\e[1;7C': 'M-C-right',
 
-  '\e': 'esq',
+  '\e': 'escape',
   '\r': 'enter',
   '\t': 'tab',
   '\e[Z': 'S-tab',
+
+  '\x7F': 'backspace',
+  ' ': 'space',
 
   # control-x
   '\x01': 'C-a',
@@ -62,11 +67,22 @@ CHAR_NAMES = {
 }.freeze
 
 def name_to_char(name)
+  # log('name_to_char(name)'+name_to_char(name))
   char = CHAR_NAMES.keys.find { |c| CHAR_NAMES[c] == name }
   char ? char.to_s : name
 end
 
 def char_to_name(ch)
-  key = :"#{ch}"
-  CHAR_NAMES[key]
+  log('char_to_name *' + ch + '* *' + ch.inspect + '* ' + (CHAR_NAMES[:"#{ch}"] || 'nil') + '*')
+  CHAR_NAMES[:"#{ch}"]
+end
+
+ALPHANUMERICS =
+  ('a'...'z').to_a
+             .concat(('A'..'Z').to_a)
+             .concat(('0'...'9').to_a)
+             .concat(',.-;:_ç´Ç¨+`*^{}[]¡\'¡¿?ªº\\!"·$%&/()=|@#¢∞¬÷“”'.split(''))
+
+def alphanumeric?(c)
+  ALPHANUMERICS.include? c
 end

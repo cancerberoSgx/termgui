@@ -1,5 +1,13 @@
 require_relative 'emitter_state'
 
+# TODO: this is the same as event.rb Event. Move Event classes to individual - non dependency file
+class Event
+  attr_reader :name
+  def initialize(name)
+    @name = name
+  end
+end
+
 module TermGui
   # Basic event emitter, similar to Node's Emitter
   # adapted from https://medium.com/@kopilov.vlad/use-event-emitter-in-ruby-6b289fe2e7b4
@@ -51,7 +59,7 @@ module TermGui
 
     # emit the event
     # @param event_name [String, Event]
-    def emit(event_name, event = { name: event_name })
+    def emit(event_name, event = Event.new(event_name))
       events[event_name.to_sym]&.each do |h|
         h.call(event)
       end
@@ -76,10 +84,10 @@ module TermGui
     def once(event_name, handler_proc = nil, &block)
       throw 'No block or handler given' if handler_proc == nil && !block_given?
       handler = handler_proc == nil ? block : handler_proc
-      listener = on(event_name){|event|
+      listener = on(event_name) do |event|
         handler.call(event)
         off(event_name, listener)
-      }
+      end
     end
 
     private

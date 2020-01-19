@@ -33,6 +33,10 @@ module ElementRender
     @parent.root_screen
   end
 
+  # def clear
+  #   root_screen.clear
+  # end
+
   protected
 
   def render_self(screen)

@@ -24,6 +24,7 @@ module InputTime
   end
 
   def set_interval(seconds = @interval, block = nil, &proc_block)
+    seconds = seconds == nil ? @interval : seconds
     # TODO: seconds not implemented - block will be called on each input interval
     the_block = block == nil ? proc_block : block
     throw 'No block provided' if the_block == nil

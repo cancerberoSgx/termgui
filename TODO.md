@@ -23,6 +23,7 @@
    - [x] left
    - [ ] right, center (any gem for this?)
    - [ ] node.text_children - returns this node text plus all its children text recursively in children order (useful for testing)
+ - see emitter.rb : " this is the same as event.rb Event. Move Event classes to individual - non dependency file"
  - [w] set_timeout, set_interval
    - [x] separate input@set_timeout in a module
    - [ ] support set_interval correctly - test it
