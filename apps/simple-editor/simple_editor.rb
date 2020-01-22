@@ -1,20 +1,21 @@
 require_relative '../../src/termgui'
 
-# def main
-#   screen = TermGui::Screen.new
-#   screen.append_child Editor.new(text: 'hello world\how are you?', x: 0.2)
-#   screen.set_timeout{
+def main
+  screen = TermGui::Screen.new
+  screen.append_child Editor.new(text: 'hello world\how are you?', x: 0.2)
+  screen.set_timeout{
 
-#   }
-#   screen.start
-# end
+  }
+  screen.start
+end
 
-# class Editor < TermGui::Element
-#   def initialize(**args)
-#     super
-#     @editor = TermGui::EditorBase.new(text: args[:text], screen: root_screen, x: abs_content_x, y: abs_content_y, cursor_x: args[:cursor_x], cursor_y: args[:cursor_y])
-#   end
-# end
+class Editor < TermGui::Element
+  def initialize(**args)
+    super
+    @editor = TermGui::EditorBase.new(text: args[:text], screen: root_screen, x: abs_content_x, y: abs_content_y, cursor_x: args[:cursor_x], cursor_y: args[:cursor_y])
+  end
+  
+end
 
 # s = Screen.new(width: 12, height: 7, silent: true)
 # s.append_child Element.new(x: 7, y: 3, width: 7, height: 12, text: 'hello', ch: '·', style: { border: Border.new, padding: Bounds.new(top: 1, left: 2) })

@@ -18,7 +18,7 @@ module ScreenElement
     v = get_attribute('offset')
     unless v
       v = Offset.new
-      set_attribute('offset', v) 
+      set_attribute('offset', v)
     end
     v
   end

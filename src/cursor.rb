@@ -34,9 +34,10 @@ class Cursor
     end
   end
 
-def draw_on
-  @screen.text(x: @x, y: @y, text: @on, style: Style.new(bold: true))
-end
+  def draw_on
+    @screen.text(x: @x, y: @y, text: @on, style: Style.new(bold: true))
+  end
+
   def disable
     @enabled = false
     @screen.clear_interval @interval_listener if @interval_listener

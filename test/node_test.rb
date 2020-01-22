@@ -89,8 +89,8 @@ class NodeTest < Test::Unit::TestCase
 
   def test_append_to
     pend
-  end  
-  
+  end
+
   def test_insert_children
     pend
   end
@@ -98,6 +98,7 @@ class NodeTest < Test::Unit::TestCase
   def test_remove
     pend
   end
+
   def test_parent_prop
     pend
   end

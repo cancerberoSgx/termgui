@@ -7,7 +7,7 @@ module TermGui
   # analog to HTML DOM Node class
   # Ways of declaring node hierarchies by using parent and children props, or append_child or append_to methods. For declarative complex structures probably you want to use children
   # `main = Row.new(parent: screen, height: 0.5, children: [Button.new(text: 'clickme', Col.new(width: 0.8, x: 0.2, children: [Label.new(text: 'hello')]))])`
-  # or 
+  # or
   # `main = screen.append_child(Row.new(height: 0.5, children: [Button.new(text: 'clickme', Col.new(width: 0.8, x: 0.2, children: [Label.new(text: 'hello')]))]))`
   # or
   # `main = Row.new(height: 0.5, children: [Button.new(text: 'clickme', Col.new(width: 0.8, x: 0.2, children: [Label.new(text: 'hello')]))]).append_to(screen)`
@@ -41,7 +41,7 @@ module TermGui
       (append_children child)[0]
     end
 
-    def insert_children(index=0, *children)
+    def insert_children(index = 0, *children)
       @children.insert(index, *children)
       children
     end

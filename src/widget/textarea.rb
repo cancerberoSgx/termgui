@@ -3,7 +3,6 @@ require_relative '../event'
 
 module TermGui
   module Widget
-    
     # One line text input box, analog to HTMLInputElement
     class TextArea < Button
       attr_accessor :value

@@ -25,7 +25,7 @@ module TermGui
   class KeyEvent < Event
     attr_reader :key, :raw
 
-    def initialize(key, raw=name_to_char(key))
+    def initialize(key, raw = name_to_char(key))
       super 'key'
       @key = key
       @raw = raw

@@ -60,5 +60,4 @@ module ElementBox
   def border_y_size
     style.border ? 2 : 0
   end
-
 end

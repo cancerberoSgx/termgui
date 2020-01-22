@@ -3,8 +3,14 @@ require_relative 'geometry'
 
 # Adds support for Element's x, y, abs_x, abs_y, width, height, abs_width, abs_height, offset (scroll viewport)
 module ElementBounds
+  def initialize(**args)
+    super
+    install(:bounds_change)
+  end
+
   def x=(x)
     set_attribute('x', x)
+    trigger :bounds_change
   end
 
   def x
@@ -12,11 +18,11 @@ module ElementBounds
   end
 
   def abs_x
-    if is_percent x
-      val = ((@parent ? @parent.abs_x : 0) + x * (@parent ? @parent.abs_width : abs_width)).truncate
-    else
-      val = ((@parent ? @parent.abs_x : 0) + x).truncate
-    end
+    val = if is_percent x
+            ((@parent ? @parent.abs_x : 0) + x * (@parent ? @parent.abs_width : abs_width)).truncate
+          else
+            ((@parent ? @parent.abs_x : 0) + x).truncate
+          end
     o = @parent && parent.offset
     val -= o.left if o
     val
@@ -30,6 +36,7 @@ module ElementBounds
 
   def offset=(value)
     set_attribute('offset', value)
+    trigger :bounds_change
   end
 
   def abs_x=(value)
@@ -39,6 +46,7 @@ module ElementBounds
 
   def y=(y)
     set_attribute('y', y)
+    trigger :bounds_change
   end
 
   def y
@@ -46,11 +54,11 @@ module ElementBounds
   end
 
   def abs_y
-    if is_percent y
-      val = ((@parent ? @parent.abs_y : 0) + y * (@parent ? @parent.abs_height : abs_height)).truncate
-    else
-      val = ((@parent ? @parent.abs_y : 0) + y).truncate
-    end
+    val = if is_percent y
+            ((@parent ? @parent.abs_y : 0) + y * (@parent ? @parent.abs_height : abs_height)).truncate
+          else
+            ((@parent ? @parent.abs_y : 0) + y).truncate
+          end
     o = @parent && parent.offset
     val -= o.top if o
     val
@@ -63,6 +71,7 @@ module ElementBounds
 
   def width=(width)
     set_attribute('width', width)
+    trigger :bounds_change
   end
 
   def width
@@ -70,18 +79,16 @@ module ElementBounds
   end
 
   def abs_width
-    # width = get_attribute 'width' || 0
-
     if (is_percent width) && @parent
       (@parent.abs_width * width).truncate
     else
       width.truncate
     end
-
   end
 
   def height=(height)
     set_attribute('height', height)
+    trigger :bounds_change
   end
 
   def height
@@ -94,6 +101,5 @@ module ElementBounds
     else
       height.truncate
     end
-
   end
 end

@@ -47,5 +47,4 @@ module ElementStyle
     s1.bg = s2.bg if s2.bg
     s1.fg = s2.fg if s2.fg
   end
-
 end
