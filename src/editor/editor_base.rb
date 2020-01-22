@@ -86,14 +86,13 @@ module TermGui
         handle_backspace
       elsif event.key == 'delete'
         handle_delete
-      # elsif alphanumeric?(event.raw) || %w[space tab].include?(event.key)
-      #   insert_chars(event.raw)
-      # else
-      #   throw 'TODO unsupported event ' + event.to_s
-      else
+      elsif alphanumeric?(event.raw) || %w[space tab].include?(event.key)
         insert_chars(event.raw)
+      else
+        # throw 'TODO unsupported event ' + event.to_s
+      # else
+      #   insert_chars(event.raw)
       end
-
       @cursor.off = current_char || @cursor.off
       @cursor.on = current_char || @cursor.on
       render

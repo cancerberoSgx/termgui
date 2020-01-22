@@ -5,7 +5,7 @@ require_relative '../key'
 module TermGui
   module EditorBaseHandlers
     def handle_enter
-      if current_x > current_line.length
+      if current_x >= current_line.length
         @lines.insert(current_y + 1, '')
       else
         line1 = current_x==0 ? '' : current_line[0..[current_x - 1, 0].max]
@@ -55,7 +55,7 @@ module TermGui
     end
 
     def cursor_right
-      if current_x > current_line.length
+      if current_x >= current_line.length
         if current_y < @lines.length - 1
           self.current_y += 1
           self.current_x = 0
