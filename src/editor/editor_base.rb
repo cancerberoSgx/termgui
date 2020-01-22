@@ -1,15 +1,17 @@
 require_relative '../cursor'
 require_relative '../log'
 require_relative '../key'
+require_relative 'editor_base_handlers'
 
 # class EnterHandler
 #   def handle(event)
 #   end
 # end
 
-
 module TermGui
   class EditorBase
+    include EditorBaseHandlers
+
     attr_accessor :x, :y
 
     def initialize(text: '', screen: nil, x: 0, y: 0, cursor_x: nil, cursor_y: nil)
@@ -19,7 +21,7 @@ module TermGui
       @cursor = Cursor.new(screen: @screen)
       self.text = text
       @cursor.y = @y + cursor_y if cursor_y
-      @cursor.x = @x + cursor_x + 1 if cursor_x 
+      @cursor.x = @x + cursor_x + 1 if cursor_x
     end
 
     def cursor_x
@@ -41,16 +43,16 @@ module TermGui
     end
 
     def lines
-      @lines.map{|s|s+''}
+      @lines.map { |s| s + '' }
     end
 
     def current_line
-      @lines[@cursor.y]
+      @lines[current_y]
     end
 
     # @cursor.y defines de current line
     def current_line=(value)
-      @lines[@cursor.y] = value
+      @lines[current_y] = value
     end
 
     def current_char
@@ -98,8 +100,6 @@ module TermGui
         insert_chars('    ')
 
       elsif ['S-tab'].include? event.key
-        # cursor_left(2)
-        # cursor_leftC
 
       elsif event.key == 'backspace'
         handle_backspace
@@ -107,7 +107,7 @@ module TermGui
       elsif event.key == 'delete'
         handle_delete
 
-      elsif alphanumeric?(event.raw) || ['space', 'tab'].include?(event.key )
+      elsif alphanumeric?(event.raw) || %w[space tab].include?(event.key)
         insert_chars(event.raw)
 
       else
@@ -119,111 +119,24 @@ module TermGui
       @cursor.draw_on
     end
 
-    def handle_enter
-      if @cursor.x >= current_line.length
-        @lines.insert(@cursor.y + 1, '')
-      else
-        line1 = current_line[0..@cursor.x - 2]
-        line2 = current_line[@cursor.x - 1..current_line.length]
-        @lines.delete_at(@cursor.y)
-        @lines.insert(@cursor.y, line1, line2)
-      end
-      @cursor.y += 1
-      @cursor.x = @x + 1
+    protected
+
+    def current_x
+      # cursor.x is absolute - this is used as row index + 1 in current_line
+      @cursor.x - @x
     end
 
-    def insert_chars(s)
-      prefix = @cursor.x <= 1 ? '' : current_line[0.. [@cursor.x-2, 0].max] || ''
-      postfix = current_line[[@cursor.x - 1, 0].max..current_line.length] || ''
-      self.current_line = prefix + s + postfix
-      @cursor.x += s.length
+    def current_x=(x)
+      @cursor.x = @x + x
     end
 
-    def handle_delete
-      if @cursor.x >= current_line.length && @cursor.y >= @lines.length - 1
-        @screen.alert
-      else
-        if current_line.length <= 1
-          @cursor.x = 1
-          self.current_line = ''
-        else
-          prefix = current_line[0..[@cursor.x - 1, 0].max]
-          postfix = current_line[[@cursor.x + 1, current_line.length].min..current_line.length] || ''
-          self.current_line = prefix + postfix
-          # TODO: join lines if at the end of line and there's a following
-        end
-      end
+    def current_y
+      # cursor.y is absolute - this is used as column index in current_line
+      @cursor.y - @y
     end
 
-    def cursor_down
-      if @cursor.y == @lines.length - 1
-        if @cursor.x > current_line.length
-          @screen.alert
-        else
-          @cursor.x = current_line.length + 1
-        end
-      else
-        @cursor.y = @cursor.y == @lines.length - 1 ? @cursor.y : @cursor.y + 1
-        @cursor.x = [@cursor.x, current_line.length+1].min
-      end
-    end
-
-    def cursor_right
-      if @cursor.x > current_line.length
-        if @cursor.y < @lines.length - 1
-          @cursor.y += 1
-          @cursor.x = 1
-        else
-          @screen.alert
-        end
-      else
-        @cursor.x += 1
-      end
-    end
-
-    def handle_backspace
-      if @cursor.x <= 1 && @cursor.y <= 0
-        @screen.alert
-      elsif @cursor.x <= 1
-        old_line = (@lines.delete_at(@cursor.y) unless @lines.empty?) || ''
-        @cursor.y = [@cursor.y - 1, 0].max
-        @cursor.x = current_line.length + 1
-        self.current_line = current_line + old_line
-      elsif current_line.length <= 1
-        @cursor.x = 1
-        self.current_line = ''
-      else
-        prefix = current_line[0..[@cursor.x - 2, 0].max]
-        postfix = current_line[[@cursor.x, current_line.length].min..current_line.length] || ''
-        self.current_line = prefix + postfix
-        @cursor.x = [@cursor.x - 1, 1].max
-      end
-    end
-
-    def cursor_left
-      if @cursor.x <= 1
-        if @cursor.y > 0
-          @cursor.y -= 1
-          @cursor.x = (current_line.length + 1)
-        else
-          @screen.alert
-        end
-      else
-        @cursor.x -= 1
-      end
-    end
-
-    def cursor_up
-      if @cursor.y == 0
-        if @cursor.x == 1
-          @screen.alert
-        else
-          @cursor.x = 1
-        end
-      else
-        @cursor.y = [@cursor.y - 1, 0].max
-        @cursor.x = [@cursor.x, current_line.length+1].min
-      end
+    def current_y=(y)
+      @cursor.y = @y + y
     end
   end
 end
