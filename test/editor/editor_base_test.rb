@@ -128,4 +128,69 @@ class EditorBaseTest < Test::Unit::TestCase
     end
     screen.start
   end
+
+  def test_coords
+    screen = Screen.new(width: 24, height: 6)
+    screen.install_exit_keys
+    screen.silent = true
+    ed = EditorBase.new(text: 'Welcome to this\nhumble editor', screen: screen, cursor_x: 0, cursor_y: 0, x: 5, y: 2)
+    ed.enable
+    screen.set_timeout do
+      ed.render
+      assert_equal(
+        '                        \n' \
+        '                        \n' \
+        '     Welcome to this    \n' \
+        '     humble editor      \n' \
+        '                        \n' \
+        '                        \n', screen.renderer.print
+      )
+      assert_equal [0, 0], [ed.cursor_x, ed.cursor_y]
+      screen.event.handle_key(KeyEvent.new('down'))
+      assert_equal [0, 1], [ed.cursor_x, ed.cursor_y]
+      screen.event.handle_key(KeyEvent.new('right'))
+      assert_equal [1, 1], [ed.cursor_x, ed.cursor_y]
+      screen.event.handle_key(KeyEvent.new('enter'))
+      ed.render
+      assert_equal(
+        '                        \n' \
+        '                        \n' \
+        '     Welcome to this    \n' \
+        '     h                  \n' \
+        '     umble editor       \n' \
+        '                        \n', screen.renderer.print
+      )
+      assert_equal [0, 2], [ed.cursor_x, ed.cursor_y]
+
+      screen.event.handle_key(KeyEvent.new('backspace'))
+      assert_equal [1, 1], [ed.cursor_x, ed.cursor_y]
+      ed.render
+      assert_equal(
+        '                        \n' \
+        '                        \n' \
+        '     Welcome to this    \n' \
+        '     humble editor      \n' \
+        '                        \n' \
+        '                        \n', screen.renderer.print
+      )
+      assert_equal [1, 1], [ed.cursor_x, ed.cursor_y]
+
+      screen.event.handle_key(KeyEvent.new('A'))
+      ed.render
+      assert_equal(
+        '                        \n' \
+        '                        \n' \
+        '     Welcome to this    \n' \
+        '     hAumble editor     \n' \
+        '                        \n' \
+        '                        \n', screen.renderer.print
+      )
+      assert_equal [2, 1], [ed.cursor_x, ed.cursor_y]
+
+      # screen.renderer.print_dev_stdout
+
+      screen.destroy
+    end
+    screen.start
+  end
 end

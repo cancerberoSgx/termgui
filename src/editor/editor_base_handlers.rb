@@ -19,7 +19,7 @@ module TermGui
         @lines.insert(current_y, line1, line2)
       end
       self.current_y += 1
-      self.current_x = @x + 1
+      self.current_x = 1
     end
 
     def insert_chars(s)
