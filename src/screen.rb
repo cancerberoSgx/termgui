@@ -123,7 +123,7 @@ module TermGui
       @renderer.print
     end
 
-    def set_timeout(seconds, listener = nil, &block)
+    def set_timeout(seconds=@input.interval, listener = nil, &block)
       the_listener = listener == nil ? block : listener
       throw 'No listener provided' if the_listener == nil
       @input.set_timeout(seconds, the_listener)
@@ -134,7 +134,7 @@ module TermGui
     end
 
     # TODO: seconds not implemented - block will be called on each input interval
-    def set_interval(seconds = @interval, listener = nil, &block)
+    def set_interval(seconds = @input.interval, listener = nil, &block)
       the_listener = listener == nil ? block : listener
       throw 'No listener provided' if the_listener == nil
       @input.set_interval(seconds, the_listener)
