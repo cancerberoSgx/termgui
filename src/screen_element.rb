@@ -15,8 +15,16 @@ module ScreenElement
   end
 
   def offset
-    @offset = Offset.new if !@offset
-    @offset
+    v = get_attribute('offset')
+    unless v
+      v = Offset.new
+      set_attribute('offset', v) 
+    end
+    v
+  end
+
+  def offset=(value)
+    set_attribute('offset', value)
   end
 
   def abs_height

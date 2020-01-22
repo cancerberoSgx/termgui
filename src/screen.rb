@@ -19,11 +19,12 @@ module TermGui
     attr_accessor :silent
 
     def initialize(children: [], text: '', attributes: {},
-                   width: nil, height: nil)
+                   width: nil, height: nil, silent: false)
       super(name: 'screen', children: children, text: text, attributes: attributes, parent: nil)
       @width = width == nil ? terminal_width : width
       @height = height == nil ? terminal_height : height
       @input_stream = $stdin
+      @silent = silent
       @output_stream = $stdout
       @renderer = Renderer.new(@width, @height)
       @input = Input.new
@@ -34,7 +35,6 @@ module TermGui
         event[:previous]&.render self
       end
       @action = ActionManager.new @focus, @input
-      @silent = false
       install(:destroy)
       install(:after_destroy)
       install(:start)

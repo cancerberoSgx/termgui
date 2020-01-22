@@ -30,6 +30,11 @@ module TermGui
     # all writing must be done using me
     def write(x, y, ch)
       if y < @buffer.length && y >= 0
+        # TODO: x could be negative now, trunc ch to respect screen bounds - if not negative values are printed at the right
+        if x < 0
+          ch = ch[[x * -1, ch.length].min..ch.length]
+          x = 0
+        end
         unless @no_buffer
           (x...[x + ch.length, @width].min).to_a.each do |i|
             @buffer[y][i].ch = ch[i - x]
