@@ -86,4 +86,19 @@ class NodeTest < Test::Unit::TestCase
     result = n.query_one_by_attribute(:a, 1.2)
     assert_equal 'child1', result.name
   end
+
+  def test_append_to
+    pend
+  end  
+  
+  def test_insert_children
+    pend
+  end
+
+  def test_remove
+    pend
+  end
+  def test_parent_prop
+    pend
+  end
 end

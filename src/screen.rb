@@ -123,7 +123,9 @@ module TermGui
       @renderer.print
     end
 
-    def set_timeout(seconds=@input.interval, listener = nil, &block)
+    # Analog to HTML DOM / Node.js setTimeout() using input event loop
+    # @param {Number} seconds
+    def set_timeout(seconds = @input.interval, listener = nil, &block)
       the_listener = listener == nil ? block : listener
       throw 'No listener provided' if the_listener == nil
       @input.set_timeout(seconds, the_listener)
@@ -133,15 +135,16 @@ module TermGui
       @input.clear_timeout(listener)
     end
 
-    # TODO: seconds not implemented - block will be called on each input interval
+    # Analog to HTML DOM / Node.js setInterval() using input event loop
+    # @param {Number} seconds
     def set_interval(seconds = @input.interval, listener = nil, &block)
       the_listener = listener == nil ? block : listener
       throw 'No listener provided' if the_listener == nil
       @input.set_interval(seconds, the_listener)
     end
 
-    def clear_interval(_listener)
-      @input.clear_interval(block)
+    def clear_interval(listener)
+      @input.clear_interval(listener)
     end
 
     def cursor_move(x, y)

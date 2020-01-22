@@ -5,6 +5,12 @@ require_relative 'emitter'
 
 module TermGui
   # analog to HTML DOM Node class
+  # Ways of declaring node hierarchies by using parent and children props, or append_child or append_to methods. For declarative complex structures probably you want to use children
+  # `main = Row.new(parent: screen, height: 0.5, children: [Button.new(text: 'clickme', Col.new(width: 0.8, x: 0.2, children: [Label.new(text: 'hello')]))])`
+  # or 
+  # `main = screen.append_child(Row.new(height: 0.5, children: [Button.new(text: 'clickme', Col.new(width: 0.8, x: 0.2, children: [Label.new(text: 'hello')]))]))`
+  # or
+  # `main = Row.new(height: 0.5, children: [Button.new(text: 'clickme', Col.new(width: 0.8, x: 0.2, children: [Label.new(text: 'hello')]))]).append_to(screen)`
   class Node < Emitter
     include NodeVisit
 
@@ -12,7 +18,6 @@ module TermGui
     attr_writer :parent, :text
 
     def initialize(**args)
-      # def initialize(name: 'node', children: [], text: '', attributes: {}, parent: nil)
       @name = args[:name] || 'node'
       @attributes = Attributes.new args[:attributes] || {}
       @children = args[:children] || []
@@ -23,14 +28,48 @@ module TermGui
       install(:before_render)
     end
 
-    # returns child so something like the following is possible:
-    # `@text = append_child(Textarea.new model.text)`
-    def append_child(*children)
+    # returns child so we can write:  `button = screen.append_child Row.new(text: 'click me')`
+    def append_children(*children)
       children.each do |child|
         @children.push(child)
         child.parent = self
       end
-      children.sample
+      children
+    end
+
+    def append_child(child)
+      (append_children child)[0]
+    end
+
+    def insert_children(index=0, *children)
+      @children.insert(index, *children)
+      children
+    end
+
+    def insert_child(child)
+      (insert_children child)[0]
+    end
+
+    def remove_children(*children)
+      children.each do |child|
+        @children.delete(child)
+        child.parent = self
+      end
+      children
+    end
+
+    def remove_child(child)
+      (remove_children child)[0]
+    end
+
+    def append_to(parent)
+      parent.append_child(self)
+      self
+    end
+
+    def remove
+      parent&.remove_child(self)
+      self.parent = nil
     end
 
     def empty
@@ -38,6 +77,7 @@ module TermGui
         child.parent = nil
       end
       @children = []
+      self
     end
 
     def attributes(attrs = nil)
