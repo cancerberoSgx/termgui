@@ -44,11 +44,14 @@ module TermGui
       input.add_listener('key') { |e| handle_key e }
     end
 
-    def add_key_listener(key, listener = nil, &block)
+    def add_key_listener(keys, listener = nil, &block)
       the_listener = listener == nil ? block : listener
       throw 'No listener provided' if the_listener == nil
-      @key_listeners[key] = @key_listeners[key] || []
-      @key_listeners[key].push the_listener
+      keys = (keys.is_a? String) ? [keys] : keys
+      keys.each do |key|
+        @key_listeners[key] = @key_listeners[key] || []
+        @key_listeners[key].push the_listener
+      end
     end
 
     def remove_key_listener(key, listener)

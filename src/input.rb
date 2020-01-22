@@ -50,7 +50,7 @@ module TermGui
         key = key[1..key.length - 2]
         # log "char: #{char}, key: #{key}, 1: #{char_to_name(char)}, 2: #{char_to_name(key)}"
         key = char_to_name(key) || char
-        log key
+        # log key
         emit_key char, key
       else
         sleep @interval

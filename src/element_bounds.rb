@@ -12,7 +12,7 @@ module ElementBounds
 
   def abs_x
     if is_percent x
-      ((@parent ? @parent.abs_x : 0) + x * (@parent ? @parent.abs_width : @abs_width)).truncate
+      ((@parent ? @parent.abs_x : 0) + x * (@parent ? @parent.abs_width : abs_width)).truncate
     else
       ((@parent ? @parent.abs_x : 0) + x).truncate
     end
@@ -32,7 +32,7 @@ module ElementBounds
 
   def abs_y
     if is_percent y
-      ((@parent ? @parent.abs_y : 0) + y * (@parent ? @parent.abs_height : @abs_height)).truncate
+      ((@parent ? @parent.abs_y : 0) + y * (@parent ? @parent.abs_height : abs_height)).truncate
     else
       ((@parent ? @parent.abs_y : 0) + y).truncate
     end

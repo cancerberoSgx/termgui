@@ -73,7 +73,7 @@ def name_to_char(name)
 end
 
 def char_to_name(ch)
-  log('char_to_name *' + ch + '* *' + ch.inspect + '* ' + (CHAR_NAMES[:"#{ch}"] || 'nil') + '*')
+  # log('char_to_name *' + ch + '* *' + ch.inspect + '* ' + (CHAR_NAMES[:"#{ch}"] || 'nil') + '*')
   CHAR_NAMES[:"#{ch}"]
 end
 

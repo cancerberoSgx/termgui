@@ -14,17 +14,7 @@ class NodeTest < Test::Unit::TestCase
     s.append_child(e)
     s.silent = true
     s.render
-    # log(s.renderer.print_dev)
     assert_equal(
-      # '            \n' +
-      # '┌────────┐  \n' +
-      # '│hello···│  \n' +
-      # '│········│  \n' +
-      # '│········│  \n' +
-      # '│········│  \n' +
-      # '│········│  \n' +
-      # '└────────┘  \n' +
-      # '            \n' +
       '            \\n' \
       '┌──────┐    \\n' \
       '│hello·│    \\n' \
@@ -45,7 +35,6 @@ class NodeTest < Test::Unit::TestCase
     s.append_child(e)
     s.silent = true
     s.render
-    # log(s.renderer.print_dev)
     assert_equal(
       '            \\n' \
       '┌──────┐    \\n' \
@@ -67,15 +56,6 @@ class NodeTest < Test::Unit::TestCase
     s.silent = true
     s.render
     assert_equal(
-      # '┌──────────────┐\n' +
-      # '│as df rf ty···│\n' +
-      # '│gh fg sdf ed··│\n' +
-      # '│··············│\n' +
-      # '│··············│\n' +
-      # '│··············│\n' +
-      # '│··············│\n' +
-      # '│··············│\n' +
-      # '└──────────────┘\n' +
       '┌────────────┐  \\n' \
       '│as df rf ty·│  \\n' \
       '│gh fg sdf ed│  \\n' \

@@ -1,4 +1,4 @@
-require_relative 'node'
+require_relative 'element'
 require_relative 'renderer'
 require_relative 'input'
 require_relative 'event'

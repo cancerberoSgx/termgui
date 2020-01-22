@@ -17,8 +17,6 @@ right = Col.new(width: 0.6, height: 0.99, x: 0.4, style: Style.new(bg: 'blue'))
     text: "Button_#{i}", x: 0.5,
     action: proc { open_modal(screen: screen, title: "Button_#{i}") }
   )
-  # b.style.bg = 'white'
-  # b.style.focus.bg = 'red'
 end
 [left, right].each { |widget| screen.append_child widget }
 

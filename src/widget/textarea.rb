@@ -3,30 +3,9 @@ require_relative '../event'
 
 module TermGui
   module Widget
-    class InputEvent < NodeEvent
-      attr_accessor :value
-      def initialize(target, value = target.value, original_event = nil)
-        super 'input', target, original_event
-        @value = value
-      end
-    end
-
-    class ChangeEvent < NodeEvent
-      attr_accessor :value
-      def initialize(target, value = target.value, original_event = nil)
-        super 'change', target, original_event
-        @value = value
-      end
-    end
-
-    class EscapeEvent < NodeEvent
-      def initialize(target, original_event = nil)
-        super 'escape', target, original_event
-      end
-    end
-
+    
     # One line text input box, analog to HTMLInputElement
-    class InputBox < Button
+    class TextArea < Button
       attr_accessor :value
 
       def initialize(**args)
