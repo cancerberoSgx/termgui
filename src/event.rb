@@ -25,7 +25,7 @@ module TermGui
   class KeyEvent < Event
     attr_reader :key, :raw
 
-    def initialize(key, raw)
+    def initialize(key, raw=name_to_char(key))
       super 'key'
       @key = key
       @raw = raw
@@ -69,6 +69,7 @@ module TermGui
       @any_key_listener.delete listener
     end
 
+    # can be used to programmatically simulate keypressed (useful for tests)
     def handle_key(e)
       key = e.key
       @key_listeners[key] = @key_listeners[key] || []

@@ -34,7 +34,7 @@ module RendererPrint
 
   def print_dev
     s = "'' + \n"
-    print.split('\\n').each { |line| s = "#{s}'#{line}\\n' + \n" }
+    print.split('\\n').each { |line| s = "#{s}#{line}\\n' + \n" }
     s + "''"
   end
 end

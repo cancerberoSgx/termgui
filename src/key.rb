@@ -36,6 +36,9 @@ CHAR_NAMES = {
   '\t': 'tab',
   '\e[Z': 'S-tab',
 
+  '\e[3~': 'delete',
+  "\u232B": 'delete',
+
   '\x7F': 'backspace',
   ' ': 'space',
 

@@ -107,6 +107,10 @@ module TermGui
       end
     end
 
+    def alert
+      puts "\a"
+    end
+
     def box(x, y, width, height, border_style = :classic, style = nil)
       self.style = style if style
       box = draw_box(width: width, height: height, style: border_style)
