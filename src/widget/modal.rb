@@ -9,22 +9,30 @@ require_relative '../log'
 require_relative '../widget/button'
 require_relative '../widget/label'
 
-@modal_open = nil
-
+@modal_open = false
 def open_modal(
   screen: nil,
   title: 'Modal',
   content: Label.new(text: 'Content'),
   buttons: [
     Button.new(text: 'OK', action: proc { close_modal screen })
-  ]
+  ],
+  on_close: nil
 )
+  return if @modal_open
+
+  # @close_block = on_close
+  # id = unique
   # first time called we set up 'c' key for closing modals
-  screen.event.add_key_listener('c', proc { |_e| close_modal screen }) if @modal_open == nil
+  screen.event.add_key_listener('c', proc {
+    close_modal screen
+    on_close&.call
+    # yield if block_given?
+  })
 
   @modal_open = true
 
-  # content = content.instance_of? String ? Label.new(text: content) : content
+  content = (content.instance_of? String) ? Label.new(text: content) : content
   screen.rect(x: 2, y: 2, width: [content.width, '(press c to close)'.length].max + 3, height: 7 + content.height, ch: ' ')
   screen.text(x: 3, y: 3, text: title)
   screen.text(x: 3, y: 4, text: '(press c to close)')
@@ -50,4 +58,16 @@ end
 
 def close_modal(screen)
   screen.render
+  @modal_open = false
+  # @close_block&.call
+end
+
+module TermGui
+  module Widget
+    class Modal
+      def self.open(**args)
+        open_modal(args)
+      end
+    end
+  end
 end

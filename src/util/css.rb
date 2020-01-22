@@ -1,8 +1,8 @@
 # css like language parser
 # TODO: move this to its own project
 
+module TermGui
 # given a string like `foo {bg: red; padding-top: 3} .bar .primary {}`
-
 # Rules:
 #  * values cannot contain any of the following chars: `:;{}`
 #  * No inmediate children ('>') supported. Example, `a b` is supported. `a>b` is not supported.
@@ -72,11 +72,14 @@ class CSSParser
     results
   end
 end
+end
+
+CSSParser = TermGui::CSSParser
 
 # p = CSSParser.new
 # # p.parse('foo {bg: red; padding-top: 3} .bar .primary {border: double black}; .sidebar .container { padding: 1}')
 # s = 'a>  b c>d f'
-p CSSParser.new.parse_selector 'a>  b c>d f'
+# p CSSParser.new.parse_selector 'a>  b c>d f'
 # a = s.split(/([\s>])/) # .select{|s|s.strip!=''}
 # p a
 # i = 0
@@ -93,3 +96,4 @@ p CSSParser.new.parse_selector 'a>  b c>d f'
 # rules = parser.parse_rules_properties(parser.parse_rules('foo {bg: red; padding-top: 3} .bar .primary {border: double black}; .sidebar .container { padding: 1}'))
 # actual = parser.parse_rules_selectors(rules)
 # p actual
+

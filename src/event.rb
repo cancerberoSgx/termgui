@@ -52,6 +52,7 @@ module TermGui
         @key_listeners[key] = @key_listeners[key] || []
         @key_listeners[key].push the_listener
       end
+      the_listener
     end
 
     def remove_key_listener(key, listener)
@@ -63,6 +64,7 @@ module TermGui
       the_listener = listener == nil ? block : listener
       throw 'No listener provided' if the_listener == nil
       @any_key_listener.push the_listener
+      the_listener
     end
 
     def remove_any_key_listener(listener)

@@ -8,6 +8,20 @@ require 'json'
 #   JSON.generate(obj)
 # end
 
+# TODO: why is it so hard in ruby to access an outer local variable from a method ? I needed to create a module and a wrapper for somethig very trivial
+
+module Util
+  @uc = 0
+  def self.unique(s = '')
+    @uc += 1
+    s + @uc.to_s
+  end
+end
+
+def unique(s = '')
+  Util.unique(s)
+end
+
 # TODO: hack because \n chars are not printed with puts or print:
 def print_string(str)
   str.split('\n').map { |s| puts s || '' }
