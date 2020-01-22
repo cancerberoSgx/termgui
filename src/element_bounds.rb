@@ -1,6 +1,7 @@
 require_relative 'util'
+require_relative 'geometry'
 
-# Adds support for Element's x, y, abs_x, abs_y, width, height, abs_width, abs_height
+# Adds support for Element's x, y, abs_x, abs_y, width, height, abs_width, abs_height, offset (scroll viewport)
 module ElementBounds
   def x=(x)
     set_attribute('x', x)
@@ -12,13 +13,27 @@ module ElementBounds
 
   def abs_x
     if is_percent x
-      ((@parent ? @parent.abs_x : 0) + x * (@parent ? @parent.abs_width : abs_width)).truncate
+      val = ((@parent ? @parent.abs_x : 0) + x * (@parent ? @parent.abs_width : abs_width)).truncate
     else
-      ((@parent ? @parent.abs_x : 0) + x).truncate
+      val = ((@parent ? @parent.abs_x : 0) + x).truncate
     end
+    o = @parent && parent.offset
+    val -= o.left if o
+    val
+  end
+
+  def offset
+    v = get_attribute('offset')
+    set_attribute('offset', v = Offset.new) unless v
+    v
+  end
+
+  def offset=(value)
+    set_attribute('offset', value)
   end
 
   def abs_x=(value)
+    # //TODO: offset
     self.x = value - (@parent ? @parent.abs_x : 0).truncate
   end
 
@@ -32,13 +47,17 @@ module ElementBounds
 
   def abs_y
     if is_percent y
-      ((@parent ? @parent.abs_y : 0) + y * (@parent ? @parent.abs_height : abs_height)).truncate
+      val = ((@parent ? @parent.abs_y : 0) + y * (@parent ? @parent.abs_height : abs_height)).truncate
     else
-      ((@parent ? @parent.abs_y : 0) + y).truncate
+      val = ((@parent ? @parent.abs_y : 0) + y).truncate
     end
+    o = @parent && parent.offset
+    val -= o.top if o
+    val
   end
 
   def abs_y=(value)
+    # TODO: parent offset
     self.y = value - (@parent ? @parent.abs_y : 0).truncate
   end
 
@@ -59,18 +78,6 @@ module ElementBounds
       width.truncate
     end
 
-    # if (is_percent width) && @parent
-    #   width = @parent.abs_width * width
-    # end
-    # # if (is_percent width) && @parent
-    # #   width = @parent.abs_width * width
-    # # end
-    # width = width.truncate
-    # width = width + border_x_size
-    # # if style.border
-    # #   width = width + 2
-    # # end
-    # width
   end
 
   def height=(height)
@@ -82,25 +89,11 @@ module ElementBounds
   end
 
   def abs_height
-    # height = get_attribute( 'height') || 0
-
     if is_percent height
       (@parent ? @parent.abs_height * height : 0).truncate
     else
       height.truncate
     end
 
-    # if (is_percent height) && @parent
-    #   height = @parent.abs_height * height
-    # end
-    # # if (is_percent height) && @parent
-    # #   height = @parent.abs_height * height
-    # # end
-    # height = height.truncate
-    # height = height + border_y_size
-    # # if style.border
-    # #   height = height + 2
-    # # end
-    # height
   end
 end

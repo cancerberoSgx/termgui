@@ -1,3 +1,5 @@
+require_relative 'geometry'
+
 # so screen emulates an Element. TODO: make Screen < Element and get rid of width and height and all of this...
 module ScreenElement
   def abs_x
@@ -10,6 +12,11 @@ module ScreenElement
 
   def abs_width
     @width
+  end
+
+  def offset
+    @offset = Offset.new if !@offset
+    @offset
   end
 
   def abs_height

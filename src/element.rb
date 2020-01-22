@@ -34,11 +34,11 @@ module TermGui
       get_attribute('ch')
     end
 
-    # will be called by ActionManager whenever an user input occurs while this element has focus.
-    # TODO: move to element_focus module
-    def handle_focused_input(event)
-      super
-    end
+    # # will be called by ActionManager whenever an user input occurs while this element has focus.
+    # # TODO: move to element_focus module
+    # def handle_focused_input(event)
+    #   super
+    # end
   end
 end
 

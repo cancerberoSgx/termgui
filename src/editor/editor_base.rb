@@ -3,11 +3,6 @@ require_relative '../log'
 require_relative '../key'
 require_relative 'editor_base_handlers'
 
-# class EnterHandler
-#   def handle(event)
-#   end
-# end
-
 module TermGui
   class EditorBase
     include EditorBaseHandlers
@@ -42,22 +37,9 @@ module TermGui
       @lines.join('\n')
     end
 
-    def lines
-      @lines.map { |s| s + '' }
-    end
-
-    def current_line
-      @lines[current_y]
-    end
-
-    # @cursor.y defines de current line
-    def current_line=(value)
-      @lines[current_y] = value
-    end
-
-    def current_char
-      current_line[@cursor.x - 1] || ' '
-    end
+    # def lines
+    #   @lines.map { |s| s + '' }
+    # end
 
     def enable
       disable
@@ -80,25 +62,20 @@ module TermGui
       end
     end
 
+    # public so keys can be programmatically simlated - useful for tests instead of calling screen.event.handle_keythat emits globally.
     def handle_key(event)
       if ['down'].include? event.key
         cursor_down
-
       elsif ['up'].include? event.key
         cursor_up
-
       elsif ['right'].include? event.key
         cursor_right
-
       elsif ['left'].include? event.key
         cursor_left
-
       elsif ['enter'].include? event.key
         handle_enter
-
       elsif ['tab'].include? event.key
-        insert_chars('    ')
-
+        insert_chars('    ') # TODO: hack - adding a tab will break since we assume all chars width is 1 (1 column per char) - it will also fail for unicode chars width>1
       elsif ['S-tab'].include? event.key
 
       elsif event.key == 'backspace'
@@ -120,6 +97,19 @@ module TermGui
     end
 
     protected
+
+    def current_line
+      @lines[current_y]
+    end
+
+    # @cursor.y defines de current line
+    def current_line=(value)
+      @lines[current_y] = value
+    end
+
+    def current_char
+      current_line[@cursor.x - 1] || ' '
+    end
 
     def current_x
       # cursor.x is absolute - this is used as row index + 1 in current_line

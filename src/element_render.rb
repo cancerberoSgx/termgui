@@ -33,10 +33,6 @@ module ElementRender
     @parent.root_screen
   end
 
-  # def clear
-  #   root_screen.clear
-  # end
-
   protected
 
   def render_self(screen)
@@ -49,18 +45,12 @@ module ElementRender
       height: abs_height,
       ch: ch
     )
-    # screen.style = style.clone.assign style.border if style&.border
   end
 
   # IMPORTANT: border is rendered in a +2 bigger rectangle that sourounds actual element bounds (abs_* methods)
   def render_border(screen)
     screen.style = border_style
     screen.box abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, style if border
-
-    # if style.border
-    #   screen.style = border_style
-    #   screen.box abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, style if border
-    # end
   end
 
   def render_text(screen)

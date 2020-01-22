@@ -1,4 +1,5 @@
 ## TODO
+ - [w] editor - generic text area like (see section "editor" below). See src/editor
  - investigate similar target projects https://github.com/Shopify/cli-ui and https://github.com/gavinlaking/vedeu
  - [ ] input - check this - https://github.com/piotrmurach/tty-reader supports raw mode for multi line - "https://github.com/piotrmurach/tty-reader#22-read_line" - has the key map implemented.
  - [ ] keys - full map verify https://rubydoc.info/gems/vedeu/Vedeu
@@ -94,6 +95,68 @@ generate documentation (using yard)
  - [x] Keys : test support for key-names 
    - [x] test names - enter, left,up, right down, escape
    - [x]  test complex (C-x, S-C-right, escape, tab, etc) : `s.add_key_listener('S-C-right', proc {|ev|p 123})`
+
+
+### Editor TODO
+
+I didn't saw this implemented in similar libraries like tty-reader, vedeu or shopify-cli ( tty-reader mentions multiline editor bur is not this...  this is like terminal prompt - not text area) 
+
+Current status: implements a text area supporting configurable set of keys arrows, enter, backspace, delete, home, end, next-page, prev-page, tab, shift-tab. The basics are there, a text area could be implemented currently easily. 
+
+
+But what about a "real world" editor and which feature should be responsibility of this library?
+
+* should this be in a separate project ? 
+
+* filesystem
+
+* selection  : shift arrows, shift-end,  C-a, etc
+  * this impacts on handle_keys since if there's a selection, 
+    * modifications will replace the selection. 
+    * arrows - navigation changes semantics
+
+* basic text buffer - TextChange, span, etc this will enable:
+  * undo-redo 
+  * change notifications
+  * big buffers
+
+* clipboard ? system clipboard ? 
+
+* MISSING KEYS: shift-tab, home, end, next-page, prev-page - these are not supported in keys currently
+
+* scrolling for lines outside area
+  * alternatively implement word wrap -
+  * ideally we want both (toggle word wrap)
+  * right now text is truncated on the right and bottom.
+
+* configurable key-shortcuts - ideally we should be able to move, scroll, undo, redo, copy, etc a-la-vim with just config
+
+* UX we will need to ESCAPE to activate menus - like vim... or should we support complex key-shortcuts like emacs?
+  * ideally I want a menu that is activated with escape . escape or action to enter in the editor... 
+  * in the future other widgets like folder explorer can be escape-tab to focus escape-tab enter to enter the editor again ? or the menu? like blessed/blessed-based-editor...
+
+* file chooser - save/load files visually
+* projects:
+  * multiple buffers (tabs?) opened
+  * file explorer - tree showing a folder allowing opening files - some actions like remove , rename, move ? visually!
+    * implies kind of MVC - an open file renamed
+
+#### current editor_base implementation todo
+
+  *  TODO: maybe is better to extend Element and use its coords and root_screen? or have a CursorElement or EnterableElement with cursor stuff? Maybe also move all this to a module instead of class
+    *  x, y accessors should support percents - or we should just call abs_content_x, etc
+    *  enable() should be called on_enter, disable() on_blur or on_escape
+    *  render() should call super and compatible with element
+    *  width, height - currently will print stuff outside screen 
+      * line break - word wrap ? 
+      *   if no linebreak then we need a viewport for "scrolling" - if not is not usable for a text editor (can we leave this reponsibility to container Element - don't think so - another reason to make this an Element?)
+
+  *  won't work for tab (currently hacking) and unicode chars width != 1
+  
+
+#### editor plan
+
+ * implement editor API only nothing visual but the text area: 
 
 ### Ideas - nice to have
 
