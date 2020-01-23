@@ -5,13 +5,17 @@ module TermGui
     attr_accessor :interval, :x, :y, :enabled, :off, :on
 
     #  TODO: on_style off_style, on/off ch
-    def initialize(on_interval: 0.3, off_interval: on_interval / 2, x: 0, y: 0, enabled: false, screen: nil, off: ' ', on: '_',
-                   on_style: Style.new( bg: 'white', fg: 'black'), off_style: Style.new(bg: 'black', fg: 'white'))
+    def initialize(on_interval: 0.3, off_interval: on_interval / 2, 
+      x: 0, y: 0, enabled: false, x_offset: 1,
+      screen: nil, off: ' ', on: '_',
+                   on_style: Style.new( bg: 'white', fg: 'black'), off_style: Style.new(bg: 'black', fg: 'white')
+                   )
       @x = x
       @y = y
       @on_interval = on_interval
       @off_interval = off_interval
       @enabled = enabled
+      @x_offset = x_offset
       @screen = screen
       @state = 0
       @off = off
@@ -43,11 +47,11 @@ module TermGui
     end
 
     def draw_off
-      @screen.text(x: @x, y: @y, text: @off, style: @off_style)
+      @screen.text(x: @x + @x_offset, y: @y, text: @off, style: @off_style)
     end
 
     def draw_on
-      @screen.text(x: @x, y: @y, text: @on, style: @on_style)
+      @screen.text(x: @x + @x_offset, y: @y, text: @on, style: @on_style)
     end
 
     def disable

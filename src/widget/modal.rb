@@ -10,6 +10,7 @@ require_relative '../widget/button'
 require_relative '../widget/label'
 
 @modal_open = false
+
 def open_modal(
   screen: nil,
   title: 'Modal',

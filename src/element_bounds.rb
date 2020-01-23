@@ -40,7 +40,7 @@ module ElementBounds
   end
 
   def abs_x=(value)
-    # //TODO: offset
+    # TODO: parent offset
     self.x = value - (@parent ? @parent.abs_x : 0).truncate
   end
 

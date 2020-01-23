@@ -14,7 +14,6 @@ class EditorBaseTest < Test::Unit::TestCase
     ed.enable
     screen.set_timeout do
       assert_equal 'hello world\nhow are you?', ed.text
-      # assert_equal ['hello world', 'how are you?'], ed.lines
       assert_equal [0, 0], [ed.cursor_x, ed.cursor_y]
 
       screen.clear
@@ -129,9 +128,6 @@ class EditorBaseTest < Test::Unit::TestCase
         '                        \n', screen.renderer.print
       )
       assert_equal [0, 1], [ed.cursor_x, ed.cursor_y]
-      # screen.clear
-      ed.render
-      # screen.renderer.print_dev_stdout
 
       screen.destroy
     end

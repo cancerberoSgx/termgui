@@ -8,12 +8,15 @@ module TermGui
   class EditorBase
     include EditorBaseHandlers
 
-    attr_accessor :x, :y
+    attr_accessor :x, :y, :width, :height
 
-    def initialize(text: '', screen: nil, x: 0, y: 0, width: screen.width, height: screen.height, cursor_x: nil, cursor_y: nil, 
+    def initialize(
+      text: '', screen: nil, x: 0, y: 0,
+      width: screen.width, height: screen.height,
+      cursor_x: nil, cursor_y: nil,
       # if true other party will listen keys and call handle_key - if false it will listen any key by itlself
       managed: false
-      )
+    )
       @screen = screen || (throw 'screen not given')
       @x = x
       @y = y
@@ -37,19 +40,29 @@ module TermGui
     def text=(text)
       @lines = text.split('\n')
       @cursor.y = @y + @lines.length - 1
-      @cursor.x = @x + current_line.length
+      @cursor.x = @x + current_line.length - 1
+    end
+
+    def value=(v)
+      self.text = v
     end
 
     def text
       @lines.join('\n')
     end
 
+    def value
+      text
+    end
+
     def enable(and_render = true)
       disable
       @cursor.enable
-      @key_listener = @screen.event.add_any_key_listener do |event|
-        handle_key event
-      end unless @managed
+      unless @managed
+        @key_listener = @screen.event.add_any_key_listener do |event|
+          handle_key event
+        end
+      end
       render if and_render
     end
 
@@ -64,7 +77,9 @@ module TermGui
     end
 
     def render
-      @screen.render
+      # @screen.clear
+      @screen.rect(x: x, y: y, width: width, height: height, style: Style.new)
+      # @screen.render
       @lines.each_with_index do |line, i|
         @screen.text(x: @x, y: @y + i, text: line)
       end
@@ -94,11 +109,8 @@ module TermGui
         handle_delete
       elsif alphanumeric?(event.raw) || %w[space tab].include?(event.key)
         insert_chars(event.raw)
-      else
-        # throw 'TODO unsupported event ' + event.to_s
-      # else
-      #   insert_chars(event.raw)
       end
+
       @cursor.off = current_char || @cursor.off
       @cursor.on = current_char || @cursor.on
       render
@@ -116,7 +128,7 @@ module TermGui
     end
 
     def current_char
-      current_line[current_x] || ' '
+      current_line[[[current_x, current_line.length].min, 0].max] || ' '
     end
 
     def current_x

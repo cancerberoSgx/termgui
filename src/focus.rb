@@ -1,8 +1,10 @@
 require_relative 'emitter'
 require_relative 'key'
+require_relative 'event'
 
 module TermGui
   # provides support for focused, focusable attributes management and emit focus-related events
+  # TODO: make events extend NodeEvent
   class FocusManager < Emitter
     attr_reader :focused, :keys
 
@@ -48,6 +50,8 @@ module TermGui
       @focused = focused
       @focused.set_attribute(:focused, true)
       emit :focus, focused: @focused, previous: previous
+      previous&.emit :blur, BlurEvent.new(previous, @focused)
+      @focused&.emit :focus, FocusEvent.new(@focused, previous)
     end
 
     protected
@@ -60,6 +64,23 @@ module TermGui
       end
     end
   end
+
+  class BlurEvent < NodeEvent
+    attr_accessor :focused
+    def initialize(target, focused, original_event = nil)
+      super 'blur', target, original_event
+      @focused = focused
+    end
+  end
+
+  class FocusEvent < NodeEvent
+    attr_accessor :previous
+    def initialize(target, previous, original_event = nil)
+      super 'focus', target, original_event
+      @previous = previous
+    end
+  end
+  
 end
 
 FocusManager = TermGui::FocusManager

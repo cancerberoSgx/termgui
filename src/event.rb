@@ -1,6 +1,7 @@
 require_relative 'input'
 
 module TermGui
+  
   # Base event class. Independent of Element.
   class Event
     attr_reader :name

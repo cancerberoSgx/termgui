@@ -27,21 +27,11 @@ module TermGui
       install(:action)
     end
 
-    # def handle_enter(e)
-    #   focused = @focus.focused
-    #   if focused&.get_attribute('focusable')
-    #     event = ActionEvent.new focused, e
-    #     focused_action = focused.get_attribute('action')
-    #     focused_action&.call(event)
-    #     trigger event.name, event
-    #     focused.trigger event.name, event
-    #   end
-    # end
-
     def handle_key(e)
       focused = @focus.focused
       return unless focused
 
+      focused.get_attribute('lasijdf')
       action_key = focused.get_attribute('action-key') || 'enter'
       is_action = e.key == action_key
       if is_action && focused.get_attribute('focusable')
@@ -51,7 +41,6 @@ module TermGui
         trigger event.name, event
         focused.trigger event.name, event
       end
-      # handle_enter e if is_enter
     end
   end
 

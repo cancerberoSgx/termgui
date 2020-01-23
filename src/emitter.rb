@@ -1,8 +1,11 @@
 require_relative 'emitter_state'
+require_relative 'util'
 
 # TODO: this is the same as event.rb Event. Move Event classes to individual - non dependency file
 class Event
+  # @return {String}
   attr_reader :name
+  # @param {String} name
   def initialize(name)
     @name = name
   end
@@ -15,28 +18,33 @@ module TermGui
     include EmitterState
 
     # turn on the event
-    # @param event_name [String, Symbol]
-    def install(event_name)
-      events[event_name.to_sym] ||= []
+    # @param {String, Symbol, (String|Symbol)[]} event_names
+    # @return {nil}
+    def install(event_names)
+      to_array(event_names).each do |event_name|
+        events[event_name.to_sym] ||= []
+      end
     end
 
     # turn off the event
-    # @param event_name [String, Symbol]
-    def uninstall(event_name)
-      events.delete(event_name.to_sym)
+    # @param {String, Symbol, (String|Symbol)[]} event_names
+    # @return {nil}
+    def uninstall(event_names)
+      to_array(event_names).each do |event_name|
+        events.delete(event_name.to_sym)
+      end
     end
 
     # subscribe to event
-    # @param event_name [String, Symbol]
+    # @param {String, Symbol, (String|Symbol)[]} event_names
     # @param handler_proc [Proc]
-    #   Proc with [Symbol, Object]
-    def subscribe(event_name, handler_proc = nil, &block)
+    # @return {Proc}
+    def subscribe(event_names, handler_proc = nil, &block)
       throw 'No block or handler given' if handler_proc == nil && !block_given?
       handler = handler_proc == nil ? block : handler_proc
-      # handler_id = "#{event_name}_#{handler_proc.object_id}"
-      events[event_name.to_sym]&.push handler
-      # p handler_id
-      # handler_id
+      to_array(event_names).each do |event_name|
+        events[event_name.to_sym]&.push handler
+      end
       handler
     end
 
@@ -44,13 +52,14 @@ module TermGui
     alias on subscribe
 
     # unsubscribe to event
-    # @param event_name [String, Symbol]
+    # @param {String, Symbol, (String|Symbol)[]} event_names
     # @param handler [Proc]
-    #   Proc with [Symbol, User]
-    def unsubscribe(event_name, handler)
-      events[event_name.to_sym]&.reject! do |item|
-        # item[:id] == handler_id
-        item == handler
+    # @return {nil}
+    def unsubscribe(event_names, handler)
+      to_array(event_names).each do |event_name|
+        events[event_name.to_sym]&.reject! do |item|
+          item == handler
+        end
       end
     end
 
@@ -58,7 +67,9 @@ module TermGui
     alias off unsubscribe
 
     # emit the event
-    # @param event_name [String, Event]
+    # @param {String, Symbol} event_name
+    # @param {Event} event
+    # @return {nil}
     def emit(event_name, event = Event.new(event_name))
       events[event_name.to_sym]&.each do |h|
         h.call(event)
