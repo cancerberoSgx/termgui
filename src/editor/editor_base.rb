@@ -10,10 +10,11 @@ module TermGui
 
     attr_accessor :x, :y
 
-    def initialize(text: '', screen: nil, x: 0, y: 0, width: screen.width, height: screen.height, cursor_x: nil, cursor_y: nil, 
+    def initialize(
+      text: '', screen: nil, x: 0, y: 0, width: screen.width, height: screen.height, cursor_x: nil, cursor_y: nil,
       # if true other party will listen keys and call handle_key - if false it will listen any key by itlself
       managed: false
-      )
+    )
       @screen = screen || (throw 'screen not given')
       @x = x
       @y = y
@@ -47,9 +48,11 @@ module TermGui
     def enable(and_render = true)
       disable
       @cursor.enable
-      @key_listener = @screen.event.add_any_key_listener do |event|
-        handle_key event
-      end unless @managed
+      unless @managed
+        @key_listener = @screen.event.add_any_key_listener do |event|
+          handle_key event
+        end
+      end
       render if and_render
     end
 
@@ -64,6 +67,7 @@ module TermGui
     end
 
     def render
+      @screen.clear
       @screen.render
       @lines.each_with_index do |line, i|
         @screen.text(x: @x, y: @y + i, text: line)
@@ -94,11 +98,8 @@ module TermGui
         handle_delete
       elsif alphanumeric?(event.raw) || %w[space tab].include?(event.key)
         insert_chars(event.raw)
-      else
-        # throw 'TODO unsupported event ' + event.to_s
-      # else
-      #   insert_chars(event.raw)
       end
+
       @cursor.off = current_char || @cursor.off
       @cursor.on = current_char || @cursor.on
       render

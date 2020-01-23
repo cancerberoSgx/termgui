@@ -1,14 +1,15 @@
 require 'json'
 
-# def json_parse(str)
-#   JSON.parse(str)
-# end
+def json_parse(str)
+  JSON.parse(str)
+end
 
-# def json_stringify(obj)
-#   JSON.generate(obj)
-# end
+def json_stringify(obj)
+  JSON.generate(obj)
+end
 
-# TODO: why is it so hard in ruby to access an outer local variable from a method ? I needed to create a module and a wrapper for somethig very trivial
+# TODO: why is it so hard in ruby to access an outer local variable from a method ? I needed to create a 
+# module and a wrapper for somethig very trivial
 
 module Util
   @uc = 0
@@ -16,6 +17,10 @@ module Util
     @uc += 1
     s + @uc.to_s
   end
+end
+
+def to_array(v)
+  v.is_a?(Array) ? v : [v]
 end
 
 def unique(s = '')

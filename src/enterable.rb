@@ -35,18 +35,25 @@ module TermGui
       self.value = args[:value] || ''
       @key_listener = nil
       set_attribute(:focusable, true)
+      set_attribute(:enterable, true)
       install(:input)
       install(:action)
       install(:enter)
       install(:change)
       install(:escape)
       on(:action) do |event|
-        @key_listener = proc { |e| handle_key e }
-        root_screen.event.add_any_key_listener @key_listener
-        on('change', args[:change]) if args[:change]
-        on('input', args[:input]) if args[:input]
-        on('escape', args[:escape]) if args[:escape]
-        trigger('enter', EnterEvent.new(self, event))
+        unless get_attribute('entered')
+          set_attribute('entered', true)
+          @key_listener = proc { |e| handle_key e }
+          root_screen.event.add_any_key_listener @key_listener
+          on('change', args[:change]) if args[:change]
+          on('input', args[:input]) if args[:input]
+          on('escape', args[:escape]) if args[:escape]
+          trigger('enter', EnterEvent.new(self, event))
+        end
+      end
+      on([:blur, :escape, :change]) do 
+        set_attribute('entered', false)
       end
     end
 
@@ -83,7 +90,7 @@ module TermGui
     def on_input(value, event = nil)
       self.value = value
       self.text = self.value
-      root_screen.clear # TODO performance
+      root_screen.clear # TODO: performance
       root_screen.render
       trigger('input', InputEvent.new(self, self.value, event))
     end

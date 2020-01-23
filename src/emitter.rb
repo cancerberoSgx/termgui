@@ -1,4 +1,5 @@
 require_relative 'emitter_state'
+require_relative 'util'
 
 # TODO: this is the same as event.rb Event. Move Event classes to individual - non dependency file
 class Event
@@ -27,16 +28,15 @@ module TermGui
     end
 
     # subscribe to event
-    # @param event_name [String, Symbol]
+    # @param {String[]|Symbol[]} event_names
     # @param handler_proc [Proc]
     #   Proc with [Symbol, Object]
-    def subscribe(event_name, handler_proc = nil, &block)
+    def subscribe(event_names, handler_proc = nil, &block)
       throw 'No block or handler given' if handler_proc == nil && !block_given?
       handler = handler_proc == nil ? block : handler_proc
-      # handler_id = "#{event_name}_#{handler_proc.object_id}"
-      events[event_name.to_sym]&.push handler
-      # p handler_id
-      # handler_id
+      to_array(event_names).each{|event_name|
+        events[event_name.to_sym]&.push handler
+      }
       handler
     end
 

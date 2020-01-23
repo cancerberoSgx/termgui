@@ -21,6 +21,8 @@ module TermGui
 
     def initialize(**args)
       super
+      install(:focus)
+      install(:blur)
       args[:attributes] = { x: args[:x] || 0, y: args[:y] || 0, width: args[:width] || 0, height: args[:height] || 0 } if args[:attributes] == nil
       a = {}
       a.merge!(args)
@@ -33,12 +35,6 @@ module TermGui
     def ch
       get_attribute('ch')
     end
-
-    # # will be called by ActionManager whenever an user input occurs while this element has focus.
-    # # TODO: move to element_focus module
-    # def handle_focused_input(event)
-    #   super
-    # end
   end
 end
 
