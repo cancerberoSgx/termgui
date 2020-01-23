@@ -61,13 +61,13 @@ module ElementRender
     end
   end
 
-  def render_text_lines
-    style.wrap ? wrap_text(@text, abs_content_width) : @text.split('\n')
+  def render_text_lines(text = @text)
+    style.wrap ? wrap_text(text, abs_content_width) : text.split('\n')
   end
 
   # can be used by text widgets like labels or buttons to automatically set preffered size according to its text
-  def render_text_size
-    lines = render_text_lines
+  def render_text_size(text = @text)
+    lines = render_text_lines(text)
     width = lines.map(&:length).max
     height = lines.length
     { width: width, height: height }

@@ -11,7 +11,7 @@ module TermGui
 
     attr_accessor :fg, :bg, :underline, :bold, :blink
 
-    def initialize(fg: nil, bg: nil, bold: nil, blink: nil, underline: nil, bright: nil, wrap: nil, border: nil)
+    def initialize(fg: nil, bg: nil, bold: nil, blink: nil, underline: nil, bright: nil, wrap: nil, border: nil, padding: nil)
       @fg = fg
       @bg = bg
       @bold = bold

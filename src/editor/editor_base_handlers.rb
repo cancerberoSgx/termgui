@@ -8,8 +8,8 @@ module TermGui
       if current_x >= current_line.length
         @lines.insert(current_y + 1, '')
       else
-        line1 = current_x==0 ? '' : current_line[0..[current_x - 1, 0].max]
-        line2 = current_line[[current_x, current_line.length].min .. current_line.length]
+        line1 = current_x == 0 ? '' : current_line[0..[current_x - 1, 0].max]
+        line2 = current_line[[current_x, current_line.length].min..current_line.length]
         log line1, line2
         @lines.delete_at(current_y)
         @lines.insert(current_y, line1, line2)
@@ -19,7 +19,7 @@ module TermGui
     end
 
     def insert_chars(s)
-      prefix = current_x < 1 ? '' : current_line[0..[current_x-1 , 0].max] || ''
+      prefix = current_x < 1 ? '' : current_line[0..[current_x - 1, 0].max] || ''
       postfix = current_line[[current_x, 0].max..current_line.length] || ''
       self.current_line = prefix + s + postfix
       self.current_x += s.length
@@ -73,7 +73,7 @@ module TermGui
       elsif current_x < 1
         old_line = (@lines.delete_at(current_y) unless @lines.empty?) || ''
         self.current_y = [current_y - 1, 0].max
-        self.current_x = current_line.length 
+        self.current_x = current_line.length
         self.current_line = current_line + old_line
       elsif current_line.length <= 1
         self.current_x = 1
@@ -90,7 +90,7 @@ module TermGui
       if current_x < 1
         if current_y > 0
           self.current_y -= 1
-          self.current_x = current_line.length 
+          self.current_x = current_line.length
         else
           @screen.alert
         end

@@ -17,6 +17,7 @@ class EditorBaseTest < Test::Unit::TestCase
       # assert_equal ['hello world', 'how are you?'], ed.lines
       assert_equal [0, 0], [ed.cursor_x, ed.cursor_y]
 
+      screen.clear
       ed.render
       assert_equal(
         'hello world             \n' \
@@ -32,6 +33,7 @@ class EditorBaseTest < Test::Unit::TestCase
       assert_equal [1, 0], [ed.cursor_x, ed.cursor_y]
 
       screen.event.handle_key(KeyEvent.new('enter'))
+      screen.clear
       ed.render
       assert_equal(
         'h                       \n' \
@@ -43,6 +45,7 @@ class EditorBaseTest < Test::Unit::TestCase
       )
 
       screen.event.handle_key(KeyEvent.new('backspace'))
+      screen.clear
       ed.render
       assert_equal(
         'hello world             \n' \
@@ -60,6 +63,7 @@ class EditorBaseTest < Test::Unit::TestCase
       assert_equal [6, 1], [ed.cursor_x, ed.cursor_y]
 
       screen.event.handle_key(KeyEvent.new('enter'))
+      screen.clear
       ed.render
       assert_equal(
         'hello world             \n' \
@@ -72,6 +76,7 @@ class EditorBaseTest < Test::Unit::TestCase
       assert_equal [0, 2], [ed.cursor_x, ed.cursor_y]
 
       screen.event.handle_key(KeyEvent.new('backspace'))
+      screen.clear
       ed.render
       assert_equal(
         'hello world             \n' \
@@ -86,6 +91,7 @@ class EditorBaseTest < Test::Unit::TestCase
       6.times { screen.event.handle_key(KeyEvent.new('left')) }
       assert_equal [0, 1], [ed.cursor_x, ed.cursor_y]
       screen.event.handle_key(KeyEvent.new('backspace'))
+      screen.clear
       ed.render
       assert_equal(
         'hello worldhow are you? \n' \
@@ -98,6 +104,7 @@ class EditorBaseTest < Test::Unit::TestCase
       assert_equal [11, 0], [ed.cursor_x, ed.cursor_y]
 
       3.times { screen.event.handle_key(KeyEvent.new('space')) }
+      screen.clear
       ed.render
       assert_equal(
         'hello world   how are yo\n' \
@@ -111,6 +118,7 @@ class EditorBaseTest < Test::Unit::TestCase
 
       screen.event.handle_key(KeyEvent.new('X'))
       screen.event.handle_key(KeyEvent.new('enter'))
+      screen.clear
       ed.render
       assert_equal(
         'hello world   X         \n' \
@@ -121,7 +129,8 @@ class EditorBaseTest < Test::Unit::TestCase
         '                        \n', screen.renderer.print
       )
       assert_equal [0, 1], [ed.cursor_x, ed.cursor_y]
-      # ed.render
+      # screen.clear
+      ed.render
       # screen.renderer.print_dev_stdout
 
       screen.destroy
@@ -136,6 +145,7 @@ class EditorBaseTest < Test::Unit::TestCase
     ed = EditorBase.new(text: 'Welcome to this\nhumble editor', screen: screen, cursor_x: 0, cursor_y: 0, x: 5, y: 2)
     ed.enable
     screen.set_timeout do
+      screen.clear
       ed.render
       assert_equal(
         '                        \n' \
@@ -151,6 +161,7 @@ class EditorBaseTest < Test::Unit::TestCase
       screen.event.handle_key(KeyEvent.new('right'))
       assert_equal [1, 1], [ed.cursor_x, ed.cursor_y]
       screen.event.handle_key(KeyEvent.new('enter'))
+      screen.clear
       ed.render
       assert_equal(
         '                        \n' \
@@ -164,6 +175,7 @@ class EditorBaseTest < Test::Unit::TestCase
 
       screen.event.handle_key(KeyEvent.new('backspace'))
       assert_equal [1, 1], [ed.cursor_x, ed.cursor_y]
+      screen.clear
       ed.render
       assert_equal(
         '                        \n' \
@@ -176,6 +188,7 @@ class EditorBaseTest < Test::Unit::TestCase
       assert_equal [1, 1], [ed.cursor_x, ed.cursor_y]
 
       screen.event.handle_key(KeyEvent.new('A'))
+      screen.clear
       ed.render
       assert_equal(
         '                        \n' \

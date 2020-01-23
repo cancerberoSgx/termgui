@@ -4,10 +4,10 @@ module Log
     @file = file
   end
 
-  def log(arg, title = nil)
+  def log(*args)
     file = @file || 'tmp_log.txt'
-    s = arg.nil? ? 'nil' : arg.to_s
-    s = "------\n#{title ? title + '\n' : ''}#{s}\n"
+    s = args.nil? ? 'nil' : args.to_s
+    s = "------\n#{s}\n"
     File.open(file, 'a') { |f| f.puts s }
   end
 end
@@ -19,6 +19,6 @@ end
 
 DEFAULT_LOGGER = DefaultLogger.new
 
-def log(arg, title = nil)
-  DEFAULT_LOGGER.log arg, title
+def log(*args)
+  DEFAULT_LOGGER.log *args
 end

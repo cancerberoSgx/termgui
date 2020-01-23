@@ -79,11 +79,12 @@ module TermGui
 
     # renders given text at given position
     def text(x: nil, y: nil, text: ' ', style: nil)
-      styled = style == nil ? text : style.print(text)
-      write @renderer.write(x, y, styled)
+      write @renderer.write(x, y, style == nil ? text : style.print(text))
     end
 
-    def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH)
+    def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH, style: nil)
+      # ch = style == nil ? ch : style.print(ch) # TODO: performance!!!
+      renderer.style = style if style
       write @renderer.rect x: x, y: y, width: width, height: height, ch: ch
     end
 

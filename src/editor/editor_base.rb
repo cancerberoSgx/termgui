@@ -10,10 +10,16 @@ module TermGui
 
     attr_accessor :x, :y
 
-    def initialize(text: '', screen: nil, x: 0, y: 0, cursor_x: nil, cursor_y: nil)
+    def initialize(text: '', screen: nil, x: 0, y: 0, width: screen.width, height: screen.height, cursor_x: nil, cursor_y: nil, 
+      # if true other party will listen keys and call handle_key - if false it will listen any key by itlself
+      managed: false
+      )
+      @screen = screen || (throw 'screen not given')
       @x = x
       @y = y
-      @screen = screen || (throw 'screen not given')
+      @width = width
+      @height = height
+      @managed = managed
       @cursor = Cursor.new(screen: @screen)
       self.text = text
       @cursor.y = @y + cursor_y if cursor_y
@@ -43,7 +49,7 @@ module TermGui
       @cursor.enable
       @key_listener = @screen.event.add_any_key_listener do |event|
         handle_key event
-      end
+      end unless @managed
       render if and_render
     end
 
@@ -58,7 +64,7 @@ module TermGui
     end
 
     def render
-      @screen.clear
+      @screen.render
       @lines.each_with_index do |line, i|
         @screen.text(x: @x, y: @y + i, text: line)
       end
