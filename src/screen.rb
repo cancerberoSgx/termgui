@@ -6,15 +6,17 @@ require_relative 'focus'
 require_relative 'action'
 require_relative 'util'
 require_relative 'screen_element'
+require_relative 'screen_input'
 
 module TermGui
   # Main user API entry point
-  # Manages instances of Input, Event, Renderer
+  # Manages instances of Input, Event, Renderer (by default disabling its buffer)
   # Is a Node so new elements can be append_child
   # Once `start`is called it will block execution and start an event loop
   # on each interval user input is read and event listeners are called
   class Screen < Node
     include ScreenElement
+    include ScreenInput
     attr_reader :width, :height, :input_stream, :output_stream, :renderer, :input, :event, :focus, :action
     attr_accessor :silent, :exit_keys
 
@@ -93,7 +95,6 @@ module TermGui
     end
 
     def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH, style: nil)
-      # ch = style == nil ? ch : style.print(ch) # TODO: performance!!!
       renderer.style = style if style
       write @renderer.rect x: x, y: y, width: width, height: height, ch: ch
     end
@@ -134,30 +135,6 @@ module TermGui
       @renderer.print
     end
 
-    # Analog to HTML DOM / Node.js setTimeout() using input event loop
-    # @param {Number} seconds
-    def set_timeout(seconds = @input.interval, listener = nil, &block)
-      the_listener = listener == nil ? block : listener
-      throw 'No listener provided' if the_listener == nil
-      @input.set_timeout(seconds, the_listener)
-    end
-
-    def clear_timeout(listener)
-      @input.clear_timeout(listener)
-    end
-
-    # Analog to HTML DOM / Node.js setInterval() using input event loop
-    # @param {Number} seconds
-    def set_interval(seconds = @input.interval, listener = nil, &block)
-      the_listener = listener == nil ? block : listener
-      throw 'No listener provided' if the_listener == nil
-      @input.set_interval(seconds, the_listener)
-    end
-
-    def clear_interval(listener)
-      @input.clear_interval(listener)
-    end
-
     def cursor_move(x, y)
       write @renderer.move(x, y)
     end
@@ -170,28 +147,6 @@ module TermGui
       write @renderer.cursor_hide
     end
 
-    def install_exit_keys
-      return if @exit_keys_listener
-
-      @exit_keys_listener = @input.subscribe('key') do |e|
-        destroy if @exit_keys.include?(e.key)
-      end
-    end
-
-    def uninstall_exit_keys
-      return unless @exit_keys_listener
-
-      @input.off('key', @exit_keys_listener)
-      @exit_keys_listener = nil
-    end
-
-    # def cursor_style(style)
-    #   if style == 'hidden'
-    #     write @renderer.cursor_hide
-    #   elsif style == 'show'
-    #     write @renderer.cursor_show
-    #   end
-    # end
   end
 end
 Screen = TermGui::Screen

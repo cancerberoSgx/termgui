@@ -16,7 +16,6 @@ class ScreenTest < Test::Unit::TestCase
     x = 0
     s.set_timeout(0.1, proc { s.destroy })
     s.add_listener(:destroy, proc {
-      print 'destroyed'
       x = 1
     })
     assert_equal 0, x
@@ -27,7 +26,6 @@ class ScreenTest < Test::Unit::TestCase
     x = 0
     s.set_timeout(0.1, proc { s.destroy })
     s.add_listener('destroy', proc {
-      print 'destroyed'
       x = 1
     })
     assert_equal 0, x
