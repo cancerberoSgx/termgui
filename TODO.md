@@ -23,9 +23,9 @@ generate documentation (using yard)
   - [x] support hash style declarations: `Element.new(x: 0.1, y: 0.2, style: {fg: 'magenta', border: {style: :double}})`
   - [x] CSS cascade style: children should inherit parent style if explicit and child has no value. (make it optional/configurable)
   - [ ] store and formalize Element options (initialize arguments). store it so implementations can look at original values given by user (props)
-  - [ ] element's margin
   - [x] layout Update: Element#layout() and examples: widget Col and Row.
     - [ ]check https://rubydoc.info/gems/terminal-layout
+    - [ ] element's margin
     - [ ] introduce yoga-layout ? are there any layout gems ? 
 
  - [ ] gem
@@ -35,7 +35,7 @@ generate documentation (using yard)
 
  - [ ] cursor
    - [x] simple cursor artificial class set_interval see src/cursor.rb
-   - [ ] use ansi escapes - https://github.com/piotrmurach/tty-cursor for show/hide/cursor_current
+   - [ ] use ansi escapes - https://github.com/piotrmurach/tty-cursor for cursor_current state
    - [x] hide when screen.start
    - [ ] widgets responsible of showing/hiding ? or should it be a cursor manager - enterable - cursorable attributes  ? 
 
@@ -54,17 +54,26 @@ generate documentation (using yard)
    - [x] left
    - [ ] right, center (any gem for this?)
    - [ ] node.text_children or all_text - returns this node text plus all its children text recursively in children order (useful for testing)
- - see emitter.rb : " this is the same as event.rb Event. Move Event classes to individual - non dependency file"
 
- - [ ] wait_for/when : `screen.when( proc {element.query_one_by_attribute 'progress', 'ready'}, proc { print 'done' })`
+ - [ ] fix duplicated Event class ... see emitter.rb : " this is the same as event.rb Event. Move Event classes to individual - non dependency file"
+
  - [ ] easing/animations : adapt formulas from accursed project
  - [w] npm.org/inquirer like apis
  - [ ] promise like apis : `screen.wait_for(predicate1).then(proc {screen.wait_for(predicate2)}).then(verb2).catch(proc {|error|p error})` - right now is callback hell :(
    - [ ] based on our own event loop? or could we use a gem like concurrency? update - currently supporting method block which is similar ?
 
+ - [w] element query cssish query support : `element.queryAll '[a="b"] .item > add-button'`
+   - [x] query_by_attribute, query_one_by_attribute
+   - [x] CSS like language parser
+   - [ ] query engine based on css like language below. 
+
+   
 ### Done
 
+ - [x] wait_for/when : `screen.when( proc {element.query_one_by_attribute 'progress', 'ready'}, proc { print 'done' })`
  - [x] issue when pipe to file, i.e. ruby a_screen_start_app.rb > file.txt `screen.rb:22:in winsize': Inappropriate ioctl for device (Errno::ENOTTY)`
+ - [x] renderer.buffer disabled by default (faster) - Screen.new_for_testing will enable buffer and silent screen.
+ - [x] renderer methods accepts style and always print "closed" styled strings.
  - [w] Layouts
    - [x] So I don't need to specify element bounds: `col = Col.new; top = Row.new(height: 9,4); bottom= Row.new(height: 0.6); col.append_child(top, bottom)`
  - [x] text-box - how to lock focus ? how to implement the text-input experience ? WIP see src/widget/textbox
@@ -84,10 +93,6 @@ generate documentation (using yard)
  - [x] element's padding
  - [x] input.grab / ungrab
  - [x] focus manager
- - [w] element query cssish query support : `element.queryAll '[a="b"] .item > add-button'`
-   - [x] query_by_attribute, query_one_by_attribute
-   - [x] CSS like language parser
-   - [ ] query engine based on css like language below. 
 
 - [x] put everything inside module TermGui
   - [x] group widget hight -level in TermGui::Widget 
