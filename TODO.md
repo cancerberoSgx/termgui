@@ -1,25 +1,37 @@
 ## TODO
 
+ - [ ] advance focus
+   - [ ] how to support focus hierarchies ? 
+     - [ ] alternative 1: use tabs to focus primary panels and arrows to focus internal widgets of current first level focused panel 
+     - [ ] alternative 2: make a focusable & enterable - when entered focus-keys will only work inside it (focusing focusable children)
+     
  - [w] editor - generic text area like (see section "editor" below). See src/editor
  - [ ] investigate similar target projects https://github.com/Shopify/cli-ui and https://github.com/gavinlaking/vedeu
  - [ ] input - check this - https://github.com/piotrmurach/tty-reader supports raw mode for multi line - "https://github.com/piotrmurach/tty-reader#22-read_line" - has the key map implemented.
  - [ ] keys - full map verify https://rubydoc.info/gems/vedeu/Vedeu
  
  - [ ] check this out - terminal toolkit - many things needed here - research if it targets the same use cases https://ttytoolkit.org/components/
- - [ ] scroll - viewport - inspiration perhaps : https://github.com/xunker/peter_pan/blob/master/lib/peter_pan.rb
- - [ ]test coverage : https://github.com/colszowka/simplecov
+ - [ ] scroll 
+   - [x] Element#offset
+   - [ ] ScrollManager : define "scrollable" and define keys for scroll up, down, left right if current focused el is scrollable ? (manager?)
+     - [ ] scroll events
+     - [ ] need overflow: hidden to make sense - see probes/fileProbe.rb 
+       - [ ] renderer should prevent children content outside overflow:hidden ancestors (expensive render)
+     - [ ] configurable scroll keys, offset amounts and easing, globally and per element.
+   - [ ] inspiration perhaps : https://github.com/xunker/peter_pan/blob/master/lib/peter_pan.rb
 
-- [ ] generate documentation (using yard)
+ - [ ] test coverage : https://github.com/colszowka/simplecov
 
-- [ ]  colors:
- - [x] verify character attributes work in style (see color.rb ATTRIBUTES  Update - removed ). - 
-   - [x] test in a realProbe
-   - [ ]  Update: using src/tco now but don0t support all - checkout https://github.com/sickill/rainbow and https://github.com/fazibear/colorize  and https://github.com/piotrmurach/pastel - update - tco fixed 
-     - [ ] TODO: tco pull request 
+
+ - [ ]  colors:
+  - [x] verify character attributes work in style (see color.rb ATTRIBUTES  Update - removed ). - 
+    - [x] test in a realProbe
+    - [x]  Update: using src/tco now but don0t support all - checkout https://github.com/sickill/rainbow and https://github.com/fazibear/colorize  and https://github.com/piotrmurach/pastel - update - tco fixed 
+      - [ ] TODO: tco pull request 
 
  - [ ] how to debug ? check if this could help debugging
 
- - [ ] announce in stackoverflow, medium articles like https://medium.com/@bryantteng/outputting-to-the-terminal-in-style-f489bc2fa52c
+ - [ ] announce in stack overflow, medium articles like https://medium.com/@bryantteng/outputting-to-the-terminal-in-style-f489bc2fa52c - 
 
  - [ ] DOM stuff
   - [ ] bounds/layout cascade ? 
@@ -29,8 +41,11 @@
   - [x] support hash style declarations: `Element.new(x: 0.1, y: 0.2, style: {fg: 'magenta', border: {style: :double}})`
   - [x] CSS cascade style: children should inherit parent style if explicit and child has no value. (make it optional/configurable)
   - [ ] store and formalize Element options (initialize arguments). store it so implementations can look at original values given by user (props)
-  - [x] layout Update: Element#layout() and examples: widget Col and Row.
-    - [ ]check https://rubydoc.info/gems/terminal-layout
+  - [ ] overflow: hidden
+  - [ ] overflow: scroll
+  - [] Element#layout() 
+  - [] examples widgets Col and Row (not working correctly)
+    - [ ] check https://rubydoc.info/gems/terminal-layout
     - [ ] element's margin
     - [ ] introduce yoga-layout ? are there any layout gems ? 
 
@@ -45,17 +60,24 @@
    - [x] hide when screen.start
    - [ ] widgets responsible of showing/hiding ? or should it be a cursor manager - enterable - cursorable attributes  ? 
 
-- [ ] data table widget https://www.google.com/search?q=ruby+gem+terminal&oq=ruby+gem+terminal&aqs=chrome..69i57j69i64.3455j0j4&sourceid=chrome&ie=UTF-8#
+ - [ ] data table widget https://www.google.com/search?q=ruby+gem+terminal&oq=ruby+gem+terminal&aqs=chrome..69i57j69i64.3455j0j4&sourceid=chrome&ie=UTF-8#
 
- - [ ] documentation - print terminal output - check http://buildkite.github.io/terminal-to-html/
+ - 
+ - [ ] documentation
+   - [ ] generate API documentation (using yard)
+   - [ ] document important APIs - how to document events and DOM attributes as part of the API docs? 
+   - [ ] screencasts, screenshots (check http://buildkite.github.io/terminal-to-html/) - asciicam-thing
+   - [ ] tutorials
+   - [ ] examples using only low level apis (Input, Renderer) without DOM 
 
  - [x] erb probe for elements (see xml/xml)
  - [x] xml syntax with binding support
    - [ ] properly import require '/Users/wyeworks/.rubies/ruby-2.6.5/lib/ruby/2.6.0/rexml/document'
    - [ ] complete widgets and attributes - padding, border, style.focus, stc
-   - [ ] access self (the element instance) from attribute handlers. 
+   - [x] access self (the element instance) from attribute handlers: action="proc {|e| e.target.text = 'asdasd'; e.target.render}"
 
  - [ ] fonts with http://www.figlet.org/ - https://github.com/miketierney/artii - also check http://github.com/piotrmurach/tty-font
+ 
  - [ ] terminal capabilities http://github.com/piotrmurach/tty-color
 
  - [ ] images - RMagick + tco - example somewhere very easy but magick is binary - 
@@ -74,6 +96,7 @@
  - [ ] easing/animations : adapt formulas from accursed project
  - [w] npm.org/inquirer like apis
  - [ ] promise like apis : `screen.wait_for(predicate1).then(proc {screen.wait_for(predicate2)}).then(verb2).catch(proc {|error|p error})` - right now is callback hell :(
+     - [ ] Could RUby's then() help here ? 
    - [ ] based on our own event loop? or could we use a gem like concurrency? update - currently supporting method block which is similar ?
 
  - [w] element query cssish query support : `element.queryAll '[a="b"] .item > add-button'`

@@ -16,9 +16,9 @@ def print_style(style, colouring)
   s = s.slice(0, s.length - 4 - 2)
   s
 end
-def close_style(colouring)
-     colouring.decorate('', TermGui::Style.new(fg: 'red', bg: 'red', bold: true, underline: true))
 
+def close_style(colouring)
+  colouring.decorate('', TermGui::Style.new(fg: 'red', bg: 'red', bold: true, underline: true))
 end
 
 puts colouring.decorate('style2', style2)
@@ -27,12 +27,11 @@ puts colouring.decorate('style2', style2)
 puts colouring.decorate('style3', style3)
 puts colouring.decorate('style2', style2)
 
-puts print_style(style2, colouring)+'seba'+close_style(colouring)
-puts print_style(style3, colouring)+'seba'+close_style(colouring)
+puts print_style(style2, colouring) + 'seba' + close_style(colouring)
+puts print_style(style3, colouring) + 'seba' + close_style(colouring)
 # puts close_style(colouring)
 style3.bold = false
-puts print_style(style3, colouring)+'seba'
-
+puts print_style(style3, colouring) + 'seba'
 
 # puts 'seba'
 # p style1, style2
@@ -60,8 +59,8 @@ puts print_style(style3, colouring)+'seba'
 
 # # rainbow = ["#622e90", "#2d3091", "#00aaea", "#02a552", "#fdea22", "#eb443b", "#f37f5a"]
 # # 10.times do
-# #   rainbow.each { |colour| 
-# #   print "seba".bg colour 
+# #   rainbow.each { |colour|
+# #   print "seba".bg colour
 # #   # print 'seba'
 # # }
 # # end

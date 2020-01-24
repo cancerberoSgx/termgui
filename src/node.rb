@@ -45,8 +45,12 @@ module TermGui
       children
     end
 
-    def insert_child(child)
-      (insert_children child)[0]
+    def prepend_child(child)
+      insert_child(0, child)
+    end
+
+    def insert_child(index, child)
+      (insert_children index, child)[0]
     end
 
     def remove_children(*children)

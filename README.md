@@ -2,10 +2,20 @@
 
  * Command line graphical user interface Ruby toolkit.
  * Create desktop-like interfaces in the command line.
- * Personal ruby-learning project right now
+ * Personal ruby-learning project at the beginning
  * 100% ruby, no binaries, no dependencies
- * some ideas taken from npm.org/blessed
-
+ * some ideas taken from npm.org/blessed and my own npm.org/accursed
+ * HTML DOM like high level API with styles, layouts, box-model, cascade styles
+ * xml / edb support for declaring components
+ * rendered optionally supporting a buffer to print out the current screen for testing
+ * very well tested
+ * flexible managers for focus, actions, scroll, keys, input grab, input grab, cursor
+ * event loop supporting set_timeout, wait_for, set_interval 
+ * text-area / editor support
+ * all colors and attributes
+ * some basic high level widgets: Button, Label, InputBox, TextArea, Editor, Select, 
+ * independent low level APIs can be used without the high level overhead for listening stdin, drawing, etc
+ * box drawing, easing, css parser and dom selector 
 
 ### TODO / Status
 
@@ -14,13 +24,10 @@ See [TODO](TODO.md)
 
 ## Motivation
 
- * I didn't found ncurses/blessed library gem implemented 100% in ruby (only ncursed which is C BTW)
+ * I don't want to use ncurses based dependencies since is binary
+ * I know there are a couple of initiatives 100% in ruby now, but I didn't knew them when I started this project
  * I'm the author of npm.org/accursed which is a similar library so I can of already implemented this in JavaScript
- * I'm getting started with ruby and I want to master it
- * Many helpers, mappings can be reused from npm.org since js objects are valid ruby maps {}
-   * boxes: json
-   * color names / mapping (js objects)
-   * easing: simple js math-related functions easily to translate to ruby
+ * I was getting started with ruby and I want to master it
 
 ## Usage
 ```
@@ -31,21 +38,17 @@ gem install termgui # TODO
 
 ```rb
 require 'termgui'
-
 screen = Screen.new
-screen.install_exit_keys
-
-left = Col.new(width: 0.4, height: 0.99, style: { bg: 'red' })
+left =  screen.append_child Col.new(width: 0.4, height: 0.99, style: { bg: 'red' })
 (0..8).map { |i| left.append_child Label.new(text: "Label_#{i}") }
-right = Col.new(width: 0.6, height: 0.99, x: 0.4, style: Style.new(bg: 'blue'))
+right = screen.append_child Col.new(width: 0.6, height: 0.99, x: 0.4, style: {bg: 'blue'))
 (0..4).map do |i|
   right.append_child Button.new(
     text: "Button_#{i}", x: 0.5,
+    style: {focus: {fg: '#ed5525'}},
     action: proc { open_modal(screen: screen, title: "Button_#{i}") }
   )
 end
-[left, right].each { |widget| screen.append_child widget }
-
 screen.start
 ```
 
@@ -53,27 +56,23 @@ Result:
 
 ![readme_screenshot01](readme_screenshot01.jpg)
 
-### low level (working) example
+### low level (working) examples
 
+TODO
+<!-- 
 ```rb
 require 'termgui'
-
 screen = Screen.new
-
-# install exit keys, by default 'q' will quit the program
-screen.install_exit_keys
-
 # when user press 's' we clear the screen and paint a rectangle full with 's' char
 screen.event.add_key_listener("s", Proc.new { |e|
   rect=Element.new 2,3,4,3,'S'
   screen.clear
   rect.render screen
 })
-
 # starts reading user input.
 screen.start
 ```
-
+ -->
 
 ## Development commands
 

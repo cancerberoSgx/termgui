@@ -6,7 +6,7 @@ end
 
 def test1
   s = Screen.new
-  
+
   s.set_timeout(0.1) do
     s.text(x: 0, y: 0, text: 'ENTER to generate, q to exit')
   end

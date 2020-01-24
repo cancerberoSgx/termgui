@@ -1,6 +1,10 @@
 require '/Users/wyeworks/.rubies/ruby-2.6.5/lib/ruby/2.6.0/rexml/document'
 # require 'rexml'
+# require 'FileUtils'
 require_relative '../src/xml/xml'
+
+# FileUtil::
+# File.expand_path
 # require_relative '../src/screen'
 # require_relative '../src/log'
 # require_relative '../src/style'
@@ -9,7 +13,6 @@ require_relative '../src/xml/xml'
 # require_relative '../src/widget/button'
 # require_relative '../src/widget/row'
 # require_relative '../src/widget/label'
-
 
 # def process_attrs(e)
 #   number_attrs = ['width', 'height', 'x', 'y']
@@ -64,7 +67,7 @@ require_relative '../src/xml/xml'
 # end
 
 s = Screen.new
-action = proc {s.destroy}
+action = proc { s.destroy }
 # xml = '
 # <row height="0.99" width="0.99" x="10" y="0">
 
@@ -87,18 +90,20 @@ action = proc {s.destroy}
 
 # <element width="'+s.width.to_s+'" height="'+s.height.to_s+'" x="1" y="1" style="{bg: :yellow}">
 
-xml = File.open('probes/rexmlProbeTemplate.xml', 'r').read
+# xml = File.open('probes/rexmlProbeTemplate.xml', 'r').read
 
-erb =  '
+erb = '
 <element width="0.99" height="0.99" x="2" y="2">
 <% list.each_with_index {|t, i| %>
-  <button y="<%= i*3%>">hello <%= t %></button>
+  <button y="<%= i*3%>" action="action" x="<%= (i*10+1)/5 %>">hello <%= t %></button>
 <% } %>
 </element>
 '
 
-list = ['sdf', 'fffff', 'sdf', 'fffff', 'sdf', 'fffff']
-render_erb(template: erb, parent: s, binding: binding, erb_binding: binding)
+list = %w[sdf fffff sdf fffff sdf fffff]
+# render_erb(template: erb, parent: s, binding: binding)
+e = render_erb(template: erb, binding: binding)
+s.append_child e
 
 # # p "5".to_f + 1
 # doc = REXML::Document.new xml
@@ -121,7 +126,7 @@ render_erb(template: erb, parent: s, binding: binding, erb_binding: binding)
 # p cc[0].children[0].attributes
 # s.append_child Button.new(attributes: {x: 3, y: 5}, text: 'sfsdf')
 s.render
-s.start()
+s.start
 # # puts process_node(doc).pretty_print
 
 # # n = Node.new(name: '1', attributes: {aa: 123}, children: [Node.new(name: '1.1')])

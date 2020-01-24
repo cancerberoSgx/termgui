@@ -47,7 +47,6 @@ end
 def test2
   s = Screen.new
   amount = 200
-  # 
   interval = 0.05
   a = amount.times.map { Thing.new s }
   s.set_interval(interval) do
@@ -60,7 +59,7 @@ def test2
     end
     # sleep interval
   end
-  s.event.add_key_listener('p')  do
+  s.event.add_key_listener('p') do
     a = a.concat(amount.times.map { Thing.new s })
   end
   s.start

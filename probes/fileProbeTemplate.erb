@@ -1,0 +1,10 @@
+<window width="0.99" height="0.99"><%= files.length.to_s+'asdasd'%>
+  <sidebar x="0" y="0" style="{bg: :yellow}" width="0.3" height="0.99">
+  <% files.map.with_index{|f, i| %>
+    <entry x="1" y="<%=i %>%" action="entry_action"><%= f%></entry>
+  <%}%>
+  </sidebar>
+  <container x="0.3" height="0.99" style="{bg: :magenta, fg: :black}" width="0.7">
+    <content height="1000" width="0.99" style="{wrap: true}"/>
+  </container>
+</window>
