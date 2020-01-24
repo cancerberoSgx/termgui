@@ -9,6 +9,15 @@ module NodeVisit
     result
   end
 
+  def query_by_name(name)
+    result = []
+    visit_node(self, proc { |n|
+      result.push n if n.name == name
+      false
+    })
+    result
+  end
+
   def query_one_by_attribute(attr, value)
     result = nil
     p = proc do |n|

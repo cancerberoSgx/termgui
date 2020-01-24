@@ -1,4 +1,5 @@
 require '/Users/wyeworks/.rubies/ruby-2.6.5/lib/ruby/2.6.0/rexml/document'
+# require 'rexml'
 require_relative '../src/element'
 require_relative '../src/screen'
 require_relative '../src/log'
