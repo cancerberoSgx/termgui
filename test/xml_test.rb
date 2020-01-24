@@ -3,7 +3,7 @@ include Test::Unit::Assertions
 require_relative '../src/xml/xml'
 
 class XmlTest < Test::Unit::TestCase
-  def test_1
+  def test_render_xml
     aaaa = 0
     xml = '
 <element>
@@ -34,6 +34,43 @@ class XmlTest < Test::Unit::TestCase
       s.event.handle_key(KeyEvent.new('enter'))
       s.destroy
     end
+    s.start
+    assert_equal 33, aaaa
+  end
+
+  def test_render_erb
+    aaaa = 0
+    s = Screen.new_for_testing(width: 33, height: 13)
+    erb = '
+<element width="0.99" height="0.99" x="2" y="2">
+<% list.each_with_index {|t, i| %>
+  <button action="proc { aaaa=33}" y="<%= i*3%>">hello <%= t %></button>
+<% } %>
+</element>
+'
+    list = %w[sdf fffff sdf]
+    render_erb(template: erb, parent: s, binding: binding, erb_binding: binding)
+    s.query_by_name('button')[0].set_attribute('focused', true)
+    s.set_timeout  do
+      assert_equal 0, aaaa
+      s.event.handle_key(KeyEvent.new('enter'))
+      s.destroy
+    end
+    s.render
+    assert_equal '                                 \n' \
+                 ' ┌─────────┐                     \n' \
+                 ' │hello sdf│                     \n' \
+                 ' └─────────┘                     \n' \
+                 ' ┌───────────┐                   \n' \
+                 ' │hello fffff│                   \n' \
+                 ' └───────────┘                   \n' \
+                 ' ┌─────────┐                     \n' \
+                 ' │hello sdf│                     \n' \
+                 ' └─────────┘                     \n' \
+                 '                                 \n' \
+                 '                                 \n' \
+                 '                                 \n', s.print
+    # s.renderer.print_dev_stdout
     s.start
     assert_equal 33, aaaa
   end

@@ -1,22 +1,28 @@
 ## TODO
+
  - [w] editor - generic text area like (see section "editor" below). See src/editor
- - investigate similar target projects https://github.com/Shopify/cli-ui and https://github.com/gavinlaking/vedeu
+ - [ ] investigate similar target projects https://github.com/Shopify/cli-ui and https://github.com/gavinlaking/vedeu
  - [ ] input - check this - https://github.com/piotrmurach/tty-reader supports raw mode for multi line - "https://github.com/piotrmurach/tty-reader#22-read_line" - has the key map implemented.
  - [ ] keys - full map verify https://rubydoc.info/gems/vedeu/Vedeu
  
  - [ ] check this out - terminal toolkit - many things needed here - research if it targets the same use cases https://ttytoolkit.org/components/
  - [ ] scroll - viewport - inspiration perhaps : https://github.com/xunker/peter_pan/blob/master/lib/peter_pan.rb
  - [ ]test coverage : https://github.com/colszowka/simplecov
-generate documentation (using yard)
- colors:
+
+- [ ] generate documentation (using yard)
+
+- [ ]  colors:
  - [x] verify character attributes work in style (see color.rb ATTRIBUTES  Update - removed ). - 
    - [x] test in a realProbe
-   - Update: using src/tco now but don0t support all - checkout https://github.com/sickill/rainbow and https://github.com/fazibear/colorize  and https://github.com/piotrmurach/pastel
+   - [ ]  Update: using src/tco now but don0t support all - checkout https://github.com/sickill/rainbow and https://github.com/fazibear/colorize  and https://github.com/piotrmurach/pastel - update - tco fixed 
+     - [ ] TODO: tco pull request 
 
  - [ ] how to debug ? check if this could help debugging
+
  - [ ] announce in stackoverflow, medium articles like https://medium.com/@bryantteng/outputting-to-the-terminal-in-style-f489bc2fa52c
 
  - [ ] DOM stuff
+  - [ ] bounds/layout cascade ? 
   - [x] border_final_style
   - [ ] final_style performance - always cloning/merging even if elements don't have any focus or border style...
   - [x] fix HashObject#assign so it won't merge nil valued properties. see element_style#merge_style
@@ -31,7 +37,7 @@ generate documentation (using yard)
  - [ ] gem
    - [ ] minimally test gem pack from probe project
    - [ ] publish
-   - check this helper: https://github.com/technicalpickles/jeweler
+   - [ ] check this helper: https://github.com/technicalpickles/jeweler
 
  - [ ] cursor
    - [x] simple cursor artificial class set_interval see src/cursor.rb
@@ -40,13 +46,21 @@ generate documentation (using yard)
    - [ ] widgets responsible of showing/hiding ? or should it be a cursor manager - enterable - cursorable attributes  ? 
 
 - [ ] data table widget https://www.google.com/search?q=ruby+gem+terminal&oq=ruby+gem+terminal&aqs=chrome..69i57j69i64.3455j0j4&sourceid=chrome&ie=UTF-8#
- - documentation - print terminal output - check http://buildkite.github.io/terminal-to-html/
- - [ ] erb probe for elements - 
- - fonts with http://www.figlet.org/ - https://github.com/miketierney/artii - also check http://github.com/piotrmurach/tty-font
+
+ - [ ] documentation - print terminal output - check http://buildkite.github.io/terminal-to-html/
+
+ - [x] erb probe for elements (see xml/xml)
+ - [x] xml syntax with binding support
+   - [ ] properly import require '/Users/wyeworks/.rubies/ruby-2.6.5/lib/ruby/2.6.0/rexml/document'
+   - [ ] complete widgets and attributes - padding, border, style.focus, stc
+   - [ ] access self (the element instance) from attribute handlers. 
+
+ - [ ] fonts with http://www.figlet.org/ - https://github.com/miketierney/artii - also check http://github.com/piotrmurach/tty-font
  - [ ] terminal capabilities http://github.com/piotrmurach/tty-color
- - images - RMagick + tco - example somewhere very easy but magick is binary - 
-   - TRY NOT TO USE THESE - these gem uses rmagick - https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
-   - pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -
+
+ - [ ] images - RMagick + tco - example somewhere very easy but magick is binary - 
+   - [ ] TRY NOT TO USE THESE - these gem uses rmagick - https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
+   - [ ] pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -
    
  - [w] text rendering - use this : https://github.com/piotrmurach/strings#21-align
    - [x] line wrap

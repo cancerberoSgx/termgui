@@ -1,8 +1,9 @@
 require '/Users/wyeworks/.rubies/ruby-2.6.5/lib/ruby/2.6.0/rexml/document'
-# require 'rexml'
+require 'erb'
 require_relative '../element'
 require_relative '../screen'
 require_relative '../log'
+require_relative '../util'
 require_relative '../style'
 require_relative '../widget/col'
 require_relative '../widget/button'
@@ -16,18 +17,27 @@ def process_attrs(e, b)
     value = attr.value
     name =  attr.expanded_name
     a[name.to_sym] = if number_attrs.include? name
-                       value.to_f
+                       is_percent(value.to_f) ? value.to_f : value.to_i
                      elsif code_attrs.include? name
-                       # proc {eval(value, b)}.call(b)
                        eval(value, b)
                      elsif name == 'style'
                        Style.from_hash(eval(value))
                      else
-                       value.to_s
+                       value
               end
   end
-  # p a
   a
+end
+
+def percent_bounds_hack(result, parent)
+  result.set_attribute('xml', true)
+  if parent && !parent.get_attribute('xml')
+    result.set_attribute('x', 0)
+    result.set_attribute('y', 0)
+    result.set_attribute('width', parent.width)
+    result.set_attribute('height', parent.height)
+    # log parent.width, parent.height
+  end
 end
 
 def process_node(node, parent = nil, b)
@@ -37,22 +47,16 @@ def process_node(node, parent = nil, b)
     label: Label
   }
 
-  if node.is_a?(REXML::Text) && parent
-    parent.text += node.to_s.strip
+  if node.is_a?(REXML::Text)
+    parent.text += node.to_s.strip if parent
   else
-    # if !builders[node.name.to_sym]
-    # p 'no found'+node.name+node.class.to_s
-    # end
     c = (builders[node.name.to_sym] || Element)
-    # p c.name
     a = process_attrs(node, b).merge(parent: parent)
     result = c.new(a)
-    # parent.append_child(result) if parent
+    percent_bounds_hack(result, parent)
     node.each do |e|
-      cs = process_node(e, result, b)
-      # c.text = 'asdasd' if c
+      c = process_node(e, result, b)
       # c.x = 21 if c
-      # result.append_child cs if cs
     end
   end
   result
@@ -60,5 +64,10 @@ end
 
 def render_xml(xml: nil, parent: nil, binding: nil)
   doc = REXML::Document.new xml
-  process_node(doc, nil, binding).children.each { |c| parent.append_child c }
+  process_node(doc, parent, binding)
+end
+
+def render_erb(template: nil, parent: nil, binding: nil, erb_binding: binding)
+  xml = ERB.new(template).result(erb_binding).strip
+  render_xml(xml: xml, parent: parent, binding: binding)
 end
