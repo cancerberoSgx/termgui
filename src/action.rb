@@ -1,5 +1,6 @@
 require_relative 'event'
 require_relative 'emitter'
+require_relative 'util'
 
 module TermGui
   # action manager - it notifies focused elements on user input
@@ -19,22 +20,23 @@ module TermGui
   # in the case of scape it will be enabled iff enterable is true
   # For example a Label is not focusable or enterable. A Button is focusable but not enterable. A textatra is focusable and enterable.
   class ActionManager < Emitter
+    attr_accessor :keys
+
     def initialize(event: nil, focus: nil)
       super()
       @event = event
       @focus = focus
       @event.add_any_key_listener { |e| handle_key e }
-      # @input.subscribe('key') { |e| handle_key e }
       install(:action)
+      @keys = ['enter']
     end
 
     def handle_key(e)
       focused = @focus.focused
       return unless focused && !focused.get_attribute('entered')
 
-      action_key = focused.get_attribute('action-key') || 'enter'
-      is_action = e.key == action_key
-      if is_action && focused.get_attribute('focusable')
+      action_keys = to_array(focused.get_attribute('action-keys') || keys)
+      if (action_keys.include? e.key) && focused.get_attribute('focusable')
         event = ActionEvent.new focused, e
         focused_action = focused.get_attribute('action')
         focused_action&.call(event)

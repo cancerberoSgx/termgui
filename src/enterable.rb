@@ -36,7 +36,8 @@ module TermGui
       @key_listener = nil
       set_attribute(:focusable, true)
       set_attribute(:enterable, true)
-      install(%i[input action enter change escape])
+      set_attribute(:actionable, true)
+      install(%i[input action enter change escape focus blur])
       # install(:action)
       # install(:enter)
       # install(:change)
@@ -62,7 +63,7 @@ module TermGui
         trigger('change', ChangeEvent.new(self, value, event))
         root_screen.event.remove_any_key_listener @key_listener
         true
-      elsif [get_attribute('escape-key'), 'escape'].include? event.key
+      elsif to_array(get_attribute('escape-keys') || 'escape').include? event.key
         trigger('escape', EscapeEvent.new(self, event))
         root_screen.event.remove_any_key_listener @key_listener
         true

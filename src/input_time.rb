@@ -7,6 +7,8 @@ module InputTime
     @time = Time.now
     @timeout_listeners = []
     @interval_listeners = []
+    @wait_timeout = 5
+    @wait_interval = 0.1
   end
 
   # register a timeout listener that will be called in given seconds (aprox).
@@ -38,6 +40,30 @@ module InputTime
   def clear_interval(listener)
     @interval_listeners.delete listener
   end
+
+  def wait_for(predicate, timeout = @wait_timeout, interval = @wait_interval, &block)
+    throw 'No block provided' unless block
+    interval_listener = nil
+    timeout_listener = set_timeout(timeout) do
+      clear_interval interval_listener
+      block.call true
+    end
+    interval_listener = set_interval(interval) do
+      if predicate.call
+        clear_interval interval_listener
+        clear_timeout timeout_listener
+        block.call false
+      end
+    end
+    [timeout_listener, interval_listener]
+  end
+
+  def clear_wait_for(listeners)
+    clear_interval listeners[1]
+    clear_timeout listeners[0]
+  end
+
+  protected
 
   def update_status
     @time = Time.now

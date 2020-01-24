@@ -22,8 +22,24 @@ class ElementStyleTest < Test::Unit::TestCase
     assert_equal nil, e.style.border
     e.style.border = Border.new
     assert_equal Border.new.style, e.style.border.style
-    assert_equal ({ bg: nil, blink: nil, bold: nil, fg: nil, style: 'single' }), e.style.border.to_hash
-    assert object_equal({ bg: nil, blink: nil, bold: nil, fg: nil, style: 'single' }, e.style.border.to_hash)
+    assert_equal ({ bg: nil,
+                    blink: nil,
+                    bold: nil,
+                    fg: nil,
+                    fraktur: nil,
+                    framed: nil,
+                    inverse: nil,
+                    style: 'single',
+                    underline: nil }), e.style.border.to_hash
+    assert object_equal({ bg: nil,
+                          blink: nil,
+                          bold: nil,
+                          fg: nil,
+                          fraktur: nil,
+                          framed: nil,
+                          inverse: nil,
+                          style: 'single',
+                          underline: nil }, e.style.border.to_hash)
 
     assert_equal(e.style.focus.bg, 'red')
   end

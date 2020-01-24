@@ -23,6 +23,19 @@ module ScreenElement
     @width
   end
 
+  def style
+    @style ||= Style.new
+    @style
+  end
+
+  def style=(s)
+    @style = s
+  end
+
+  def final_style
+    style
+  end
+
   def offset
     v = get_attribute('offset')
     unless v

@@ -44,8 +44,8 @@ module Tco
       # (fg, bg, bright, underline)
       fg = style.fg
       bg = style.bg
-      bright = style.bright
-      underline = style.underline
+      # bright = style.bright
+      # underline = style.underline
       return string if !STDOUT.isatty || @output_type == :raw || @disabled
 
       fg = get_colour_instance fg
@@ -63,11 +63,16 @@ module Tco
                  else raise "Unknown palette '#{@palette.type}'."
                  end
 
-          line = e(1) + line if bright
+          line = e(1) + line if style.bright
+          line = e(4) + line if style.underline
+          line = e(5) + line if style.blink
+          line = e(7) + line if style.inverse
+          line = e(20) + line if style.fraktur
+          line = e(51) + line if style.framed
 
-          line = e(4) + line if underline
-
-          line << e(0) if (bright || underline) && (fg == nil) && (bg == nil)
+          if (style.bright || style.underline || style.blink || style.inverse || style.fraktur || style.framed) && (fg == nil) && (bg == nil)
+            line << e(0)
+          end
         end
 
         output.push line

@@ -14,14 +14,15 @@ module ElementStyle
   end
 
   def style_assign(style)
-    get_attribute('style').assign(style)
+    self.style = self.style.assign(style)
+    # get_attribute('style').assign(style)
   end
 
-  def set_style(name, value)
-    o = {}
-    o[name] = value
-    get_attribute('style').assign(o)
-  end
+  # def set_style(name, value)
+  #   o = {}
+  #   o[name] = value
+  #   get_attribute('style').assign(o)
+  # end
 
   def get_style(name)
     s = get_attribute('style')
@@ -35,23 +36,29 @@ module ElementStyle
   # while "normal" style is defined in @style, focused extra style is defined in @style.focus,
   # so dependently on attributes like `focused` this method performs computation of the "final" style
   def final_style
-    result = style.clone
+    result = parent && get_attribute('style-cascade') != 'prevent' ? parent.final_style.clone .assign(style) : style.clone
+    # result = style.clone
     # merge_style(result, style.focus) if get_attribute('focused')
     result.assign(style.focus) if get_attribute('focused')
     result.assign(style.enter) if get_attribute('entered')
+    result.assign(style.action) if get_attribute('actioned')
     # merge_style(result, style.enter) if get_attribute('entered')
     result
   end
 
   # computes current border style according to style, style.border, style.focus.border, etc in the right order
   def border_style
-    s = style.clone
-    s = s.assign(border) if border
-    # merge_style(s, style.focus&.border) if get_attribute('focused') && style.focus&.border
-    s.assign(style.focus&.border) if get_attribute('focused') 
+    s = final_style
+    if border
+      s = s.assign(border)
+      # merge_style(s, style.focus&.border) if get_attribute('focused') && style.focus&.border
+      s.assign(style.focus&.border) if get_attribute('focused')
+      s.assign(style.enter&.border) if get_attribute('entered')
+      s.assign(style.action&.border) if get_attribute('actioned')
+    end
     s
   end
-  
+
   # private
 
   # def merge_style(s1, s2)

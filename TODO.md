@@ -17,21 +17,22 @@ generate documentation (using yard)
  - [ ] announce in stackoverflow, medium articles like https://medium.com/@bryantteng/outputting-to-the-terminal-in-style-f489bc2fa52c
 
  - [ ] DOM stuff
-  - [ ] border_final_style
+  - [x] border_final_style
   - [ ] final_style performance - always cloning/merging even if elements don't have any focus or border style...
   - [x] fix HashObject#assign so it won't merge nil valued properties. see element_style#merge_style
-  - [ ] support hash style declarations: `Element.new(x: 0.1, y: 0.2, style: {fg: 'magenta', border: {style: :double}})`
-  - [ ] CSS cascade style: children should inherit parent style if explicit and child has no value. (make it optional/configurable)
+  - [x] support hash style declarations: `Element.new(x: 0.1, y: 0.2, style: {fg: 'magenta', border: {style: :double}})`
+  - [x] CSS cascade style: children should inherit parent style if explicit and child has no value. (make it optional/configurable)
   - [ ] store and formalize Element options (initialize arguments). store it so implementations can look at original values given by user (props)
   - [ ] element's margin
-  - [ ] layout
-  check https://rubydoc.info/gems/terminal-layout
+  - [x] layout Update: Element#layout() and examples: widget Col and Row.
+    - [ ]check https://rubydoc.info/gems/terminal-layout
     - [ ] introduce yoga-layout ? are there any layout gems ? 
 
  - [ ] gem
    - [ ] minimally test gem pack from probe project
    - [ ] publish
    - check this helper: https://github.com/technicalpickles/jeweler
+
  - [ ] cursor
    - [x] simple cursor artificial class set_interval see src/cursor.rb
    - [ ] use ansi escapes - https://github.com/piotrmurach/tty-cursor for show/hide/cursor_current
@@ -46,7 +47,7 @@ generate documentation (using yard)
  - images - RMagick + tco - example somewhere very easy but magick is binary - 
    - TRY NOT TO USE THESE - these gem uses rmagick - https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
    - pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -
-   - this is pure ruby but does not seem to decode pixels only metadata ?
+   
  - [w] text rendering - use this : https://github.com/piotrmurach/strings#21-align
    - [x] line wrap
    - [ ] justified, https://rubydoc.info/gems/justify

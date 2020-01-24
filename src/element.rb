@@ -21,16 +21,25 @@ module TermGui
 
     def initialize(**args)
       super
-      install(%i[focus blur])
+      install(%i[focus blur action enter escape])
       args[:attributes] = { x: args[:x] || 0, y: args[:y] || 0, width: args[:width] || 0, height: args[:height] || 0 } if args[:attributes] == nil
       a = {}
       a.merge!(args)
       a.merge!(args[:attributes] || {})
-      a[:style] = Style.from_hash(args[:attributes][:style] || args[:style] || default_style)
+      a[:style] = default_style.clone.assign(Style.from_hash(args[:attributes][:style])).assign(Style.from_hash(args[:style]))
       self.attributes = a
-      self.style = a[:style] || Style.new
-      on(%i[focus blur]) do
-        render
+      self.style = a[:style]
+      on(%i[focus blur action enter escape]) do |e|
+        if e.name == 'action'
+          set_attribute('actioned', true)
+          render
+          root_screen.set_timeout(get_attribute('actioned-interval') || 0.5) do
+            set_attribute('actioned', false)
+            render
+          end
+        else
+          render
+        end
       end
     end
 

@@ -9,20 +9,23 @@ module TermGui
   class BaseStyle
     include HashObject
 
-    attr_accessor :fg, :bg, :underline, :bold, :blink
+    attr_accessor :fg, :bg, :underline, :bold, :blink, :inverse, :fraktur, :framed
 
     # TODO: for some reason **args is not working here that's why we have all subclasses props
-    def initialize(fg: nil, bg: nil, bold: nil, blink: nil, underline: nil, bright: nil, wrap: nil, border: nil, padding: nil)
+    def initialize(fg: nil, bg: nil, bold: nil, blink: nil, inverse: nil, underline: nil, framed: nil, fraktur: nil, bright: nil, wrap: nil, border: nil, padding: nil, style: nil)
       @fg = fg
       @bg = bg
-      @bold = bold
+      @bold = bold || bright
       @blink = blink
+      @inverse = inverse
+      @underline = underline
+      @fraktur = fraktur
+      @framed = framed
     end
 
     # Prints the style as escape sequences.
     # This method shouln't be overriden by subclasses since it only makes sense for basic properties defined here.
     def print(s = nil)
-      # "#{color @fg, @bg}#{attributes bold: @bold, blink: @blink}"
       if s == nil
         TermGui.open_style(self)
       else
@@ -63,9 +66,9 @@ module TermGui
   class Border < BaseStyle
     attr_reader :style
 
-    def initialize(fg: nil, bg: nil, style: 'single')
-      super(fg: fg, bg: bg)
-      @style = style.to_s
+    def initialize(**args)
+      super
+      @style = args[:style]&.to_s || 'single'
     end
 
     def style=(style)
@@ -75,7 +78,7 @@ module TermGui
 
   # Element style (`element.style` type)
   class Style < BaseStyle
-    attr_accessor :border, :wrap, :padding, :focus, :enter
+    attr_accessor :border, :wrap, :padding, :focus, :enter, :action
 
     def initialize(**args)
       super
@@ -92,6 +95,7 @@ module TermGui
       @padding = args[:padding]
       @focus = args[:focus] || clone
       @enter = args[:enter] || clone
+      @action = args[:action] || clone
     end
   end
 end

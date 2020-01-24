@@ -84,6 +84,43 @@ sh bin/dev   # rails server
 sh bin/watch # tests in watch mode
 
 
+## Element attributes
+
+Some high level element attributes implemented:
+
+### style-cascade
+
+By default, children inherit parent style. If element.get_attribute('style-cascade') == 'prevent' it won't happen - this is the children won't be affected by its parent style and only its own is rendered. 
+
+### focusable, focused and screen.focus.keys, focus, blur
+
+elements with focusable attribute will be able to be focused when user press focus keys (configurable in screen.focus.keys ). By default screen.focus.keys ==  { next: ['tab'], prev: ['S-tab'] }. 
+
+focusable elements will emit "focus" and "blur" events
+
+When focused, the attribute focused will be true and the element is able to receive "action" event (see actionable, action-keys below)
+
+### actionable, action-keys, action
+
+this is useful to implement actionable widgets like buttons that, when focused, can emit "action" events when certain keys are pressed (by default ENTER)
+
+focused elements with attribute "actionable" will emit "action" events if user press action-keys (enter by default) when they are focused. Action keys can be configured globally using screen.action.keys or by element with attribute action-keys. Both could be a string or array. 
+
+### enterable, entered, change, input, escape, escape-keys
+
+This is useful to implement textarea / textinput widgets for which we don't want to trigger focus or action events when user is writing text. When an enterable element (that also should be focusable) receives "action" it is set to "entered" mode. (whey you are writing text, you want TAB S-tab, enter, etc to actually insert characters and don't emit "focus" "action", etc events...)
+
+When an element is on this mode (only one at a time) the rest of the elements will stop receiving common events like focus or action until it leaves the entered mode. . This could happen programmatically or by receiving "escape" event, by default pressing ESC will provoke "escape" event which will set entered = false and enable normal events again (like focus, action, etc). When entered==true, the entered element will listen for input independently and emit "input" events. 
+
+the enter event by default is provoked by "action" (enter) so it can be configured individually using action-keys. 
+
+the escape event by default pressing "escape" can be configurable per element using attribute escape-keys (just like action-keys)
+
+TODO: configure to better play with focus: enter-on-focus to automatically "entered" without "action" and automatically "escape" on "blur" (focus will keep working on this case). Also is not clear how escape plays with change 
+
+
+
+
 ## Performance notes
 
  * disabling renderer buffer speeds up rendering about 30%: `screen.renderer.no_buffer = true`. Genereally don't needed in production.
