@@ -100,6 +100,14 @@ module TermGui
     def to_s
       "Node(name: #{name}, children: [#{children.map(&:to_s).join(', ')}])"
     end
+
+    def pretty_print(d = 0)
+      "#{(' ' * d)}<#{name} #{(attributes.pairs.map { |p| "#{p[:name]}=#{pretty_print_attribute p[:value]}" }).join(' ')}>\n#{' ' * (d + 1)}#{text ? " #{text}\n#{' ' * d}" : ''}#{children.map { |c| c.pretty_print d + 1 }.join("\n" + (' ' * d))}\n#{(' ' * (d + 1))}</#{name}>"
+    end
+
+    def pretty_print_attribute(a)
+      a.respond_to?(:pretty_print) ? a.pretty_print : a.to_s
+    end
   end
 end
 Node = TermGui::Node

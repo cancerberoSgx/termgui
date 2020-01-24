@@ -40,6 +40,8 @@ module HashObject
 end
 
 def object_variables_to_hash(obj)
+  return obj if obj.is_a?(Hash)
+
   hash = {}
   obj.instance_variables.each do |name|
     s = name.to_s

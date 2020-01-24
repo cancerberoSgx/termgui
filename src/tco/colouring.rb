@@ -109,6 +109,8 @@ module Tco
     def get_colour_instance(value)
       if value.is_a?(String)
         resolve_colour_def value
+      elsif value.is_a?(Symbol)
+        resolve_colour_def value.to_s
       elsif value.is_a?(Array)
         Colour.new value
       elsif value.is_a?(Colour) || value.is_a?(Unknown)

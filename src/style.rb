@@ -45,12 +45,47 @@ module TermGui
     # if a hash is given returns a new Style instance with given properties. If an Style instance if given, returns it.
     def self.from_hash(obj)
       if obj == nil
-        nil
+        return nil
       elsif obj.instance_of? Hash
-        merge_hash_into_object obj, new
+        r = merge_hash_into_object obj, new
       else
-        obj
+        r = obj
       end
+
+      r.focus = r.focus || r.clone
+      # r.border = r.border || r.clone
+      r.action = r.action || r.clone
+      r.enter = r.enter || r.clone
+      r
+    end
+
+    def pretty_print(delete_nil = true, delete_empty = true)
+      h = to_hash
+      h.keys.each do |k|
+        h.delete k if delete_nil && h[k] == nil
+        # p [k, delete_nil&&h[k]==nil, h[k].respond_to?( :to_hash) , h[k].is_a?(Hash), h[k].class, (h[k].respond_to?( :to_hash)|| h[k].is_a?(Hash) ) && object_variables_to_hash(h[k]).keys.select{|k|h[k]!=nil} ]
+        if delete_empty && (h[k].respond_to?(:to_hash) || h[k].is_a?(Hash)) && object_variables_to_hash(h[k]).keys.reject { |k| h[k] == nil }.empty?
+          h.delete k
+        end
+      end
+      #  p h.keys
+      #  "{#{h.keys.map { |k| "#{k}: #{pretty_print_value(h[k])}" }.join(', ')}}"  .split( /, [^\s]+: \{\}/).join('')
+      "{#{h.keys.map { |k| "#{k}: #{pretty_print_value(h[k])}" }.join(', ')}}" .split(/, [^\s]+: \{\}/).join('')
+    end
+
+    def pretty_print_value(v)
+      v.respond_to?(:pretty_print) ? v.pretty_print : v.to_s
+    end
+    # h.keys.length ? "{#{h.keys.map { |k| "#{k}: #{h[k].respond_to?(:pretty_print) ? h[k].pretty_print : h[k].to_s}" }.join(', ')} }" : ''
+    # end
+
+    def self.from_json(s)
+      r = from_hash(json_parse(s))
+      r.border = from_hash(r.border || new)
+      r.focus = from_hash(r.focus || new)
+      r.enter = from_hash(r.enter || new)
+      r.action = from_hash(r.action || new)
+      r
     end
 
     def bright
@@ -92,10 +127,15 @@ module TermGui
         @border = Border.new
         @border.assign(args[:border])
       end
-      @padding = args[:padding]
-      @focus = args[:focus] || clone
-      @enter = args[:enter] || clone
-      @action = args[:action] || clone
+      padding = args[:padding]
+      focus = args[:focus] || clone
+      enter = args[:enter] || clone
+      action = args[:action] || clone
+
+      @padding = padding
+      @focus = focus
+      @enter = enter
+      @action = action
     end
   end
 end

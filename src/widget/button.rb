@@ -20,11 +20,11 @@ module TermGui
         s.border = Border.new(fg: 'red')
         s.bg = 'black'
         s.fg = 'blue'
-        s.focus.fg = 'green'
-        s.focus.bg = 'grey'
-        s.focus.border = Border.new(fg: 'green')
-        s.action.bg = 'red'
-        s.action.border = Border.new(fg: 'magenta', bold: true, bg: 'white')
+        s.focus&.fg = 'green'
+        s.focus&.bg = 'grey'
+        s.focus&.border = Border.new(fg: 'green')
+        s.action&.bg = 'red'
+        s.action&.border = Border.new(fg: 'magenta', bold: true, bg: 'white')
         s
       end
     end

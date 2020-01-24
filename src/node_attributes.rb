@@ -8,6 +8,10 @@ class Attributes
     @attrs.keys
   end
 
+  def pairs
+    @attrs.keys.map { |n| { name: n, value: @attrs[n] } }
+  end
+
   def set_attribute(name, value)
     @attrs[name.to_sym] = value
     self

@@ -13,6 +13,12 @@ module TermGui
         update_height if !h || h.zero?
       end
 
+      def text=(t)
+        super
+        update_width
+        update_height
+      end
+
       def update_width(text = @text)
         self.width = render_text_size(text)[:width]
       end
