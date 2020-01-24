@@ -23,7 +23,7 @@ module TermGui
       super()
       @event = event
       @focus = focus
-      @event.add_any_key_listener{ |e| handle_key e }
+      @event.add_any_key_listener { |e| handle_key e }
       # @input.subscribe('key') { |e| handle_key e }
       install(:action)
     end
@@ -31,6 +31,7 @@ module TermGui
     def handle_key(e)
       focused = @focus.focused
       return unless focused && !focused.get_attribute('entered')
+
       action_key = focused.get_attribute('action-key') || 'enter'
       is_action = e.key == action_key
       if is_action && focused.get_attribute('focusable')

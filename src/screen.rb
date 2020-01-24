@@ -33,23 +33,20 @@ module TermGui
       @input = Input.new
       @event = EventManager.new @input
       @focus = FocusManager.new(root: self, event: @event)
-      # //TODO: move this to Element - since are elements responsibility to render when focused if they need to
+      # //TODO: move this to Element or to FocusManager- since are elements responsibility to render when focused if they need to
       @focus.on(:focus) do |event|
         event[:focused]&.render self
         event[:previous]&.render self
       end
       @action = ActionManager.new(focus: @focus, event: @event)
       install(%i[destroy after_destroy start])
-      # install(:after_destroy)
-      # install(:start)
-      # instance.renderer.no_buffer = false
+      @renderer.no_buffer = true
       install_exit_keys unless no_exit_keys
     end
 
     def self.new_for_testing(**args)
       instance = new(args.merge(no_exit_keys: true, silent: true))
       instance.renderer.no_buffer = false
-      # instance.silent = true
       instance
     end
 

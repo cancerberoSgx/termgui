@@ -1,4 +1,3 @@
-
 # Adds logging to file and screen capabilities
 module Log
   def log_file=(file)
@@ -11,7 +10,6 @@ module Log
     s = "------\n#{s}\n"
     File.open(file, 'a') { |f| f.puts s }
   end
-
 end
 
 # default logger class

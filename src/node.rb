@@ -24,7 +24,7 @@ module TermGui
       children.each { |child| child.parent = self }
       @text = args[:text] || ''
       args[:parent]&.append_children(self)
-      install([:after_render, :before_render])
+      install(%i[after_render before_render])
     end
 
     # returns child so we can write:  `button = screen.append_child Row.new(text: 'click me')`

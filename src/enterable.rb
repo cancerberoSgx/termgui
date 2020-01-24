@@ -11,7 +11,7 @@ module TermGui
 
   class ChangeEvent < NodeEvent
     # attr_accessor :value
-    def initialize(target, value = target.value, original_event = nil)
+    def initialize(target, _value = target.value, original_event = nil)
       super 'change', target, original_event
       # @value = value
     end
@@ -36,7 +36,7 @@ module TermGui
       @key_listener = nil
       set_attribute(:focusable, true)
       set_attribute(:enterable, true)
-      install([:input, :action, :enter, :change, :escape])
+      install(%i[input action enter change escape])
       # install(:action)
       # install(:enter)
       # install(:change)
@@ -52,7 +52,7 @@ module TermGui
           trigger('enter', EnterEvent.new(self, event))
         end
       end
-      on([:blur, :escape, :change]) do 
+      on(%i[blur escape change]) do
         set_attribute('entered', false)
       end
     end

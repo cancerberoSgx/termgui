@@ -33,7 +33,7 @@ class ElementBoundsTest < Test::Unit::TestCase
   end
 
   def test_render_offset
-    s = Screen.new(width: 12, height: 7, silent: true)
+    s = Screen.new_for_testing(width: 12, height: 7, silent: true)
     s.append_child Element.new(x: 7, y: 3, width: 7, height: 12, text: 'hello', ch: '·', style: { border: Border.new, padding: Bounds.new(top: 1, left: 2) })
     s.clear
     s.render

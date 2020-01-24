@@ -8,7 +8,7 @@ def json_stringify(obj)
   JSON.generate(obj)
 end
 
-# TODO: why is it so hard in ruby to access an outer local variable from a method ? I needed to create a 
+# TODO: why is it so hard in ruby to access an outer local variable from a method ? I needed to create a
 # module and a wrapper for somethig very trivial
 
 module Util

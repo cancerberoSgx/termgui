@@ -23,7 +23,7 @@ module TermGui
       install(:focus)
       @focused = focusables.first || nil if focus_first && !@focused
       @focused&.set_attribute(:focused, true)
-      @event.add_any_key_listener{ |e| handle_key e }
+      @event.add_any_key_listener { |e| handle_key e }
       # @input.subscribe('key') { |e| handle_key e }
     end
 
@@ -58,9 +58,8 @@ module TermGui
     protected
 
     def handle_key(e)
-      if focused&.get_attribute('entered')
-        return
-      end
+      return if focused&.get_attribute('entered')
+
       if @keys[:next].include? e.key
         focus_next
       elsif @keys[:prev].include? e.key
@@ -84,7 +83,6 @@ module TermGui
       @previous = previous
     end
   end
-  
 end
 
 FocusManager = TermGui::FocusManager

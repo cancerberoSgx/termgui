@@ -6,7 +6,7 @@ require_relative '../src/log'
 
 class ActionTest < Test::Unit::TestCase
   def test_global_action
-    screen = Screen.new width: 5, height: 6
+    screen = Screen.new_for_testing width: 5, height: 6
     s = ''
     global = ''
     e1 = screen.append_child Element.new(text: '1', attributes: { focusable: true })

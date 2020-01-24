@@ -7,7 +7,7 @@ require_relative '../../src/widget/button'
 
 class RowTest < Test::Unit::TestCase
   def test_simple
-    screen = Screen.new(width: 20, height: 3, silent: true)
+    screen = Screen.new_for_testing(width: 20, height: 3, silent: true)
     l1 = Label.new(text: 'label1')
     l2 = Label.new(text: 'label2')
     l3 = Label.new(text: 'label3')
@@ -22,7 +22,7 @@ class RowTest < Test::Unit::TestCase
   end
 
   def test_element_border
-    screen = Screen.new(width: 40, height: 5, silent: true)
+    screen = Screen.new_for_testing(width: 40, height: 5, silent: true)
     l1 = Button.new(text: 'label1')
     l2 = Button.new(text: 'label2')
     l3 = Button.new(text: 'label3')

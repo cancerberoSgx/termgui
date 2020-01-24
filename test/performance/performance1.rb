@@ -7,7 +7,7 @@ require_relative '../../src/util'
 def test(timeout: 3, box_count: 80, interval: 0.01, render_count: 1, screen_width: 120, screen_height: 32, text_length: 5, no_buffer: false)
   t0 = Time.now
   i = 0
-  s = Screen.new(width: screen_width, height: screen_height)
+  s = Screen.new_for_testing(width: screen_width, height: screen_height)
   s.renderer.no_buffer = no_buffer
   s.set_timeout(timeout) do
     config = {
@@ -21,7 +21,7 @@ Iteration ##{i} \r
 Time: #{Time.now - t0} \r
 Config: #{config} \r"
   end
-  
+
   draw = proc {
     box_count.times do |j|
       s.append_child Button.new(x: random_int(2, s.width - 20), y: random_int(1, s.height - 4), text: "button#{j}")
