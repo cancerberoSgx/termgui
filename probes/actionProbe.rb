@@ -1,7 +1,7 @@
 require_relative '../src/screen'
 
 s = Screen.new
-s.install_exit_keys
+
 a = s.append_child Button.new(text: 'hello')
 # s.action.
 # draw = proc do |_e|

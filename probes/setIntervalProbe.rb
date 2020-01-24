@@ -2,7 +2,7 @@ require_relative '../src/termgui'
 
 def test1
   s = Screen.new
-  s.install_exit_keys
+  
   10.times.map do |i|
     timeout = [0.2, 0.5, 0.8, 1.1, 1.5, 2, 2.5].sample
     b = s.append_child Button.new(x: int(0, s.width - 10), y: int(1, s.height - 4), text: "Button #{i}")
@@ -21,7 +21,7 @@ test1
 # end
 
 # s = Screen.new
-# s.install_exit_keys
+# 
 # s.set_timeout(0.1) do
 #   # s.set_interval(1){s.text(x:0,y:0,text:'1_'+Time.now.to_s)}
 #   s.set_interval(1) do

@@ -10,20 +10,21 @@ module TermGui
 
     def initialize(
       root: nil, # the root element inside of which to look up for focusables
-      input: nil, # Input instance - needed for subscribe to key events
+      event: nil, # EventManager instance - needed for subscribe to key events
       keys: { next: ['tab'], prev: ['S-tab'] }, # the keys for focusing the next and previous focusable
       focus_first: true # if true will set focus (attribute focused == true) on the first focusable automatically
     )
-      throw 'root Element and input InputManager are required' unless root && input
+      throw 'root Element and Event EventManager are required' unless root && event
       @root = root
       @keys = keys
-      @input = input
+      @event = event
       focusables.each { |n| n.set_attribute(:focused, false) }
       @focused = @root.query_one_by_attribute(:focusable, true)
       install(:focus)
       @focused = focusables.first || nil if focus_first && !@focused
       @focused&.set_attribute(:focused, true)
-      @input.subscribe('key') { |e| handle_key e }
+      @event.add_any_key_listener{ |e| handle_key e }
+      # @input.subscribe('key') { |e| handle_key e }
     end
 
     def focusables
@@ -57,6 +58,9 @@ module TermGui
     protected
 
     def handle_key(e)
+      if focused&.get_attribute('entered')
+        return
+      end
       if @keys[:next].include? e.key
         focus_next
       elsif @keys[:prev].include? e.key

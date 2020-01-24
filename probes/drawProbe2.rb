@@ -36,7 +36,6 @@ end
 
 def test1
   s = Screen.new
-  s.install_exit_keys
   t = Thing.new s
   loop do
     t.draw s
@@ -47,21 +46,22 @@ end
 
 def test2
   s = Screen.new
-  s.install_exit_keys
-  interval = 0.005
-  a = 100.times.map { Thing.new s }
-  s.set_interval do
-    s.clear
+  amount = 200
+  # 
+  interval = 0.05
+  a = amount.times.map { Thing.new s }
+  s.set_interval(interval) do
+    # s.clear
     a.each do |t|
       t.erase s
       t.tick
       t.draw s
       a.delete t if t.y > s.height
     end
-    sleep interval
+    # sleep interval
   end
   s.event.add_key_listener('p')  do
-    a = a.concat(100.times.map { Thing.new s })
+    a = a.concat(amount.times.map { Thing.new s })
   end
   s.start
 end

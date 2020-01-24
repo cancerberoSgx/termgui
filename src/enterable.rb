@@ -36,11 +36,11 @@ module TermGui
       @key_listener = nil
       set_attribute(:focusable, true)
       set_attribute(:enterable, true)
-      install(:input)
-      install(:action)
-      install(:enter)
-      install(:change)
-      install(:escape)
+      install([:input, :action, :enter, :change, :escape])
+      # install(:action)
+      # install(:enter)
+      # install(:change)
+      # install(:escape)
       on(:action) do |event|
         unless get_attribute('entered')
           set_attribute('entered', true)
@@ -62,16 +62,16 @@ module TermGui
         trigger('change', ChangeEvent.new(self, value, event))
         root_screen.event.remove_any_key_listener @key_listener
         true
-      elsif event.key == 'escape'
+      elsif [get_attribute('escape-key'), 'escape'].include? event.key
         trigger('escape', EscapeEvent.new(self, event))
         root_screen.event.remove_any_key_listener @key_listener
         true
-      elsif event.key == 'backspace'
-        on_input value.slice(0, value.length - 1), event
-        true
-      elsif alphanumeric? event.key
-        on_input value + event.key, event
-        true
+      # elsif event.key == 'backspace'
+      #   on_input value.slice(0, value.length - 1), event
+      #   true
+      # elsif alphanumeric? event.key
+      #   on_input value + event.key, event
+      #   true
       else
         false
       end

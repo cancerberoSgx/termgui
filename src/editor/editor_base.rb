@@ -120,11 +120,11 @@ module TermGui
     protected
 
     def current_line
-      @lines[current_y]
+      @lines[current_y] || ''
     end
 
     def current_line=(value)
-      @lines[current_y] = value
+      @lines[current_y] = value || ''
     end
 
     def current_char

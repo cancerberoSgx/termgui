@@ -16,10 +16,11 @@ module TermGui
     attr_reader :width, :height, :buffer, :style
     attr_writer :style, :no_buffer
 
-    def initialize(width = 80, height = 20)
+    def initialize(width = 80, height = 20, no_buffer = false)
       @width = width
       @height = height
       @style = Style.new
+      @no_buffer = no_buffer
       @buffer = (0...@height).to_a.map do
         (0...@width).to_a.map do
           Pixel.new Pixel.EMPTY_CH, Style.new
@@ -28,19 +29,20 @@ module TermGui
     end
 
     # all writing must be done using me
-    def write(x, y, ch)
+    def write(x, y, s, style = nil)
       if y < @buffer.length && y >= 0
         # TODO: x could be negative now, trunc ch to respect screen bounds - if not negative values are printed at the right
         if x < 0
-          ch = ch[[x * -1, ch.length].min..ch.length]
+          s = s[[x * -1, s.length].min..s.length]
           x = 0
         end
+        s = style == nil ? s : style.print(s)
         unless @no_buffer
-          (x...[x + ch.length, @width].min).to_a.each do |i|
-            @buffer[y][i].ch = ch[i - x]
+          (x...[x + s.length, @width].min).to_a.each do |i|
+            @buffer[y][i].ch = s[i - x]
           end
         end
-        "#{move x, y + 1}#{ch}" # TODO: investigate why y + 1
+        "#{move x, y + 1}#{s}" # TODO: investigate why y + 1
       else
         ''
       end

@@ -2,7 +2,7 @@ require 'test/unit'
 include Test::Unit::Assertions
 require_relative '../src/focus'
 require_relative '../src/node'
-require_relative '../src/input'
+require_relative '../src/event'
 
 class FocusTest < Test::Unit::TestCase
   def test_next
@@ -19,7 +19,7 @@ class FocusTest < Test::Unit::TestCase
       children: [c1, c2]
     )
     assert_equal nil, c1.get_attribute(:focused)
-    focus = FocusManager.new(root: root, input: Input.new)
+    focus = FocusManager.new(root: root, event: EventManager.new)
     times = 0
     focus.add_listener(:focus, proc { |e|
       if times.zero?

@@ -7,9 +7,7 @@ require_relative '../../src/event'
 
 class EditorBaseTest < Test::Unit::TestCase
   def test_arrows_enter_cursor_backspace
-    screen = Screen.new(width: 24, height: 6)
-    screen.install_exit_keys
-    screen.silent = true
+    screen = Screen.new_for_testing(width: 24, height: 6)
     ed = EditorBase.new(text: 'hello world\nhow are you?', screen: screen, cursor_x: 0, cursor_y: 0)
     ed.enable
     screen.set_timeout do
@@ -135,9 +133,7 @@ class EditorBaseTest < Test::Unit::TestCase
   end
 
   def test_coords
-    screen = Screen.new(width: 24, height: 6)
-    screen.install_exit_keys
-    screen.silent = true
+    screen = Screen.new_for_testing(width: 24, height: 6)
     ed = EditorBase.new(text: 'Welcome to this\nhumble editor', screen: screen, cursor_x: 0, cursor_y: 0, x: 5, y: 2)
     ed.enable
     screen.set_timeout do

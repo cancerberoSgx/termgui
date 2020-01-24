@@ -10,7 +10,7 @@ end
 
 def test1
   s = Screen.new
-  s.install_exit_keys
+  
   s.set_timeout(0.1) do
     s.text(x: 0, y: 0, text: 'TAb to focus, UP to change, ENTER to start')
   end

@@ -16,28 +16,41 @@ module TermGui
   class Screen < Node
     include ScreenElement
     attr_reader :width, :height, :input_stream, :output_stream, :renderer, :input, :event, :focus, :action
-    attr_accessor :silent
+    attr_accessor :silent, :exit_keys
 
-    def initialize(children: [], text: '', attributes: {},
-                   width: nil, height: nil, silent: false)
+    def initialize(
+      children: [], text: '', attributes: {}, exit_keys: %w[q C-c], no_exit_keys: false,
+      width: nil, height: nil, silent: false
+    )
       super(name: 'screen', children: children, text: text, attributes: attributes, parent: nil)
       @width = width == nil ? terminal_width : width
       @height = height == nil ? terminal_height : height
       @input_stream = $stdin
       @silent = silent
+      @exit_keys = exit_keys
       @output_stream = $stdout
       @renderer = Renderer.new(@width, @height)
       @input = Input.new
       @event = EventManager.new @input
-      @focus = FocusManager.new(root: self, input: @input)
+      @focus = FocusManager.new(root: self, event: @event)
+      # //TODO: move this to Element - since are elements responsibility to render when focused if they need to
       @focus.on(:focus) do |event|
         event[:focused]&.render self
         event[:previous]&.render self
       end
-      @action = ActionManager.new @focus, @input
-      install(:destroy)
-      install(:after_destroy)
-      install(:start)
+      @action = ActionManager.new(focus: @focus, event: @event)
+      install(%i[destroy after_destroy start])
+      # install(:after_destroy)
+      # install(:start)
+      # instance.renderer.no_buffer = false
+      install_exit_keys unless no_exit_keys
+    end
+
+    def self.new_for_testing(**args)
+      instance = new(args.merge(no_exit_keys: true, silent: true))
+      instance.renderer.no_buffer = false
+      # instance.silent = true
+      instance
     end
 
     def terminal_width
@@ -49,7 +62,7 @@ module TermGui
     def terminal_height
       $stdout.winsize[0]
     rescue StandardError
-      36
+      24
     end
 
     # start listening for user input. This starts an user input event loop
@@ -79,7 +92,7 @@ module TermGui
 
     # renders given text at given position
     def text(x: nil, y: nil, text: ' ', style: nil)
-      write @renderer.write(x, y, style == nil ? text : style.print(text))
+      write @renderer.write(x, y, text, style)
     end
 
     def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH, style: nil)
@@ -161,10 +174,18 @@ module TermGui
     end
 
     def install_exit_keys
-      @input.subscribe('key') do |e|
-        # log "install_exit_keys #{e}"
-        destroy if e.key == 'q'
+      return if @exit_keys_listener
+
+      @exit_keys_listener = @input.subscribe('key') do |e|
+        destroy if @exit_keys.include?(e.key)
       end
+    end
+
+    def uninstall_exit_keys
+      return unless @exit_keys_listener
+
+      @input.off('key', @exit_keys_listener)
+      @exit_keys_listener = nil
     end
 
     # def cursor_style(style)
