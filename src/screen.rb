@@ -7,6 +7,7 @@ require_relative 'action'
 require_relative 'util'
 require_relative 'screen_element'
 require_relative 'screen_input'
+require_relative 'screen_renderer'
 
 module TermGui
   # Main user API entry point
@@ -17,14 +18,16 @@ module TermGui
   class Screen < Node
     include ScreenElement
     include ScreenInput
+    include ScreenRenderer
     attr_reader :width, :height, :input_stream, :output_stream, :renderer, :input, :event, :focus, :action
-    attr_accessor :silent, :exit_keys
+    attr_accessor :silent
 
     def initialize(
       children: [], text: '', attributes: {}, exit_keys: %w[q C-c], no_exit_keys: false,
       width: nil, height: nil, silent: false
     )
       super(name: 'screen', children: children, text: text, attributes: attributes, parent: nil)
+      install(%i[destroy after_destroy start after_start])
       @width = width == nil ? terminal_width : width
       @height = height == nil ? terminal_height : height
       @input_stream = $stdin
@@ -35,13 +38,7 @@ module TermGui
       @input = Input.new
       @event = EventManager.new @input
       @focus = FocusManager.new(root: self, event: @event)
-      # //TODO: move this to Element or to FocusManager- since are elements responsibility to render when focused if they need to
-      @focus.on(:focus) do |event|
-        event[:focused]&.render self
-        event[:previous]&.render self
-      end
       @action = ActionManager.new(focus: @focus, event: @event)
-      install(%i[destroy after_destroy start])
       @renderer.no_buffer = true
       install_exit_keys unless no_exit_keys
     end
@@ -70,10 +67,10 @@ module TermGui
       emit :start
       unless clean
         clear
-        query_by_attribute('focusable', true).length.times { @focus.focus_next } # TODO: Hack. Move to FocusManger :start listener
         cursor_hide # TODO: move this to a CursorManager :start listener
         render
       end
+      emit :after_start
       @input.start
     end
 
@@ -89,64 +86,9 @@ module TermGui
       @output_stream.write s unless @silent
     end
 
-    # renders given text at given position
-    def text(x: nil, y: nil, text: ' ', style: nil)
-      write @renderer.write(x, y, text, style)
-    end
-
-    def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH, style: nil)
-      renderer.style = style if style
-      write @renderer.rect x: x, y: y, width: width, height: height, ch: ch
-    end
-
-    def clear
-      @renderer.style = Style.new
-      write @renderer.style.print
-      write @renderer.clear
-    end
-
-    def style=(style)
-      @renderer.style = style
-      write @renderer.style.print
-    end
-
-    # complies with Element#render and also is capable of rendering given elements
-    def render(element = nil)
-      if element == self || element.nil?
-        children.each { |child| child.render self }
-      elsif !element.nil?
-        element.render self
-      end
-    end
-
     def alert
       puts "\a"
     end
-
-    def box(x, y, width, height, border_style = :classic, style = nil)
-      self.style = style if style
-      box = draw_box(width: width, height: height, style: border_style)
-      box.each_with_index do |line, index|
-        text(x: x, y: y + index, text: line)
-      end
-    end
-
-    def print
-      @renderer.print
-    end
-
-    def cursor_move(x, y)
-      write @renderer.move(x, y)
-    end
-
-    def cursor_show
-      write @renderer.cursor_show
-    end
-
-    def cursor_hide
-      write @renderer.cursor_hide
-    end
-
   end
 end
 Screen = TermGui::Screen

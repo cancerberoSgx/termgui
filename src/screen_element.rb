@@ -2,6 +2,15 @@ require_relative 'geometry'
 
 # so screen emulates an Element. TODO: make Screen < Element and get rid of width and height and all of this...
 module ScreenElement
+  # complies with Element#render and also is capable of rendering given elements
+  def render(element = nil)
+    if element == self || element.nil?
+      children.each { |child| child.render self }
+    elsif !element.nil?
+      element.render self
+    end
+  end
+
   def abs_x
     0
   end

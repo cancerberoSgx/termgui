@@ -1,5 +1,7 @@
 # adds Input related methods to screen
 module ScreenInput
+  attr_accessor :exit_keys
+
   # Analog to HTML DOM / Node.js setTimeout() using input event loop
   # @param {Number} seconds
   def set_timeout(seconds = @input.interval, listener = nil, &block)

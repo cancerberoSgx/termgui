@@ -21,8 +21,7 @@ module TermGui
 
     def initialize(**args)
       super
-      install(:focus)
-      install(:blur)
+      install(%i[focus blur])
       args[:attributes] = { x: args[:x] || 0, y: args[:y] || 0, width: args[:width] || 0, height: args[:height] || 0 } if args[:attributes] == nil
       a = {}
       a.merge!(args)
@@ -30,6 +29,9 @@ module TermGui
       a[:style] = Style.from_hash(args[:attributes][:style] || args[:style] || default_style)
       self.attributes = a
       self.style = a[:style] || Style.new
+      on(%i[focus blur]) do
+        render
+      end
     end
 
     def ch
