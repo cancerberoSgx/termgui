@@ -36,15 +36,27 @@ module ElementStyle
   # so dependently on attributes like `focused` this method performs computation of the "final" style
   def final_style
     result = style.clone
-    merge_style(result, style.focus) if get_attribute('focused')
+    # merge_style(result, style.focus) if get_attribute('focused')
+    result.assign(style.focus) if get_attribute('focused')
+    result.assign(style.enter) if get_attribute('entered')
+    # merge_style(result, style.enter) if get_attribute('entered')
     result
   end
 
-  private
-
-  def merge_style(s1, s2)
-    # TODO: needed because hashObject#assign is not working
-    s1.bg = s2.bg if s2.bg
-    s1.fg = s2.fg if s2.fg
+  # computes current border style according to style, style.border, style.focus.border, etc in the right order
+  def border_style
+    s = style.clone
+    s = s.assign(border) if border
+    # merge_style(s, style.focus&.border) if get_attribute('focused') && style.focus&.border
+    s.assign(style.focus&.border) if get_attribute('focused') 
+    s
   end
+  
+  # private
+
+  # def merge_style(s1, s2)
+  #   # TODO: needed because hashObject#assign is not working
+  #   s1.bg = s2.bg if s2.bg
+  #   s1.fg = s2.fg if s2.fg
+  # end
 end

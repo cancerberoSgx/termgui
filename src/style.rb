@@ -11,6 +11,7 @@ module TermGui
 
     attr_accessor :fg, :bg, :underline, :bold, :blink
 
+    # TODO: for some reason **args is not working here that's why we have all subclasses props
     def initialize(fg: nil, bg: nil, bold: nil, blink: nil, underline: nil, bright: nil, wrap: nil, border: nil, padding: nil)
       @fg = fg
       @bg = bg
@@ -74,7 +75,7 @@ module TermGui
 
   # Element style (`element.style` type)
   class Style < BaseStyle
-    attr_accessor :border, :wrap, :padding, :focus
+    attr_accessor :border, :wrap, :padding, :focus, :enter
 
     def initialize(**args)
       super
@@ -90,6 +91,7 @@ module TermGui
       end
       @padding = args[:padding]
       @focus = args[:focus] || clone
+      @enter = args[:enter] || clone
     end
   end
 end

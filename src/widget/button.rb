@@ -22,6 +22,7 @@ module TermGui
         s.fg = 'blue'
         s.focus.fg = 'green'
         s.focus.bg = 'blue'
+        s.focus.border = Border.new(fg: 'green')
         s
       end
     end

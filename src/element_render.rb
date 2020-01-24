@@ -1,4 +1,5 @@
 require_relative 'element_box'
+require_relative 'element_style'
 require_relative 'util'
 require_relative 'util/wrap'
 require_relative 'log'
@@ -7,16 +8,10 @@ require_relative 'box'
 # implements element rendering (self, border, child, text) for which it depends on ElementBox
 module ElementRender
   include ElementBox
+  include ElementStyle
 
   def border
     style&.border
-  end
-
-  # computes current border style according to style, style.border, style.focus.border, etc in the right order
-  def border_style
-    s = style.clone
-    s = s.assign(border) if border
-    s
   end
 
   def render(screen = nil)
@@ -51,7 +46,7 @@ module ElementRender
   # IMPORTANT: border is rendered in a +2 bigger rectangle that sourounds actual element bounds (abs_* methods)
   def render_border(screen)
     # screen.style = border_style
-    screen.box abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, border_style if border
+    screen.box( abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, border_style) if border
   end
 
   def render_text(screen)
