@@ -6,8 +6,8 @@ module ScreenRenderer
   end
 
   def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH, style: nil)
-    renderer.style = style if style
-    write @renderer.rect x: x, y: y, width: width, height: height, ch: ch
+    # renderer.style = style if style
+    write @renderer.rect x: x, y: y, width: width, height: height, ch: ch, style: style
   end
 
   def clear
@@ -25,7 +25,7 @@ module ScreenRenderer
     self.style = style if style
     box = draw_box(width: width, height: height, style: border_style)
     box.each_with_index do |line, index|
-      text(x: x, y: y + index, text: line)
+      text(x: x, y: y + index, text: line, style: style)
     end
   end
 

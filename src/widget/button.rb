@@ -17,7 +17,7 @@ module TermGui
 
       def default_style
         s = super
-        s.border = Border.new
+        s.border = Border.new(fg: 'red')
         s.bg = 'white'
         s.fg = 'blue'
         s.focus.fg = 'green'

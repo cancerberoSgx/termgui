@@ -37,26 +37,27 @@ module ElementRender
 
   def render_self(screen)
     render_border screen
-    screen.style = final_style
+    # screen.style = final_style
     screen.rect(
       x: abs_x,
       y: abs_y,
       width: abs_width,
       height: abs_height,
-      ch: ch
+      ch: ch,
+ style:     final_style
     )
   end
 
   # IMPORTANT: border is rendered in a +2 bigger rectangle that sourounds actual element bounds (abs_* methods)
   def render_border(screen)
-    screen.style = border_style
-    screen.box abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, style if border
+    # screen.style = border_style
+    screen.box abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, border_style if border
   end
 
   def render_text(screen)
     if @text
       render_text_lines.each_with_index do |line, i|
-        screen.text(x: abs_content_x, y: abs_content_y + i, text: line)
+        screen.text(x: abs_content_x, y: abs_content_y + i, text: line,  style:     final_style)
       end
     end
   end
