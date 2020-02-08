@@ -1,4 +1,3 @@
-
 # // As it happens, comparing how similar two colors are is really hard. Here is
 # // one of the simplest solutions, which doesn't require conversion to another
 # // color space, posted on stackoverflow[1]. Maybe someone better at math can
@@ -10,8 +9,6 @@
 #     + Math.pow(59 * (g1 - g2), 2)
 #     + Math.pow(11 * (b1 - b2), 2);
 # }
-
-
 
 # // This might work well enough for a terminal's colors: treat RGB as XYZ in a
 # // 3-dimensional space and go midway between the two points.
@@ -38,10 +35,6 @@
 
 #   return exports.match([r1, g1, b1]);
 # };
-
-
-
-
 
 # the rest is obsoleted by src/tco
 

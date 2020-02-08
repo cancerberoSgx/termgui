@@ -15,5 +15,4 @@ module RendererCursor
   def cursor_hide
     "#{CSI}?25l"
   end
-
 end

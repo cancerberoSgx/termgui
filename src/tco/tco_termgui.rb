@@ -22,5 +22,4 @@ module TermGui
   def self.fast_colouring(value)
     Tco::Colour.fast = value
   end
-
 end

@@ -21,7 +21,7 @@ module HashObject
       self.class.new.assign(self)
     else
       hash_obj = hash
-      if hash.instance_of?( Hash)
+      if hash.instance_of?(Hash)
         hash_obj = self.class.new
         merge_hash_into_object(hash, hash_obj)
       end

@@ -29,7 +29,7 @@ module ElementStyle
     # else
     #   Style.new
     # end
- Style.new
+    Style.new
   end
 
   # while "normal" style is defined in @style, focused extra style is defined in @style.focus,

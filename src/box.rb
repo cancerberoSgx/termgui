@@ -68,22 +68,21 @@ def draw_box(width: 0, height: 0, style: :single, content: ' ')
   (0..height - 1).each do |y|
     line = []
     (0..width - 1).each do |x|
-      line .push( if y.zero? && x.zero?
-                box[:topLeft]
-              elsif y == height - 1 && x.zero?
-                box[:bottomLeft]
-              elsif y.zero? && x == width - 1
-                box[:topRight]
-              elsif y == height - 1 && x == width - 1
-                box[:bottomRight]
-              elsif y == height - 1 || y.zero?
-                box[:horizontal]
-              elsif x == width - 1 || x.zero?
-                box[:vertical]
-              else
-                content
-              end
-      )
+      line .push(if y.zero? && x.zero?
+                   box[:topLeft]
+                 elsif y == height - 1 && x.zero?
+                   box[:bottomLeft]
+                 elsif y.zero? && x == width - 1
+                   box[:topRight]
+                 elsif y == height - 1 && x == width - 1
+                   box[:bottomRight]
+                 elsif y == height - 1 || y.zero?
+                   box[:horizontal]
+                 elsif x == width - 1 || x.zero?
+                   box[:vertical]
+                 else
+                   content
+              end)
     end
     lines.push(line.join(''))
   end

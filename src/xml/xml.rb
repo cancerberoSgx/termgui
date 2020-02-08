@@ -43,7 +43,7 @@ def process_node(node, parent = nil, bindings = nil, builders = default_builders
   else
     c = (builders[node.name.to_sym] || Element)
     a = process_attrs(node, bindings, attrs).merge(parent: parent)
-    result = c.new(a.merge(builders[node.name.to_sym] ? {} : {name: node.name}))
+    result = c.new(a.merge(builders[node.name.to_sym] ? {} : { name: node.name }))
     percent_bounds_hack(result, parent)
     node.each do |e|
       c = process_node(e, result, bindings, builders, attrs)
