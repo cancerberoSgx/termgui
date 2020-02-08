@@ -1,4 +1,4 @@
-require '/Users/wyeworks/.rubies/ruby-2.6.5/lib/ruby/2.6.0/rexml/document'
+require 'rexml/document'
 require 'erb'
 require_relative '../element'
 require_relative '../screen'
@@ -22,7 +22,7 @@ def process_attrs(e, b, attrs = default_attrs)
                        Style.from_hash(eval(value))
                      else
                        value
-              end
+                     end
   end
   a
 end
@@ -58,7 +58,8 @@ def default_attrs
     code: ['action']
   }
 end
-def default_builders 
+
+def default_builders
   {
     col: Col,
     button: Button,

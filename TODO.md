@@ -6,11 +6,14 @@
      - [ ] alternative 2: make a focusable & enterable - when entered focus-keys will only work inside it (focusing focusable children)
      
  - [w] editor - generic text area like (see section "editor" below). See src/editor
- - [ ] investigate similar target projects https://github.com/Shopify/cli-ui and https://github.com/gavinlaking/vedeu
- - [ ] input - check this - https://github.com/piotrmurach/tty-reader supports raw mode for multi line - "https://github.com/piotrmurach/tty-reader#22-read_line" - has the key map implemented.
- - [ ] keys - full map verify https://rubydoc.info/gems/vedeu/Vedeu
- 
- - [ ] check this out - terminal toolkit - many things needed here - research if it targets the same use cases https://ttytoolkit.org/components/
+
+ - [ ] investigate similar target projects 
+    - [ ] https://github.com/Shopify/cli-ui 
+    - [ ]  https://github.com/gavinlaking/vedeu
+    - [ ] input - check this - https://github.com/piotrmurach/tty-reader supports raw mode for multi line - "https://github.com/piotrmurach/tty-reader#22-read_line" - has the key map implemented.
+    - [ ] keys - full map verify https://rubydoc.info/gems/vedeu/Vedeu
+    - [ ] check this out - terminal toolkit - many things needed here - research if it targets the same use cases https://ttytoolkit.org/components/
+
  - [ ] scroll 
    - [x] Element#offset
    - [ ] ScrollManager : define "scrollable" and define keys for scroll up, down, left right if current focused el is scrollable ? (manager?)
@@ -31,23 +34,22 @@
 
  - [ ] how to debug ? check if this could help debugging
 
- - [ ] announce in stack overflow, medium articles like https://medium.com/@bryantteng/outputting-to-the-terminal-in-style-f489bc2fa52c - 
-
  - [ ] DOM stuff
   - [ ] bounds/layout cascade ? 
   - [x] border_final_style
   - [ ] final_style performance - always cloning/merging even if elements don't have any focus or border style...
   - [x] fix HashObject#assign so it won't merge nil valued properties. see element_style#merge_style
   - [x] support hash style declarations: `Element.new(x: 0.1, y: 0.2, style: {fg: 'magenta', border: {style: :double}})`
-  - [x] CSS cascade style: children should inherit parent style if explicit and child has no value. (make it optional/configurable)
+  - [x] CSS cascade style: children should inherit parent style if explicit and child has no value. (make it optional/configurable) (see `element.get_attribute('style-cascade') == 'prevent'`)
   - [ ] store and formalize Element options (initialize arguments). store it so implementations can look at original values given by user (props)
   - [ ] overflow: hidden
   - [ ] overflow: scroll
-  - [] Element#layout() 
-  - [] examples widgets Col and Row (not working correctly)
+  - [x] Element#layout() 
+  - [ ] widgets Col and Row (not working correctly)
     - [ ] check https://rubydoc.info/gems/terminal-layout
     - [ ] element's margin
-    - [ ] introduce yoga-layout ? are there any layout gems ? 
+    - [ ] introduce yoga-layout ? (binary)
+    - [ ] are there any layout gems ? 
 
  - [ ] gem
    - [ ] minimally test gem pack from probe project
@@ -64,24 +66,27 @@
 
  - 
  - [ ] documentation
-   - [ ] generate API documentation (using yard)
+   - [x] generate API documentation (using yard)
+   - [ ] publish docs/termgui to github pages
+   - [ ] add links to important APIs in README
    - [ ] document important APIs - how to document events and DOM attributes as part of the API docs? 
    - [ ] screencasts, screenshots (check http://buildkite.github.io/terminal-to-html/) - asciicam-thing
    - [ ] tutorials
    - [ ] examples using only low level apis (Input, Renderer) without DOM 
+   - [ ] announce in stack overflow, medium articles like https://medium.com/@bryantteng/outputting-to-the-terminal-in-style-f489bc2fa52c - 
 
  - [x] erb probe for elements (see xml/xml)
  - [x] xml syntax with binding support
-   - [ ] properly import require '/Users/wyeworks/.rubies/ruby-2.6.5/lib/ruby/2.6.0/rexml/document'
+   - [x] properly require '/Users/wyeworks/.rubies/ruby-2.6.5/lib/ruby/2.6.0/rexml/document'
+   - [x] access self (the element instance) from attribute handlers: `action="proc {|e| e.target.text = 'asdasd'; e.target.render}"`
    - [ ] complete widgets and attributes - padding, border, style.focus, stc
-   - [x] access self (the element instance) from attribute handlers: action="proc {|e| e.target.text = 'asdasd'; e.target.render}"
 
  - [ ] fonts with http://www.figlet.org/ - https://github.com/miketierney/artii - also check http://github.com/piotrmurach/tty-font
  
  - [ ] terminal capabilities http://github.com/piotrmurach/tty-color
 
- - [ ] images - RMagick + tco - example somewhere very easy but magick is binary - 
-   - [ ] TRY NOT TO USE THESE - these gem uses rmagick - https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
+ - [ ] image rendering 
+   - [ ] try not to use binary dependencies like RMagick:  https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
    - [ ] pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -
    
  - [w] text rendering - use this : https://github.com/piotrmurach/strings#21-align
@@ -93,16 +98,19 @@
 
  - [ ] fix duplicated Event class ... see emitter.rb : " this is the same as event.rb Event. Move Event classes to individual - non dependency file"
 
- - [ ] easing/animations : adapt formulas from accursed project
- - [w] npm.org/inquirer like apis
+ - [w] easing/animations : adapt formulas from accursed project - see src/util/easing.rb
+
+ - [w] npm.org/inquirer like apis - see /inquirer
+ 
  - [ ] promise like apis : `screen.wait_for(predicate1).then(proc {screen.wait_for(predicate2)}).then(verb2).catch(proc {|error|p error})` - right now is callback hell :(
-     - [ ] Could RUby's then() help here ? 
+     - [x] Could RUby's then() help here ? ANSWER: NO
    - [ ] based on our own event loop? or could we use a gem like concurrency? update - currently supporting method block which is similar ?
 
  - [w] element query cssish query support : `element.queryAll '[a="b"] .item > add-button'`
    - [x] query_by_attribute, query_one_by_attribute
    - [x] CSS like language parser
    - [ ] query engine based on css like language below. 
+   - [ ] stylesheets CSS like for declare styles. Can we use ruby based language instead of CSSish ? 
 
    
 ### Done
@@ -200,17 +208,3 @@ But what about a "real world" editor and which feature should be responsibility 
 #### editor plan
 
  * implement editor API only nothing visual but the text area: 
-
-### Ideas - nice to have
-
- - [ ] more states like focus. right now only style.focus is supported. There's another state that could be simulated that is "enter" - when user presses enter a 1-second change is rendered with `style.enter` style. Every action (as in action.rb) should have its style.$action support. "escape" action could be similar to "enter"
-
-
-## Status
-
- * WIP
- * See TODO
- * drawing, styles, colors
- * input manager
- * renderer screen buffer (access screen like a bitmap)
- * no high level api yet

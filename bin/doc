@@ -1,0 +1,1 @@
+yard doc --output docs/termgui --readme README.md "src/**/*.rb"

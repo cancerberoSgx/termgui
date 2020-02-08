@@ -7,6 +7,10 @@ module HashObject
     object_assign(self, hash)
   end
 
+  # def clone
+  #   new_from_hash(self)
+  # end
+
   # alias merge assign
 
   # creates a new empty instance and assign values in given hash or instance.
@@ -17,7 +21,7 @@ module HashObject
       self.class.new.assign(self)
     else
       hash_obj = hash
-      if hash.instance_of? Hash
+      if hash.instance_of?( Hash)
         hash_obj = self.class.new
         merge_hash_into_object(hash, hash_obj)
       end

@@ -6,7 +6,7 @@
  * 100% ruby, no binaries, no dependencies
  * some ideas taken from npm.org/blessed and my own npm.org/accursed
  * HTML DOM like high level API with styles, layouts, box-model, cascade styles
- * xml / edb support for declaring components
+ * xml / edb support for declaring components in XML syntax
  * rendered optionally supporting a buffer to print out the current screen for testing
  * very well tested
  * flexible managers for focus, actions, scroll, keys, input grab, input grab, cursor
@@ -17,7 +17,8 @@
  * independent low level APIs can be used without the high level overhead for listening stdin, drawing, etc
  * box drawing, easing, css parser and dom selector 
 
-### TODO / Status
+
+## TODO / Status
 
 See [TODO](TODO.md)
 
@@ -27,11 +28,12 @@ See [TODO](TODO.md)
  * I don't want to use ncurses based dependencies since is binary
  * I know there are a couple of initiatives 100% in ruby now, but I didn't knew them when I started this project
  * I'm the author of npm.org/accursed which is a similar library so I can of already implemented this in JavaScript
- * I was getting started with ruby and I want to master it
+ * Initially a pet project to learn Ruby
 
 ## Usage
+
 ```
-gem install termgui # TODO
+gem install termgui
 ```
 
 ### Example
@@ -56,31 +58,38 @@ Result:
 
 ![readme_screenshot01](readme_screenshot01.jpg)
 
-### low level (working) examples
-
-TODO
-<!-- 
-```rb
-require 'termgui'
-screen = Screen.new
-# when user press 's' we clear the screen and paint a rectangle full with 's' char
-screen.event.add_key_listener("s", Proc.new { |e|
-  rect=Element.new 2,3,4,3,'S'
-  screen.clear
-  rect.render screen
-})
-# starts reading user input.
-screen.start
-```
- -->
-
 ## Development commands
 
+```sh
 cd termui
 bundler install
 sh bin/test
+sh bin/doc
 sh bin/dev   # rails server
 sh bin/watch # tests in watch mode
+```
+
+## API Reference
+
+TODO
+
+### low level (working) examples
+
+TODO
+
+#### No DOM - just draw
+
+TODO
+
+#### Only Input
+
+TODO
+
+#### Only Renderer
+
+TODO
+
+
 
 
 ## Element attributes
@@ -89,7 +98,7 @@ Some high level element attributes implemented:
 
 ### style-cascade
 
-By default, children inherit parent style. If element.get_attribute('style-cascade') == 'prevent' it won't happen - this is the children won't be affected by its parent style and only its own is rendered. 
+By default, children inherit parent style. If `element.get_attribute('style-cascade') == 'prevent'` it won't happen - this is the children won't be affected by its parent style and only its own is rendered. 
 
 ### focusable, focused and screen.focus.keys, focus, blur
 
