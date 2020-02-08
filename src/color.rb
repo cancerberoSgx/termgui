@@ -3,6 +3,7 @@
 # color enumerations and utilities. See http://ascii-table.com/ansi-escape-sequences.phpsss
 require_relative 'key'
 
+# obsolete
 COLORS = {
   black: 0,
   red: 1,
@@ -14,26 +15,31 @@ COLORS = {
   white: 7
 }.freeze
 
+# obsolete
 def color_names
   %w[black red green yellow blue magenta cyan white]
 end
 
+# obsolete
 def random_color
   color_names.sample
 end
 
+# obsolete
 def color_text(content, fg = nil, bg = nil)
   colored = color(fg, bg)
   colored << content
   colored << "#{CSI}0m"
 end
 
+# obsolete
 def color(fg = nil, bg = nil)
   colored = ''
   colored << color_to_escape(fg, 30) if fg
   colored << color_to_escape(bg, 40) if bg
 end
 
+# obsolete
 def color_to_escape(name, layer)
   short_name = name.to_s.sub(/\Abright_/, '')
   color = COLORS.fetch(short_name.to_sym)

@@ -5,7 +5,6 @@
 # Copyright (c) 2013, 2014 Radek Pazdera
 
 require_relative 'palette'
-# require_relative 'style'
 
 module Tco
   class Colouring
@@ -42,18 +41,17 @@ module Tco
     # terminal emulators not handling multi-line coloured sequences well.
     def decorate(string, style)
       # (fg, bg, bright, underline)
-      fg = style.fg
-      bg = style.bg
+      # fg = style.fg
+      # bg = style.bg
       # bright = style.bright
       # underline = style.underline
       return string if !STDOUT.isatty || @output_type == :raw || @disabled
 
-      fg = get_colour_instance fg
-      bg = get_colour_instance bg
+      fg = get_colour_instance style.fg
+      bg = get_colour_instance style.bg
 
       output = []
       lines = string.lines.map(&:chomp)
-      # p lines
       lines = [''] if lines.length.zero?
       lines.each do |line|
         unless line.length < 0

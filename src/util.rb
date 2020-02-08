@@ -61,6 +61,10 @@ def random_char
   CHARS.sample
 end
 
+def random_color
+  [random_int(0, 255), random_int(0, 255), random_int(0, 255)]
+end
+
 # similar to JS Array.prototype.some
 def some(array, predicate)
   i = 0

@@ -20,15 +20,29 @@ module Tco
   class Colour
     attr_reader :rgb, :lab
 
+    @@fast = false
+
+    def self.fast=(value)
+      @@fast = value
+    end
+
     def initialize(rgb, lab = nil)
       @rgb = rgb
-      @lab = lab || rgb_to_lab(rgb)
+      @lab = lab || @@fast ? lab : rgb_to_lab(rgb)
       @hsl = nil
       @yiq = nil
     end
 
     def -(other)
-      delta_e_2000 @lab, other.lab
+      if @@fast
+        sum = 0
+        @rgb.each_index do |i|
+          sum += (@rgb[i].abs2 - other.rgb[i].abs2).abs
+        end
+        sum
+      else
+        delta_e_2000 @lab, other.lab
+      end
     end
 
     def <=>(other)
@@ -38,15 +52,17 @@ module Tco
     def to_s
       values = @rgb.map do |v|
         v = v.to_i.to_s 16
-
         case v.length
         when 0 then '00'
         when 1 then '0' + v
         when 2 then v
         end
       end
-
       '#' + values.join('')
+    end
+
+    def to_hash
+      @rgb[0] + @rgb[1] * 255 + @rgb[1] * 255 * 255
     end
 
     def hsl
@@ -226,14 +242,10 @@ module Tco
               end
         xHX /= 2.0
       end
-      xTX = 1 - 0.17 * Math.cos(deg_to_rad(xHX - 30)) + 0.24 *
-                                                        Math.cos(deg_to_rad(2 * xHX)) + 0.32 *
-                                                                                        Math.cos(deg_to_rad(3 * xHX + 6)) - 0.20 *
-                                                                                                                            Math.cos(deg_to_rad(4 * xHX - 63))
+      xTX = 1 - 0.17 * Math.cos(deg_to_rad(xHX - 30)) + 0.24 * Math.cos(deg_to_rad(2 * xHX)) + 0.32 * Math.cos(deg_to_rad(3 * xHX + 6)) - 0.20 * Math.cos(deg_to_rad(4 * xHX - 63))
       xPH = 30 * Math.exp(-((xHX - 275) / 25.0) * ((xHX - 275) / 25.0))
       xRC = 2 * Math.sqrt(xCY**7 / (xCY**7 + 25**7))
-      xSL = 1 + ((0.015 * ((xLX - 50) * (xLX - 50))) /
-            Math.sqrt(20 + ((xLX - 50) * (xLX - 50))))
+      xSL = 1 + ((0.015 * ((xLX - 50) * (xLX - 50))) / Math.sqrt(20 + ((xLX - 50) * (xLX - 50))))
       xSC = 1 + 0.045 * xCY
       xSH = 1 + 0.015 * xCY * xTX
       xRT = -Math.sin(deg_to_rad(2 * xPH)) * xRC
@@ -521,21 +533,19 @@ module Tco
     end
 
     def set_colour_value(id, rgb_colour)
-      raise "Id '#{id}' out of range." unless id.between?(0, @palette.length - 1)
-
+      # raise "Id '#{id}' out of range." unless id.between?(0, @palette.length - 1)
       @palette[id] = Colour.new(rgb_colour)
     end
 
     def get_colour_value(id)
-      raise "Id '#{id}' out of range." unless id.between?(0, @palette.length - 1)
-      raise "Value of colour '#{id}' is unknown" if @palette[id].is_a? Unknown
+      # raise "Id '#{id}' out of range." unless id.between?(0, @palette.length - 1)
+      # raise "Value of colour '#{id}' is unknown" if @palette[id].is_a? Unknown
 
       @palette[id]&.rgb
     end
 
     def is_known?(id)
-      raise "Id '#{id}' out of range." unless id.between?(0, @palette.length - 1)
-
+      # raise "Id '#{id}' out of range." unless id.between?(0, @palette.length - 1)
       !@palette[id].is_a? Unknown
     end
 
@@ -545,20 +555,21 @@ module Tco
         raise ArgumentError, msg
       end
 
-      colours = case @type
-                when 'extended' then @palette
-                when 'ansi' then @palette[0, 8]
-                end
+      # colours = case @type
+      #           when 'extended' then @palette
+      #           when 'ansi' then @palette[0, 8]
+      #           end
 
-      if @cache.key? colour.to_s
-        @cache[colour.to_s]
+      colour_key = colour.to_hash
+      if @cache.key? colour_key
+        @cache[colour_key]
       else
         distances = colours.map { |c| c.is_a?(Colour) ? c - colour : Float::INFINITY }
         colour_index = distances.each_with_index.min[1]
 
         # TODO: No cache eviction is currently in place
         # We assume that applications won't use milions of different colours.
-        @cache[colour.to_s] = colour_index
+        @cache[colour_key] = colour_index
         colour_index
       end
     end

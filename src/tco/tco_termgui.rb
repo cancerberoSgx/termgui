@@ -18,11 +18,9 @@ module TermGui
   def self.print(s, style)
     @colouring.decorate(s, style)
   end
-end
 
-# # style1 = Tco::Style.new('red', 'blue', true, true)
-# style2 = TermGui::Style.new(fg: 'red', bg: 'blue', bold: false)
-# style3 = TermGui::Style.new(fg: '#33aa44', bg: '#333399', bold: true)
-# # p colouring.decorate('KJSDHFKJH', style3)
-# # p colouring.decorate('', style3)
-# # puts 'seba'
+  def self.fast_colouring(value)
+    Tco::Colour.fast = value
+  end
+
+end

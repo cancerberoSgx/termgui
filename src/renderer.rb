@@ -2,6 +2,7 @@ require_relative 'style'
 require_relative 'key'
 require_relative 'renderer_print'
 require_relative 'renderer_cursor'
+require_relative 'renderer_image'
 
 module TermGui
   # Responsible of (TODO: we should split Renderer into several delegate classes
@@ -12,6 +13,7 @@ module TermGui
   class Renderer
     include RendererPrint
     include RendererCursor
+    include RendererImage
 
     attr_reader :width, :height, :buffer, :style
     attr_writer :style, :no_buffer
@@ -60,13 +62,17 @@ module TermGui
       "#{CSI}#{y};#{x}H"
     end
 
+    def text(x: 0, y: 0, text: ' ', style: nil)
+      write(x, y, text, style)
+    end
+
     def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH, style: nil)
-      s = ''
+      s = []
       ch = Pixel.EMPTY_CH if ch == nil
       height.times do |y_|
-        s += write(x, y + y_, ch * width, style).to_s
+        s .push write(x, y + y_, ch * width, style).to_s
       end
-      s
+      s.join('')
     end
 
     def clear
@@ -84,6 +90,10 @@ module TermGui
 
     def style_assign(style)
       @style.assign(style)
+    end
+
+    def fast_colouring=(value)
+      Style.fast_colouring(value)
     end
   end
 

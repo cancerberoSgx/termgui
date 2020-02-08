@@ -29,8 +29,12 @@
  - [ ]  colors:
   - [x] verify character attributes work in style (see color.rb ATTRIBUTES  Update - removed ). - 
     - [x] test in a realProbe
-    - [x]  Update: using src/tco now but don0t support all - checkout https://github.com/sickill/rainbow and https://github.com/fazibear/colorize  and https://github.com/piotrmurach/pastel - update - tco fixed 
-      - [ ] TODO: tco pull request 
+    - [x] fix src/tco to support all attributes - checkout https://github.com/sickill/rainbow and https://github.com/fazibear/colorize  and https://github.com/piotrmurach/pastel - update - tco fixed 
+      - [ ] TODO: tco pull request (blink, underline, etc)
+  - [x] tco [r,g,b] colouring is slow when using many colors (imgs, random_color) 
+    - (WONT) this could be improved by auto generating a rgb->colour mapping table loaded in memory
+    - [ ] tco PR palette.rb #569 just using a simpler hash than to_s for cache key doubles speed
+    - [x] make a fast mode with simpler diff algorithm - see TermGui::fast_colouring(true) (tco PR?)
 
  - [ ] how to debug ? check if this could help debugging
 

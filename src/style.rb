@@ -33,6 +33,10 @@ module TermGui
       end
     end
 
+    def self.fast_colouring(value)
+      TermGui.fast_colouring(value)
+    end
+
     def reset
       @bg = @fg = @wrap = @border = nil
     end

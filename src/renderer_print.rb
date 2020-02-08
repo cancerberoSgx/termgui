@@ -5,24 +5,24 @@ require_relative 'key'
 module RendererPrint
   # prints current buffer as string
   def print
-    s = ''
+    s = []
     @buffer.each_index do |y|
       @buffer[y].each do |p|
-        s += p.ch
+        s .push p.ch
       end
-      s += '\n'
+      s .push '\n'
     end
-    s
+    s.join('')
   end
 
   def print_rows
     rows = []
     @buffer.each_index do |y|
-      line = ''
+      line = []
       @buffer[y].each do |p|
-        line += p.ch
+        line .push p.ch
       end
-      rows.push(line)
+      rows.push(line.join(''))
     end
     rows
   end

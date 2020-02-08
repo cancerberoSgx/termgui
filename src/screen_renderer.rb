@@ -1,13 +1,16 @@
 # adds rendering related methods to screen
 module ScreenRenderer
   # renders given text at given position
-  def text(x: nil, y: nil, text: ' ', style: nil)
-    write @renderer.write(x, y, text, style)
+  def text(x: 0, y: 0, text: ' ', style: nil)
+    write @renderer.text(x: x, y: y, text: text, style: style)
   end
 
   def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH, style: nil)
-    # renderer.style = style if style
-    write @renderer.rect x: x, y: y, width: width, height: height, ch: ch, style: style
+    write @renderer.rect(x: x, y: y, width: width, height: height, ch: ch, style: style)
+  end
+
+  def image(x: 0, y: 0, image: nil, double_cols: false, ch: Pixel.EMPTY_CH, style: Style.new)
+    write @renderer.image(x: x, y: y, image: image, double_cols: double_cols, ch: ch, style: style)
   end
 
   def clear

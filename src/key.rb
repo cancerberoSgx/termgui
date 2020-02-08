@@ -70,13 +70,11 @@ CHAR_NAMES = {
 }.freeze
 
 def name_to_char(name)
-  # log('name_to_char(name)'+name_to_char(name))
   char = CHAR_NAMES.keys.find { |c| CHAR_NAMES[c] == name }
   char ? char.to_s : name
 end
 
 def char_to_name(ch)
-  # log('char_to_name *' + ch + '* *' + ch.inspect + '* ' + (CHAR_NAMES[:"#{ch}"] || 'nil') + '*')
   CHAR_NAMES[:"#{ch}"]
 end
 

@@ -41,16 +41,14 @@ module TermGui
       end
     end
 
-    # Once it `start`s this method is called on the loop to read input and update timeouts.
-    # Could be useful for applications with their own loops to notify input/timeouts
+    # Once it `start`s this method is called on the loop to read input. Calls update_status which update timers (timeout - interval).
+    # Could be useful for applications with their own event loops or time long blocking tasks to notify input/timeouts
     def tick
       char = get_char_or_sequence
       if char
         key = char.inspect
         key = key[1..key.length - 2]
-        # log "char: #{char}, key: #{key}, 1: #{char_to_name(char)}, 2: #{char_to_name(key)}"
         key = char_to_name(key) || char
-        # log key
         emit_key char, key
       else
         sleep @interval

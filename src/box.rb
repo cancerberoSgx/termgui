@@ -66,10 +66,9 @@ def draw_box(width: 0, height: 0, style: :single, content: ' ')
   lines = []
 
   (0..height - 1).each do |y|
-    # line = col.positive? || row.positive? ? Renderer.move(col, row) : ''
-    line = ''
+    line = []
     (0..width - 1).each do |x|
-      line += if y.zero? && x.zero?
+      line .push( if y.zero? && x.zero?
                 box[:topLeft]
               elsif y == height - 1 && x.zero?
                 box[:bottomLeft]
@@ -84,8 +83,9 @@ def draw_box(width: 0, height: 0, style: :single, content: ' ')
               else
                 content
               end
+      )
     end
-    lines.push(line)
+    lines.push(line.join(''))
   end
   lines
 end
