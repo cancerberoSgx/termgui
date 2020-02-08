@@ -23,25 +23,23 @@ end
 
 class Editor < TermGui::Element
   include TermGui::Enterable
-  def modal_log(screen, *args) 
+  def modal_log(screen, *args)
     s = args.nil? ? 'nil' : args.to_s
     s = "------\n#{s}\n"
     open_modal(screen: screen, content: s, title: 'log')
-    screen.set_timeout(5){
+    screen.set_timeout(5) do
       close_modal(screen)
-    }
+    end
   end
 
   def initialize(**args)
     super
     @args = args
     on('enter') do
-      unless @editor
-        @editor = TermGui::EditorBase.new(
-          managed: true, text: @args[:value] || @text || '', screen: root_screen,
-          x: abs_content_x, y: abs_content_y, cursor_x: @args[:cursor_x]||0, cursor_y: @args[:cursor_y]||0
-        )
-      end
+      @editor ||= TermGui::EditorBase.new(
+        managed: true, text: @args[:value] || @text || '', screen: root_screen,
+        x: abs_content_x, y: abs_content_y, cursor_x: @args[:cursor_x] || 0, cursor_y: @args[:cursor_y] || 0
+      )
       @editor.x = abs_content_x
       @editor.y = abs_content_y
       @editor.enable(true)
@@ -49,7 +47,7 @@ class Editor < TermGui::Element
 
       # @editor.render
     end
-    on(['blur', 'escape', 'focus']) do |e| 
+    on(%w[blur escape focus]) do |_e|
       disable
       # log('blur&escape '+e.name)
     end

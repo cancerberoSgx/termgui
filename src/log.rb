@@ -10,6 +10,7 @@ module Log
     s = "------\n#{s}\n"
     File.open(file, 'a') { |f| f.puts s }
   end
+
 end
 
 # default logger class
