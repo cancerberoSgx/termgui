@@ -35,11 +35,23 @@ module Tco
 
     def -(other)
       if @@fast
+        # fast acceptable color diff
         sum = 0
         @rgb.each_index do |i|
           sum += (@rgb[i].abs2 - other.rgb[i].abs2).abs
         end
         sum
+        # TODO: try this from blessed
+        # // As it happens, comparing how similar two colors are is really hard. Here is
+        # // one of the simplest solutions, which doesn't require conversion to another
+        # // color space, posted on stackoverflow[1]. Maybe someone better at math can
+        # // propose a superior solution.
+        # // [1] http://stackoverflow.com/questions/1633828
+        # function colorDistance(r1, g1, b1, r2, g2, b2) {
+        #   return Math.pow(30 * (r1 - r2), 2)
+        #     + Math.pow(59 * (g1 - g2), 2)
+        #     + Math.pow(11 * (b1 - b2), 2);
+        # }
       else
         delta_e_2000 @lab, other.lab
       end

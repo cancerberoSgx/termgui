@@ -90,8 +90,11 @@
  - [ ] terminal capabilities http://github.com/piotrmurach/tty-color
 
  - [x] image rendering - see probes/pngProbe.rb using chunky_png
-   - [ ] add renderer.image
-   - [ ] improve perf by pre-reading pixels in memory?
+   - [x] add renderer.image
+   - [x] improve perf by pre-reading pixels in memory?
+   - [ ] alpha channel ? currently totally ignored 
+     - can we render alpha (blessed) ? check mixColors in blessed https://github.com/cancerberoSgx/accursed/blob/6d97624f93329c0d65e0f1384ab49778bf7b4dca/apps/blessed-core/src/blessed/colors.js - given a bg color and alpha number - the result of a rgb + alpha is the blend between rgb and bg weighed with alpha 
+     - should ignore transparent pixels ? 
    - [ ] support ascii art chars like ? currently only printing fixed ch
    - [x] try not to use binary dependencies like RMagick:  https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
    - [x] pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -

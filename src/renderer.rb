@@ -23,6 +23,7 @@ module TermGui
       @height = height
       @style = Style.new
       @no_buffer = no_buffer
+      self.fast_colouring = true
       unless no_buffer
         @buffer = (0...@height).to_a.map do
           (0...@width).to_a.map do
