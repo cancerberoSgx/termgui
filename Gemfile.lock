@@ -3,6 +3,7 @@ GEM
   specs:
     ast (2.4.0)
     backport (1.1.2)
+    chunky_png (1.3.11)
     filewatcher (1.1.1)
       optimist (~> 3.0)
     jaro_winkler (1.5.4)
@@ -18,6 +19,7 @@ GEM
     rainbow (3.0.0)
     reverse_markdown (1.3.0)
       nokogiri
+    rexml (3.2.4)
     rubocop (0.77.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -49,7 +51,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  chunky_png
   filewatcher
+  rexml
   rubocop
   solargraph
   test-unit

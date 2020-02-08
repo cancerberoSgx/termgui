@@ -85,9 +85,12 @@
  
  - [ ] terminal capabilities http://github.com/piotrmurach/tty-color
 
- - [ ] image rendering 
-   - [ ] try not to use binary dependencies like RMagick:  https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
-   - [ ] pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -
+ - [x] image rendering - see probes/pngProbe.rb using chunky_png
+   - [ ] add renderer.image
+   - [ ] improve perf by pre-reading pixels in memory?
+   - [ ] support ascii art chars like ? currently only printing fixed ch
+   - [x] try not to use binary dependencies like RMagick:  https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
+   - [x] pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -
    
  - [w] text rendering - use this : https://github.com/piotrmurach/strings#21-align
    - [x] line wrap
