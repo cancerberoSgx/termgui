@@ -9,7 +9,7 @@ module TermGui
     class InputBox < Button
       include Enterable
       def initialize(**args)
-        super
+        super({width: 0.99, height: 1}.merge(args))
         @name = 'input'
         if args[:dynamic_width]
           on(:input) do |e|
@@ -17,11 +17,14 @@ module TermGui
             cursor.x = abs_content_x + e.value.length - 2
           end
         end
+        # set_attribute('escape-on-blur', get_attribute('escape-on-blur') == nil ? true : get_attribute('escape-on-blur'))
+        # set_attribute('action-on-focus', get_attribute('action-on-focus') == nil ? true : get_attribute('action-on-focus'))
         on(:enter) do
           cursor.enable
         end
         on(:escape) do
           cursor.disable
+          args[:change].call(value) if args[:change]
         end
       end
 
@@ -38,14 +41,24 @@ module TermGui
         text
       end
 
+      def between(v,min,max)
+        [[v, min].max, max].min
+      end
+
+      def current_x
+        cursor.x-abs_content_x
+      end
       def handle_key(event)
         if !super(event)
           if event.key == 'backspace'
-            on_input value.slice(0, [value.length - 1, 0].max), event
+            on_input value[0..between(current_x-1, 0, value.length-1)] +  value[between(current_x+1, 0, value.length-1)..(value.length-1)], event
+            cursor.x = [cursor.x - 1, abs_content_x - 1].max
+            render
             true
           elsif alphanumeric? event.key
-            on_input value + event.key, event
+            on_input value[0..between(current_x, 0, value.length-1)] + event.key + value[between(current_x+1, 0, value.length-1)..(value.length-1)], event
             cursor.x = cursor.x + 1
+            render
             true
           elsif ['right'].include? event.key
             cursor.x = [cursor.x + 1, abs_content_x + value.length - 1].min
@@ -67,3 +80,6 @@ module TermGui
 end
 
 InputBox = TermGui::Widget::InputBox
+
+
+# p 'sdfsdf'[0..3]

@@ -26,15 +26,15 @@ class RowTest < Test::Unit::TestCase
     l1 = Button.new(text: 'label1')
     l2 = Button.new(text: 'label2')
     l3 = Button.new(text: 'label3')
-    Row.new(children: [l1, l2, l3], y: 2).append_to(screen)
+    Row.new(children: [l1, l2, l3], y: 2, x: 2).append_to(screen)
     screen.clear
     screen.render
-    assert_equal '' \
-      '                                        \n' \
-      '┌──────┐┌──────┐┌──────┐                \n' \
-      '│label1││label2││label3│                \n' \
-      '└──────┘└──────┘└──────┘                \n' \
-      '                                        \n' \
-      '', screen.print
+    assert_equal( '' +
+    '                                        \n' + 
+    '                                        \n' + 
+    '  ┌──────┐┌──────┐┌──────┐              \n' + 
+    '  │label1││label2││label3│              \n' + 
+    '  └──────┘└──────┘└──────┘              \n' + 
+      '', screen.print)
   end
 end

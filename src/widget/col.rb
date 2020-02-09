@@ -5,18 +5,20 @@ module TermGui
     # By default it will have height==0.999
     class Col < Element
       def initialize(**args)
-        super
+        # p(({height: 0.99}.merge(args))[:height])
+        super({height: 0.999}.merge(args))
+        # p height, abs_height
         @name = 'col'
       end
 
       def layout
-        init_y = abs_content_y
-        last_y = init_y
+        # init_y = abs_content_y
+        last_y = abs_content_y
         @children.each do |c|
-          last_y += 1 if c.style.border
-          c.abs_y = last_y - init_y
+          # last_y += 1 if c.style.border
+          c.abs_y = last_y 
           last_y += c.abs_height
-          last_y += 1 if c.style.border
+          # last_y += 1 if c.style.border
         end
       end
     end

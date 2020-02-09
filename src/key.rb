@@ -82,13 +82,14 @@ ALPHANUMERICS =
   ('a'...'z').to_a
              .concat(('A'..'Z').to_a)
              .concat(('0'...'9').to_a)
+             .concat(['z','Z','9'])
              .concat(',.-;:_ç´Ç¨+`*^{}[]¡\'¡¿?ªº\\!"·$%&/()=|@#¢∞¬÷“”'.split(''))
 
 def alphanumeric?(c)
   ALPHANUMERICS.include? c
 end
 
-NUMERICS = ['.'].concat(('0'...'9').to_a)
+NUMERICS = ['.'].concat(('0'...'9').to_a).push('9')
 
 def numeric?(c)
   NUMERICS.include? c

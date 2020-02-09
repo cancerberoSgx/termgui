@@ -80,8 +80,8 @@ module TermGui
 
     def on_input(value, event = nil)
       self.value = value
-      root_screen.clear # TODO: performance
-      root_screen.render
+      # root_screen.clear # TODO: performance
+      # root_screen.render
       trigger('input', InputEvent.new(self, value, event))
     end
   end

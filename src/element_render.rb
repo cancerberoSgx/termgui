@@ -28,7 +28,6 @@ module ElementRender
 
   def render(screen = root_screen, force=false)
     self.dirty = true if force
-    # screen = screen == nil ? root_screen : screen
     return '' unless screen
 
     trigger(:before_render)
@@ -50,14 +49,20 @@ module ElementRender
     @parent&.root_screen
   end
 
+  def clear
+    if parent&&root_screen
+      root_screen.rect(x: abs_x, y: abs_y, width: abs_width, height: abs_height, style: parent.final_style)
+    end
+  end
+
   protected
 
   def render_self(screen)
     screen.rect(
-      x: abs_x,
-      y: abs_y,
-      width: abs_width,
-      height: abs_height,
+      x: abs_x + ( border ? 1 : 0),
+      y: abs_y + ( border ? 1 : 0),
+      width: abs_width - ( border ? 2 : 0),
+      height: abs_height - ( border ? 2 : 0),
       ch: get_attribute('ch'),
       style: final_style
     )
@@ -65,7 +70,7 @@ module ElementRender
 
   # IMPORTANT: border is rendered in a +2 bigger rectangle that sourounds actual element bounds (abs_* methods)
   def render_border(screen)
-    border ? screen.box(abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, border_style) : ''
+    border ? screen.box(abs_x, abs_y, abs_width , abs_height , border.style, border_style) : ''
   end
 
   def render_text(screen)

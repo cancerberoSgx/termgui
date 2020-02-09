@@ -12,7 +12,6 @@ class ElementRenderTest < Test::Unit::TestCase
     child1 = Element.new(x: 4, y: 3, width: 10, height: 8, ch: '1', children: [child2])
     node = Element.new(children: [child1])
     screen = Screen.new_for_testing(width: 16, height: 11)
-    screen.silent = true
     node.render screen
     s3 =
       '                \\n' \
@@ -31,11 +30,10 @@ class ElementRenderTest < Test::Unit::TestCase
   end
 
   def test_render_text1
-    s = Screen.new_for_testing(width: 12, height: 7)
-    s.silent = true
+    screen = Screen.new_for_testing(width: 12, height: 7)
     e = Element.new(x: 1, y: 2, width: 6, height: 3, text: 'hello', ch: '·')
-    s.append_child(e)
-    s.render
+    screen.append_child(e)
+    screen.render
     assert_equal(
       '            \\n' \
       '            \\n' \
@@ -44,15 +42,15 @@ class ElementRenderTest < Test::Unit::TestCase
       ' ······     \\n' \
       '            \\n' \
       '            \\n' \
-    '', s.print
+    '', screen.print
     )
   end
 
   def test_render_text2
-    s = Screen.new_for_testing(width: 12, height: 7, silent: true)
+    screen = Screen.new_for_testing(width: 12, height: 7)
     e = Element.new(x: 1, y: 2, width: 9, height: 3, text: 'hello', ch: '·', style: { padding: Bounds.new(top: 1, left: 2) })
-    s.append_child(e)
-    s.render
+    screen.append_child(e)
+    screen.render
     assert_equal(
       '            \\n' \
       '            \\n' \
@@ -61,69 +59,66 @@ class ElementRenderTest < Test::Unit::TestCase
       ' ·········  \\n' \
       '            \\n' \
       '            \\n' \
-    '', s.print
+    '', screen.print
     )
   end
 
   def test_render_border
-    s = Screen.new_for_testing(width: 12, height: 9)
+    screen = Screen.new_for_testing(width: 12, height: 9)
     e = Element.new(x: 1, y: 2, width: 6, height: 3, text: 'hello', ch: '·')
     e.style.border = Border.new
-    s.append_child(e)
-    s.silent = true
-    s.render
+    screen.append_child(e)
+    screen.render
     assert_equal(
-      '            \\n' \
-      '┌──────┐    \\n' \
-      '│hello·│    \\n' \
-      '│······│    \\n' \
-      '│······│    \\n' \
-      '└──────┘    \\n' \
-      '            \\n' \
-      '            \\n' \
-      '            \\n' \
-      '', s.print
+      '            \n' + 
+'            \n' + 
+' ┌──────┐   \n' + 
+' │hello·│   \n' + 
+' │······│   \n' + 
+' │······│   \n' + 
+' └──────┘   \n' + 
+'            \n' + 
+'            \n' + 
+      '', screen.print
     )
   end
 
   def test_render_text_nl
-    s = Screen.new_for_testing(width: 12, height: 7)
+    screen = Screen.new_for_testing(width: 12, height: 7)
     e = Element.new(x: 1, y: 2, width: 6, height: 3, text: 'hello\nworld', ch: '·')
     e.style.border = Border.new
-    s.append_child(e)
-    s.silent = true
-    s.render
+    screen.append_child(e)
+    screen.render
     assert_equal(
-      '            \\n' \
-      '┌──────┐    \\n' \
-      '│hello·│    \\n' \
-      '│world·│    \\n' \
-      '│······│    \\n' \
-      '└──────┘    \\n' \
-      '            \\n' \
-      '', s.print
+      '            \n' + 
+      '            \n' + 
+      ' ┌──────┐   \n' + 
+      ' │hello·│   \n' + 
+      ' │world·│   \n' + 
+      ' │······│   \n' + 
+      ' └──────┘   \n' + 
+      '', screen.print
     )
   end
 
   def test_render_text_wrap
-    s = Screen.new_for_testing(width: 16, height: 9)
+    screen = Screen.new_for_testing(width: 16, height: 9)
     e = Element.new(x: 1, y: 1, width: 12, height: 5, text: 'as df rf ty gh fg sdf ed', ch: '·')
     e.style.border = Border.new
     e.style.wrap = true
-    s.append_child(e)
-    s.silent = true
-    s.render
+    screen.append_child(e)
+    screen.render
     assert_equal(
-      '┌────────────┐  \\n' \
-      '│as df rf ty·│  \\n' \
-      '│gh fg sdf ed│  \\n' \
-      '│············│  \\n' \
-      '│············│  \\n' \
-      '│············│  \\n' \
-      '└────────────┘  \\n' \
-      '                \\n' \
-      '                \\n' \
-      '', s.print
+      '                \n' + 
+      ' ┌────────────┐ \n' + 
+      ' │as df rf ty·│ \n' + 
+      ' │gh fg sdf ed│ \n' + 
+      ' │············│ \n' + 
+      ' │············│ \n' + 
+      ' │············│ \n' + 
+      ' └────────────┘ \n' + 
+      '                \n' + 
+      '', screen.print
     )
   end
 end
