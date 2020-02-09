@@ -24,7 +24,7 @@ end
 def test(screen, image)
   t0 = Time.now
   screen.clear
-  draw(image: image, screen: screen, double_cols: false)
+  draw(image: image, screen: screen, double_cols: false, fast_colouring: false)
   p Time.now - t0
   sleep 2
 end

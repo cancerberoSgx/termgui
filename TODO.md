@@ -71,8 +71,8 @@
     - [ ] are there any layout gems ? 
 
  - [ ] Elements / renderer dirty / fast-re-render
-   - [ ] expensive elements (like images) should have the chance to support print_cache and dirty flags-
-   - [ ] if print_cache==true - Element.render only will be executed if dirty=true - otherwise Element.render output should cached
+   - [ ] expensive elements (like images) should have the chance to support render_cache and dirty flags-
+   - [ ] if render_cache==true - Element.render only will be executed if dirty=true - otherwise Element.render output should cached
 
  - [ ] gem
    - [ ] minimally test gem pack from probe project

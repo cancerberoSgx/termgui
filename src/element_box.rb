@@ -38,6 +38,7 @@ module ElementBox
 
   def padding=(padding)
     set_style('padding', padding)
+    trigger :bounds_change
   end
 
   # computes absolute padding transforming padding percents to absolute pixel amounts.
@@ -51,13 +52,13 @@ module ElementBox
     )
   end
 
-  protected
+  # protected
 
-  def border_x_size
-    style.border ? 2 : 0
-  end
+  # def border_x_size
+  #   style.border ? 2 : 0
+  # end
 
-  def border_y_size
-    style.border ? 2 : 0
-  end
+  # def border_y_size
+  #   style.border ? 2 : 0
+  # end
 end

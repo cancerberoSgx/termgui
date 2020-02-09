@@ -5,9 +5,10 @@ require_relative 'checkbox'
 
 module TermGui
   module Widget
-    class SelectBoxEntry < CheckBox
+    class SelectOption < CheckBox
       def initialize(**args)
         super
+        @name = 'select-option'
         set_attribute('focusable', false)
       end
     end
@@ -21,8 +22,8 @@ module TermGui
         set_attribute('escape-on-blur', get_attribute('escape-on-blur') == nil ? true : get_attribute('escape-on-blur'))
         set_attribute('action-on-focus', get_attribute('action-on-focus') == nil ? true : get_attribute('action-on-focus'))
         @options = (args[:options] || [])
-        @entries = @options.map.with_index do |o, i|
-          SelectBoxEntry.new(
+        @option_elements = @options.map.with_index do |o, i|
+          SelectOption.new(
             text: o[:text] || o[:value],
             value: o[:selected] || false,
             parent: self,
@@ -30,12 +31,12 @@ module TermGui
             x: 0
           )
         end
-        render_entries 0
+        render_options 0
       end
 
-      def render_entries(c = nil)
+      def render_options(c = nil)
         @current = c unless c == nil
-        @entries.each_with_index do |e, i|
+        @option_elements.each_with_index do |e, i|
           e.style.bg = 'red' if i == @current
           e.style.bg = 'black' if i != @current
           e.render
@@ -43,7 +44,7 @@ module TermGui
       end
 
       def value
-        @entries.map.with_index { |e, i| e.value ? @options[i][:value] : nil }.reject { |v| v == nil }
+        @option_elements.map.with_index { |e, i| e.value ? @options[i][:value] : nil }.reject { |v| v == nil }
       end
 
       def value=(v)
@@ -54,13 +55,13 @@ module TermGui
       def handle_key(event)
         if !super(event)
           if event.key == 'up'
-            render_entries [@current - 1, 0].max
+            render_options [@current - 1, 0].max
             true
           elsif event.key == 'down'
-            render_entries [@current + 1, @entries.length - 1].min
+            render_options [@current + 1, @option_elements.length - 1].min
             true
           elsif ['space'].include? event.key
-            @entries[@current].value = !@entries[@current].value
+            @option_elements[@current].value = !@option_elements[@current].value
             on_input value, event
             true
           else

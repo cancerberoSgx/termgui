@@ -9,14 +9,13 @@ module ScreenRenderer
     write @renderer.rect(x: x, y: y, width: width, height: height, ch: ch, style: style)
   end
 
-  def image(x: 0, y: 0, image: nil, double_cols: false, ch: Pixel.EMPTY_CH, style: Style.new)
-    write @renderer.image(x: x, y: y, image: image, double_cols: double_cols, ch: ch, style: style)
+  def image(x: 0, y: 0, image: nil, double_cols: false, ch: Pixel.EMPTY_CH, style: Style.new, fg: false, bg: true)
+    write @renderer.image(x: x, y: y, image: image, double_cols: double_cols, ch: ch||Pixel.EMPTY_CH, style: style, fg: fg, bg: bg)
   end
 
   def clear
     @renderer.style = Style.new
-    write @renderer.style.print
-    write @renderer.clear
+    write "#{@renderer.clear}#{@renderer.style.print}"
   end
 
   def style=(style)
@@ -27,9 +26,9 @@ module ScreenRenderer
   def box(x, y, width, height, border_style = :classic, style = nil)
     self.style = style if style
     box = draw_box(width: width, height: height, style: border_style)
-    box.each_with_index do |line, index|
+    (box.map.with_index do |line, index|
       text(x: x, y: y + index, text: line, style: style)
-    end
+    end).join('')
   end
 
   def print

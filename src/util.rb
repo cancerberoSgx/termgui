@@ -32,6 +32,10 @@ def print_string(str)
   str.split('\n').map { |s| puts s || '' }
 end
 
+def print_ms(t0)
+  "#{((Time.now-t0)*1000).to_i} milliseconds"
+end
+
 def parse_integer(s, default = nil)
   Integer(s)
 rescue StandardError

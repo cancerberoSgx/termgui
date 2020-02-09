@@ -9,6 +9,7 @@ module RendererImage
   #  * alpha is it possible (see blessed) ?
   #  * should we ignore alpha=0 pixels (don't paint them ?)
   def image(x: 0, y: 0, image: nil, double_cols: false, ch: ' ', style: Style.new, fg: false, bg: true)
+    ch = ch || ' '
     output = []
     image = image.is_a?(String) ? TermGui::Image.new(image) : image
     text = double_cols ? ch + ch : ch

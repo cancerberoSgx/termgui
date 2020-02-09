@@ -11,6 +11,7 @@ module ElementStyle
   def style=(style)
     s = style.instance_of?(Hash) ? Style.from_hash(style) : style
     set_attribute('style', s)
+    self.dirty = true
   end
 
   def style_assign(style)
@@ -23,12 +24,6 @@ module ElementStyle
   end
 
   def default_style
-    # s = get_attribute('default_style')
-    # if s
-    #   Style.from_hash(s).clone
-    # else
-    #   Style.new
-    # end
     Style.new
   end
 

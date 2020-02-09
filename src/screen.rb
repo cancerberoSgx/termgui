@@ -84,6 +84,7 @@ module TermGui
     # writes directly to @output_stream. Shouldn't be used directly since these changes won't be tracked by the buffer.
     def write(s)
       @output_stream.write s unless @silent
+      s
     end
 
     def alert

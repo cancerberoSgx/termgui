@@ -24,28 +24,38 @@ module TermGui
       install(%i[focus blur action enter escape])
       args[:attributes] = { x: args[:x] || 0, y: args[:y] || 0, width: args[:width] || 0, height: args[:height] || 0 } if args[:attributes] == nil
       a = {}.merge(args, args[:attributes] || {})
-      # a.merge!(args)
-      # a.merge!(args[:attributes] || {})
       a[:style] = default_style.assign(Style.from_hash(a[:attributes][:style])).assign(Style.from_hash(a[:style]))
       self.attributes = a
       self.style = a[:style]
       on(%i[focus blur action enter escape]) do |e|
-        if e.name == 'action'
-          set_attribute('actioned', true)
-          render
-          root_screen&.set_timeout(get_attribute('actioned-interval') || 0.2) do
-            set_attribute('actioned', false)
-            render
+        s = root_screen
+        if s
+          if e.name == 'action'
+            set_attribute('actioned', true)
+            render s
+            s.set_timeout(get_attribute('actioned-interval') || 0.2) do
+              set_attribute('actioned', false)
+              render s
+            end
+          else
+            render s
           end
-        else
-          render
         end
       end
     end
 
     def focus
-      root_screen&.focus&.focused = self if get_attribute('focusable')
+      if get_attribute('focusable')
+        root_screen&.focus&.focused = self
+        trigger :bounds_change
+      end
     end
+
+    def text=(v)
+      @text = v
+      trigger :bounds_change
+    end
+
   end
 end
 

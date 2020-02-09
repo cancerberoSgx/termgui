@@ -4,7 +4,7 @@ module TermGui
     # Row container. A row child is rendered at the right of the previous child - all of them in one row.
     # By default it will have width==0.999
     class Row < Element
-      def initialize(*args)
+      def initialize(**args)
         super
         @name = 'row'
       end
