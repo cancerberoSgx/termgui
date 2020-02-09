@@ -10,8 +10,10 @@ module TermGui
   end
 
   class ChangeEvent < NodeEvent
-    def initialize(target, _value = target.value, original_event = nil)
+    attr_accessor :value
+    def initialize(target, value = target.value, original_event = nil)
       super 'change', target, original_event
+      @value = value
     end
   end
 
@@ -66,7 +68,7 @@ module TermGui
       end
     end
 
-    def value=(value)
+    def value=(_value)
       throw 'subclass must implementation'
     end
 

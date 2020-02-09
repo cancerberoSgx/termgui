@@ -36,7 +36,7 @@ module TermGui
       return unless focused && !focused.get_attribute('entered')
 
       action_keys = to_array(focused.get_attribute('action-keys') || keys)
-      if (action_keys.include? e.key) && focused.get_attribute('focusable')
+      if action_keys.include?(e.key) && focused.get_attribute('focusable')
         event = ActionEvent.new focused, e
         focused_action = focused.get_attribute('action')
         focused_action&.call(event)
@@ -48,7 +48,7 @@ module TermGui
 
   # An event representing an action, like a button "clicked"
   class ActionEvent < NodeEvent
-    def initialize(target, original_event)
+    def initialize(target, original_event = nil)
       super 'action', target, original_event
     end
   end

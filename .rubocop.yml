@@ -42,3 +42,5 @@ Style/Documentation:
   Enabled: false
 Layout/HashAlignment:
   Enabled: false
+Style/ConditionalAssignment:
+  Enabled: false

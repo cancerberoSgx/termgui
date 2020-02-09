@@ -56,6 +56,7 @@ module TermGui
       else
         r = obj
       end
+
       if r.is_a? Style
         r.focus = r.focus || r.clone
         r.border = Border.from_hash(r.border) if r.border
@@ -126,7 +127,6 @@ module TermGui
       @enter = enter
       @action = action
     end
-    
   end
 
   # style for the border

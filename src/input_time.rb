@@ -63,6 +63,12 @@ module InputTime
     clear_timeout listeners[0]
   end
 
+  def stop
+    super
+    @timeout_listeners = []
+    @interval_listeners = []
+  end
+
   protected
 
   def update_status
@@ -78,12 +84,6 @@ module InputTime
         @timeout_listeners.delete listener
       end
     end
-  end
-  
-  def stop
-    super
-    @timeout_listeners=[]
-    @interval_listeners=[]
   end
 
   def dispatch_set_interval

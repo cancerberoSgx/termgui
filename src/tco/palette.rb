@@ -35,7 +35,7 @@ module Tco
 
     def -(other)
       if @@fast
-        (@rgb[0].abs2 - other.rgb[0].abs2).abs*1.2 + (@rgb[1].abs2 - other.rgb[1].abs2).abs*1.8 + (@rgb[2].abs2 - other.rgb[2].abs2).abs
+        (@rgb[0].abs2 - other.rgb[0].abs2).abs + (@rgb[1].abs2 - other.rgb[1].abs2).abs + (@rgb[2].abs2 - other.rgb[2].abs2).abs
       else
         delta_e_2000 @lab, other.lab
       end
@@ -58,10 +58,7 @@ module Tco
     end
 
     def to_hash
-      (@rgb[0] +255 ) +( (@rgb[1] +255 )*1000) + ((@rgb[2]+255) * 1000*1000)
-      # "#{@rgb[0]},#{@rgb[1]},#{@rgb[2]}"
-      # @rgb[0] + @rgb[1] * 255 + @rgb[1] * 255 * 255
-
+      (@rgb[0] + 255) + ((@rgb[1] + 255) * 1000) + ((@rgb[2] + 255) * 1000 * 1000)
     end
 
     def hsl
@@ -553,11 +550,6 @@ module Tco
         msg = "Unsupported argument type '#{colour.class}', must be 'Colour'."
         raise ArgumentError, msg
       end
-
-      # colours = case @type
-      #           when 'extended' then @palette
-      #           when 'ansi' then @palette[0, 8]
-      #           end
 
       colour_key = colour.to_hash
       if @cache.key? colour_key

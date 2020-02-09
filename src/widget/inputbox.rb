@@ -45,14 +45,14 @@ module TermGui
             true
           elsif alphanumeric? event.key
             on_input value + event.key, event
-            cursor.x = cursor.x + 1#[cursor.x + 1, abs_content_x + value.length - 1].min
+            cursor.x = cursor.x + 1
             true
           elsif ['right'].include? event.key
-            cursor.x = [cursor.x + 1, abs_content_x+value.length - 1].min
+            cursor.x = [cursor.x + 1, abs_content_x + value.length - 1].min
             render
             true
           elsif ['left'].include? event.key
-            cursor.x = [cursor.x - 1, abs_content_x-1].max
+            cursor.x = [cursor.x - 1, abs_content_x - 1].max
             render
             true
           else

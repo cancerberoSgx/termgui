@@ -14,7 +14,7 @@ module TermGui
   class NodeEvent < Event
     attr_reader :target, :original_event
 
-    def initialize(name, target, original_event)
+    def initialize(name, target, original_event = nil)
       super name
       @target = target
       @original_event = original_event

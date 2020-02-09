@@ -61,13 +61,19 @@ module TermGui
       @focused&.set_attribute(:focused, true)
       emit :focus, focused: @focused, previous: previous
       previous&.emit :blur, BlurEvent.new(previous, @focused)
-      @focused&.emit :focus, FocusEvent.new(@focused, previous)
+      focus_event = FocusEvent.new(@focused, previous)
+      @focused&.emit :focus, focus_event
+      if @focused&.get_attribute('action-on-focus')
+        event = ActionEvent.new @focused, focus_event
+        @focused.get_attribute('action')&.call(event)
+        @focused.trigger event.name, event
+      end
     end
 
     protected
 
     def handle_key(e)
-      return if @focused&.get_attribute('entered')
+      return if @focused&.get_attribute('entered') && !@focused&.get_attribute('escape-on-blur')
 
       if @keys[:next].include? e.key
         focus_next

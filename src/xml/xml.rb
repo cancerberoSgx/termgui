@@ -14,15 +14,15 @@ def process_attrs(e, b, attrs = default_attrs)
   e.attributes.each_attribute do |attr|
     value = attr.value
     name =  attr.expanded_name
-    a[name.to_sym] = if attrs[:number].include? name
-                       is_percent(value.to_f) ? value.to_f : value.to_i
-                     elsif attrs[:code].include? name
-                       eval(value, b)
-                     elsif name == 'style'
-                       Style.from_hash(eval(value))
-                     else
-                       value
-                     end
+    if attrs[:number].include? name
+      a[name.to_sym] = is_percent(value.to_f) ? value.to_f : value.to_i
+    elsif attrs[:code].include? name
+      a[name.to_sym] = eval(value, b)
+    elsif name == 'style'
+      a[name.to_sym] = Style.from_hash(eval(value))
+    else
+      a[name.to_sym] = value
+    end
   end
   a
 end

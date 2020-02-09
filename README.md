@@ -114,6 +114,16 @@ this is useful to implement actionable widgets like buttons that, when focused, 
 
 focused elements with attribute "actionable" will emit "action" events if user press action-keys (enter by default) when they are focused. Action keys can be configured globally using screen.action.keys or by element with attribute action-keys. Both could be a string or array. 
 
+
+### action-on-focus
+
+automatically trigger an action event wneh an element is focused. helpful for selectbox so no enter is needed for working
+
+### escape-on-blur
+
+automatically escapes an entered element on blur. helpful for selectbox so no escape is needed for switching focus - so it behaves like buttons
+
+
 ### enterable, entered, change, input, escape, escape-keys
 
 This is useful to implement textarea / textinput widgets for which we don't want to trigger focus or action events when user is writing text. When an enterable element (that also should be focusable) receives "action" it is set to "entered" mode. (whey you are writing text, you want TAB S-tab, enter, etc to actually insert characters and don't emit "focus" "action", etc events...)

@@ -13,9 +13,11 @@ module TermGui
         set_attribute('action-keys', %w[enter space])
         set_attribute('label', text || get_attribute('label') || unique('Option'))
         update_text get_attribute('value') || get_attribute('checked') || args[:value] || args[:checked] || false
-        on(:action) do
+        on(:action) do |e|
           update_text !get_attribute('value')
           render
+          trigger(:input, TermGui::InputEvent.new(self, value, e))
+          trigger(:change, TermGui::ChangeEvent.new(self, value, e))
         end
       end
 

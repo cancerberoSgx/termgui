@@ -73,7 +73,7 @@ def test
       log value + selected.to_s
     }
   )
-  screen.append_child Label.new(text: 'selected: '+)
+  # screen.append_child Label.new(text: 'selected: '+)
   screen.render
   # screen.event.add_key_listener('c') do
   #   screen.empty

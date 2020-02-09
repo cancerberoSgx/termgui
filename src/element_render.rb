@@ -17,6 +17,7 @@ module ElementRender
   def render(screen = nil)
     screen = screen == nil ? root_screen : screen
     return unless screen
+
     trigger(:before_render)
     render_self screen
     render_children screen
