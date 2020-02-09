@@ -21,5 +21,6 @@ module TermGui
 
   def self.fast_colouring(value)
     Tco::Colour.fast = value
+    @colouring.palette.reset_cache
   end
 end

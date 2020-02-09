@@ -5,7 +5,7 @@ module ScreenRenderer
     write @renderer.text(x: x, y: y, text: text, style: style)
   end
 
-  def rect(x: 0, y: 0, width: 5, height: 3, ch: Pixel.EMPTY_CH, style: nil)
+  def rect(x: 0, y: 0, width: self.width, height: self.height, ch: Pixel.EMPTY_CH, style: nil)
     write @renderer.rect(x: x, y: y, width: width, height: height, ch: ch, style: style)
   end
 

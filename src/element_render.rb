@@ -16,6 +16,7 @@ module ElementRender
 
   def render(screen = nil)
     screen = screen == nil ? root_screen : screen
+    return unless screen
     trigger(:before_render)
     render_self screen
     render_children screen
@@ -24,15 +25,13 @@ module ElementRender
   end
 
   def root_screen
-    throw 'cannot get root screen of unnatached element' unless @parent
-    @parent.root_screen
+    @parent && @parent.root_screen
   end
 
   protected
 
   def render_self(screen)
     render_border screen
-    # screen.style = final_style
     screen.rect(
       x: abs_x,
       y: abs_y,
@@ -45,7 +44,6 @@ module ElementRender
 
   # IMPORTANT: border is rendered in a +2 bigger rectangle that sourounds actual element bounds (abs_* methods)
   def render_border(screen)
-    # screen.style = border_style
     screen.box(abs_x - 1, abs_y - 1, abs_width + 2, abs_height + 2, border.style, border_style) if border
   end
 
@@ -57,7 +55,7 @@ module ElementRender
     end
   end
 
-  def render_text_lines(text = @text)
+  def render_text_lines(text = @text||'')
     style.wrap ? wrap_text(text, abs_content_width) : text.split('\n')
   end
 

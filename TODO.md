@@ -25,8 +25,7 @@
 
  - [ ] test coverage : https://github.com/colszowka/simplecov
 
-
- - [ ]  colors:
+ - [x]  colors:
   - [x] verify character attributes work in style (see color.rb ATTRIBUTES  Update - removed ). - 
     - [x] test in a realProbe
     - [x] fix src/tco to support all attributes - checkout https://github.com/sickill/rainbow and https://github.com/fazibear/colorize  and https://github.com/piotrmurach/pastel - update - tco fixed 
@@ -49,7 +48,8 @@
   - [ ] overflow: hidden
   - [ ] overflow: scroll
   - [x] Element#layout() 
-  - [ ] widgets Col and Row (not working correctly)
+    - [ ] widgets Col and Row not working correctly - formalize them and test
+    - [ ] GridLayout and GridWidget 
     - [ ] check https://rubydoc.info/gems/terminal-layout
     - [ ] element's margin
     - [ ] introduce yoga-layout ? (binary)
@@ -92,19 +92,24 @@
  - [x] image rendering - see probes/pngProbe.rb using chunky_png
    - [x] add renderer.image
    - [x] improve perf by pre-reading pixels in memory?
-   - [ ] alpha channel ? currently totally ignored 
-     - can we render alpha (blessed) ? check mixColors in blessed https://github.com/cancerberoSgx/accursed/blob/6d97624f93329c0d65e0f1384ab49778bf7b4dca/apps/blessed-core/src/blessed/colors.js - given a bg color and alpha number - the result of a rgb + alpha is the blend between rgb and bg weighed with alpha 
-     - should ignore transparent pixels ? 
-   - [ ] support ascii art chars like ? currently only printing fixed ch
    - [x] try not to use binary dependencies like RMagick:  https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
    - [x] pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -
-   
+   - [ ] alpha channel ? currently totally ignored - solution : mix fg and bg according with alpha(bg given by user) - maybe this could be handled by tco/colouring and not Image
+   - [ ]a simple image slider widget for demos - auto-resize large images to feet screen first - arrows to switch
+   - [ ] support ascii art chars like ? currently only printing fixed ch
+   - [ ] set_pixel, rect, circle, poly, blezier, rotate, trim
+   - [ ] an ImageWidget - auto resize img to given dims - or viceversa, set widget bounds to fit given image size.
+
  - [w] text rendering - use this : https://github.com/piotrmurach/strings#21-align
    - [x] line wrap
+   - [ ] use https://github.com/piotrmurach/strings for align and more sine supports unicode and ansi. 
+   - [ ] use https://github.com/piotrmurach/strings also for line wrap and remove current impl.
    - [ ] justified, https://rubydoc.info/gems/justify
    - [x] left
-   - [ ] right, center (any gem for this?)
+   - [ ] right, center (any gem for this?) https://github.com/piotrmurach/strings
    - [ ] node.text_children or all_text - returns this node text plus all its children text recursively in children order (useful for testing)
+
+ - [ ] idea: canvas drawing taking advantage of chunky_png Canvas class  bleziers, resize, rotate, ellipse, etc. Example: draw bleziers in png canvas with transparent bg and only render fg.
 
  - [ ] fix duplicated Event class ... see emitter.rb : " this is the same as event.rb Event. Move Event classes to individual - non dependency file"
 

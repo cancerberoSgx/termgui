@@ -33,7 +33,7 @@ module TermGui
         if e.name == 'action'
           set_attribute('actioned', true)
           render
-          root_screen.set_timeout(get_attribute('actioned-interval') || 0.5) do
+          root_screen&.set_timeout(get_attribute('actioned-interval') || 0.5) do
             set_attribute('actioned', false)
             render
           end
