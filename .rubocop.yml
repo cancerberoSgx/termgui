@@ -40,3 +40,5 @@ Style/NumericPredicate:
   Enabled: false
 Style/Documentation:
   Enabled: false
+Layout/HashAlignment:
+  Enabled: false
