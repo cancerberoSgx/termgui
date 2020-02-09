@@ -46,6 +46,10 @@ module TermGui
     def ch
       get_attribute('ch')
     end
+
+    def focus
+      root_screen&.focus.focused = self if get_attribute('focusable')
+    end
   end
 end
 

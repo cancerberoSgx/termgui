@@ -10,37 +10,38 @@ require_relative '../widget/button'
 require_relative '../widget/col'
 require_relative '../widget/label'
 
-# @modal_open = false
-
 def open_modal(
   screen: nil,
-  title: 'Modal',
+  title: Label.new(text: 'Modal'),
   content: Label.new(text: 'Content'),
   on_close: nil
 )
   modal = screen.query_one_by_attribute('modal-widget', true)
   return if modal
 
-    content = content.is_a?(String) ? Label.new(text: content) : content
-  # content.x= 1
-  # content.y = 2
-  # content.height= 0.6
-  # content.width= 0.8
-  modal = screen.append_child Element.new(height: 0.9, width: 0.6, attributes: {'modal-widget': true}, children: [
-    Label.new(text: title, style: {bold: true}, x: 1, y: 1),
-    content,
-    # Element.new(x: 1, y: 2, height: 0.8, width: 0.8, text: content)
-    Button.new(text: 'close', y: 0.8, x: 1, action: proc {
-      modal.remove
-      screen.clear
-      screen.render
-      on_close && on_close.call
-    })
-  ])
-
+  title = title.is_a?(String) ? Label.new(text: title, style: { bold: true, fg: '#001119' }, x: 1, y: 1) : title
+  content = content.is_a?(String) ? Label.new(text: content, style: { wrap: true, fg: '#bbbbbb' }, x: 1, y: 3, height: 0.8, width: 0.9) : content
+  close = Button.new(text: 'close', y: 1, x: 0.9, action: proc {
+    modal.remove
+    screen.clear
+    screen.render
+    on_close&.call
+  })
+  modal = screen.append_child Element.new(
+    x: 0.2, y: 0.1,
+    height: 0.9,
+    width: 0.6,
+    attributes: { 'modal-widget': true },
+    padding: Bounds.new(top: 1, left: 2),
+    style: { bg: 'white', fg: 'blue', wrap: true, border: Border.new(bg: 'red', style: 'double') },
+    children: [
+      title,
+      close,
+      content
+    ]
+  )
+  close.focus
   modal.render
-
-  
 end
 
 module TermGui
