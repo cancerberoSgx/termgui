@@ -7,7 +7,6 @@ require_relative '../../src/widget/label'
 class LabelTest < Test::Unit::TestCase
   def test_size_autoadjust
     screen = Screen.new_for_testing(width: 30, height: 10)
-    screen.silent = true
     label = Label.new(text: 'hello world', x: 12, y: 3)
     label.style.border = Border.new
     screen.clear

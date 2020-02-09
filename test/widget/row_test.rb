@@ -7,7 +7,7 @@ require_relative '../../src/widget/button'
 
 class RowTest < Test::Unit::TestCase
   def test_simple
-    screen = Screen.new_for_testing(width: 20, height: 3, silent: true)
+    screen = Screen.new_for_testing(width: 20, height: 3 )
     l1 = Label.new(text: 'label1')
     l2 = Label.new(text: 'label2')
     l3 = Label.new(text: 'label3')

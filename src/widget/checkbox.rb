@@ -24,14 +24,21 @@ module TermGui
       def update_text
         self.text = "#{get_attribute('value') ? '[x]' : '[ ]'} #{get_attribute('label')}"
       end
+
+      def default_style
+        s = super
+        s.border = nil
+        s.action = nil
+        s
+      end
     end
   end
 end
 
 CheckBox = TermGui::Widget::CheckBox
 
-s = Screen.new
+# s = Screen.new
 
-s.append_child CheckBox.new(x: 2, y: 2, text: 'select me')
-s.append_child CheckBox.new(x: 2, y: 6, text: 'select 2')
-s.start
+# s.append_child CheckBox.new(x: 2, y: 2, text: 'select me')
+# s.append_child CheckBox.new(x: 2, y: 6, text: 'select 2')
+# s.start
