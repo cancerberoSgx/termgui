@@ -9,8 +9,8 @@ module ScreenRenderer
     write @renderer.rect(x: x, y: y, width: width, height: height, ch: ch, style: style)
   end
 
-  def image(x: 0, y: 0, image: nil, double_cols: false, ch: Pixel.EMPTY_CH, style: Style.new, fg: false, bg: true)
-    write @renderer.image(x: x, y: y, image: image, double_cols: double_cols, ch: ch||Pixel.EMPTY_CH, style: style, fg: fg, bg: bg)
+  def image(x: 0, y: 0, image: nil, ch: Pixel.EMPTY_CH, style: Style.new, fg: false, bg: true, transparent_color: nil)
+    write @renderer.image(x: x, y: y, image: image , ch: ch||Pixel.EMPTY_CH, style: style, fg: fg, bg: bg, transparent_color: transparent_color)
   end
 
   def clear

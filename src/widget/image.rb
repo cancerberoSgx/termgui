@@ -1,16 +1,20 @@
-require_relative '../image'
-require_relative '../element'
+require_relative '../termgui'
 
 module TermGui
   module Widget
     # analog to HTMLImageElement
+    # Properties:
+    # transparent_color color to blend transparent pixels, by default style.bg
+    # ignore_alpha. if true alpha channel is ignored (could be faster)
     class Image < Element
       def initialize(**args)
         super
         @name = 'image'
         @src = args[:src]
-        @use_bg = args[:use_bg]==nil ? true : args[:use_bg]
-        @use_fg = args[:use_fg]==nil ? false : args[:use_fg]
+        @use_bg = args[:use_bg] == nil ? true : args[:use_bg]
+        @use_fg = args[:use_fg] == nil ? false : args[:use_fg]
+        @transparent_color =args[:transparent_color] 
+        @ignore_alpha = args[:ignore_alpha]
       end
 
       def image
@@ -25,16 +29,18 @@ module TermGui
       end
 
       def render_self(screen)
-        [super(screen) || '',
-         image ? screen.image(
-           x: abs_content_x,
-           y: abs_content_y,
-           image: image,
-           bg: @use_bg,
-           fg:  @use_fg,
-           style: final_style,
-           ch: get_attribute('ch')
-         ) : ''].join('')
+        [
+          super,
+          image ? screen.image(
+            x: abs_content_x,
+            y: abs_content_y,
+            transparent_color: !@ignore_alpha ? TermGui.to_rgb(@transparent_color || final_style.bg || '#000000' ) : nil,
+            image: image,
+            bg: @use_bg,
+            fg:  @use_fg,
+            style: final_style,
+            ch: get_attribute('ch')
+          ) : ''].join('')
       end
 
       def src=(v)
@@ -47,42 +53,3 @@ module TermGui
 end
 
 Image = TermGui::Widget::Image
-
-# require_relative '../screen'
-# require_relative '../util'
-# require_relative 'button'
-# img = nil
-# s = Screen.new(
-#   children: [
-#     Button.new(text: 'hello', x: 0.7, y: 0.6, action: proc { |e|
-#       img ||= Image.new(
-#         render_cache: true,
-#         x: 2,
-#         y: 1,
-#         style: Style.new(
-#           border: Border.new(fg: '#ee3388'),
-#           padding: Bounds.new(top: 0.1, left: 0.01, right: 0.1, bottom: 0.1),
-#           bg: '#e09988',
-#           bold: true
-#         ),
-#         use_bg: false,
-#         use_fg: true,
-#         width: 0.9,
-#         ch: '#',
-#         height: 0.9,
-#         src: '/Users/wyeworks/Documents/assets/whale4.png',
-#         parent: s
-#       )
-#       s.clear
-#       t0 = Time.now
-#       img.render
-#       text = "rendered in #{print_ms(t0)}"
-#       s.text(x: random_int(1, s.width - 20), y: random_int(1, s.height - 3), text: text)
-#       e.target.x = random_int(1, s.width - 20)
-#       e.target.y = random_int(1, s.height - 3)
-#       e.target.text = text
-#       e.target.render
-#     })
-#   ]
-# )
-# s.start
