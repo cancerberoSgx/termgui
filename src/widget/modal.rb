@@ -23,8 +23,8 @@ def open_modal(
     focused = screen.focus.focused
     focusables = screen.focus.focusables
     focusables.each { |e| e.set_attribute('focusable', false) }
-    title = title.is_a?(String) ? Label.new(text: title, style: { bold: true, fg: '#001119' }, x: 1, y: 1) : title
-    content = content.is_a?(String) ? Label.new(text: content, style: { wrap: true, fg: '#bbbbbb' }, x: 1, y: 3, height: 0.8, width: 0.9) : content
+    title = title.is_a?(String) ? Label.new(text: title, style: { bold: true, fg: '#001119', underline: true }, x: 1, y: 1) : title
+    content = content.is_a?(String) ? Label.new(text: content, style: { wrap: true, fg: '#77aa33' }, x: 1, y: 3, height: 0.8, width: 0.9) : content
     close = Button.new(text: 'close', y: 1, x: 0.9, action: proc {
       modal.remove
       screen.clear

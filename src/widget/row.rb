@@ -5,7 +5,7 @@ module TermGui
     # By default it will have width==0.999
     class Row < Element
       def initialize(**args)
-        super({width: 0.999}.merge(args))
+        super({ width: 0.999 }.merge(args))
         @name = 'row'
       end
 

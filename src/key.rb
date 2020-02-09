@@ -82,7 +82,7 @@ ALPHANUMERICS =
   ('a'...'z').to_a
              .concat(('A'..'Z').to_a)
              .concat(('0'...'9').to_a)
-             .concat(['z','Z','9'])
+             .concat(%w[z Z 9])
              .concat(',.-;:_ç´Ç¨+`*^{}[]¡\'¡¿?ªº\\!"·$%&/()=|@#¢∞¬÷“”'.split(''))
 
 def alphanumeric?(c)

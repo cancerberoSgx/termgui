@@ -55,7 +55,6 @@ module TermGui
       @text = v
       trigger :bounds_change
     end
-
   end
 end
 

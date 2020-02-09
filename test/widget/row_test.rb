@@ -29,12 +29,12 @@ class RowTest < Test::Unit::TestCase
     Row.new(children: [l1, l2, l3], y: 2, x: 2).append_to(screen)
     screen.clear
     screen.render
-    assert_equal( '' +
-    '                                        \n' + 
-    '                                        \n' + 
-    '  ┌──────┐┌──────┐┌──────┐              \n' + 
-    '  │label1││label2││label3│              \n' + 
-    '  └──────┘└──────┘└──────┘              \n' + 
+    assert_equal('' \
+    '                                        \n' \
+    '                                        \n' \
+    '  ┌──────┐┌──────┐┌──────┐              \n' \
+    '  │label1││label2││label3│              \n' \
+    '  └──────┘└──────┘└──────┘              \n' \
       '', screen.print)
   end
 end

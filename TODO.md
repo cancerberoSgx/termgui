@@ -63,16 +63,16 @@
   - [ ] overflow: hidden
   - [ ] overflow: scroll
   - [x] Element#layout() 
-    - [ ] widgets Col and Row not working correctly - formalize them and test
+    - [x] widgets Col and Row not working correctly - formalize them and test
     - [ ] GridLayout and GridWidget 
     - [ ] check https://rubydoc.info/gems/terminal-layout
     - [ ] element's margin
     - [ ] introduce yoga-layout ? (binary)
     - [ ] are there any layout gems ? 
 
- - [ ] Elements / renderer dirty / fast-re-render
-   - [ ] expensive elements (like images) should have the chance to support render_cache and dirty flags-
-   - [ ] if render_cache==true - Element.render only will be executed if dirty=true - otherwise Element.render output should cached
+ - [x] Elements / renderer dirty / fast-re-render
+   - [x] expensive elements (like images) should have the chance to support render_cache and dirty flags-
+   - [x] if render_cache==true - Element.render only will be executed if dirty=true - otherwise Element.render output should cached
 
  - [ ] gem
    - [ ] minimally test gem pack from probe project
@@ -113,12 +113,12 @@
    - [x] improve perf by pre-reading pixels in memory?
    - [x] try not to use binary dependencies like RMagick:  https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
    - [x] pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -
-   - [ ] alpha channel ? currently totally ignored - solution : mix fg and bg according with alpha(bg given by user) - maybe this could be handled by tco/colouring and not Image
-   - [ ] a simple image slider widget for demos - auto-resize large images to feet screen first - arrows to switch
+   - [x] alpha channel ? currently totally ignored - solution : mix fg and bg according with alpha(bg given by user) - maybe this could be handled by tco/colouring and not Image
+   - [x] a simple image slider widget for demos - auto-resize large images to feet screen first - arrows to switch
    - [ ] support ascii art chars like ? currently only printing fixed ch
    - [ ] set_pixel, rect, circle, poly, blezier, rotate, trim
-   - [ ] an ImageWidget - auto resize img to given dims - or viceversa, set widget bounds to fit given image size.
-     - [ ] support render cache / dirty - just store print() and write it back - this should be done at renderer/nodes
+   - [x] an ImageWidget - auto resize img to given dims - or viceversa, set widget bounds to fit given image size.
+     - [x] support render cache / dirty - just store print() and write it back - this should be done at renderer/nodes
    - [x] use local imagemagick to support other formats than png
    - [ ] use local imagemagick to render fonts
 
@@ -151,7 +151,7 @@
 
    
 ### Done
-
+ - [x] fixed border and box model
  - [x] wait_for/when : `screen.when( proc {element.query_one_by_attribute 'progress', 'ready'}, proc { print 'done' })`
  - [x] issue when pipe to file, i.e. ruby a_screen_start_app.rb > file.txt `screen.rb:22:in winsize': Inappropriate ioctl for device (Errno::ENOTTY)`
  - [x] renderer.buffer disabled by default (faster) - Screen.new_for_testing will enable buffer and silent screen.

@@ -39,39 +39,39 @@ class ElementBoundsTest < Test::Unit::TestCase
     screen.render
 
     assert_equal(
-      '            \n' + 
-      '            \n' + 
-      '            \n' + 
-      '       ┌────\n' + 
-      '       │····\n' + 
-      '       │··he\n' + 
-      '       │····\n' , screen.renderer.print
+      '            \n' \
+      '            \n' \
+      '            \n' \
+      '       ┌────\n' \
+      '       │····\n' \
+      '       │··he\n' \
+      '       │····\n', screen.renderer.print
     )
 
     screen.offset.left = 5
     screen.clear
     screen.render
     assert_equal(
-      '            \n' + 
-      '            \n' + 
-      '            \n' + 
-      '  ┌───────┐ \n' + 
-      '  │·······│ \n' + 
-      '  │··hello│ \n' + 
-      '  │·······│ \n' , screen.renderer.print
+      '            \n' \
+      '            \n' \
+      '            \n' \
+      '  ┌───────┐ \n' \
+      '  │·······│ \n' \
+      '  │··hello│ \n' \
+      '  │·······│ \n', screen.renderer.print
     )
 
     screen.offset.top = 2
     screen.clear
     screen.render
     assert_equal(
-      '            \n' + 
-      '  ┌───────┐ \n' + 
-      '  │·······│ \n' + 
-      '  │··hello│ \n' + 
-      '  │·······│ \n' + 
-      '  │·······│ \n' + 
-      '  │·······│ \n' , screen.renderer.print
+      '            \n' \
+      '  ┌───────┐ \n' \
+      '  │·······│ \n' \
+      '  │··hello│ \n' \
+      '  │·······│ \n' \
+      '  │·······│ \n' \
+      '  │·······│ \n', screen.renderer.print
     )
   end
 end

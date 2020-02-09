@@ -6,7 +6,7 @@ module TermGui
     class Col < Element
       def initialize(**args)
         # p(({height: 0.99}.merge(args))[:height])
-        super({height: 0.999}.merge(args))
+        super({ height: 0.999 }.merge(args))
         # p height, abs_height
         @name = 'col'
       end
@@ -16,7 +16,7 @@ module TermGui
         last_y = abs_content_y
         @children.each do |c|
           # last_y += 1 if c.style.border
-          c.abs_y = last_y 
+          c.abs_y = last_y
           last_y += c.abs_height
           # last_y += 1 if c.style.border
         end

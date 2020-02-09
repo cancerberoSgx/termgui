@@ -17,24 +17,24 @@ module ElementRender
     @render_cache = args[:render_cache] || false
     @dirty = true
     @render_cache_data = nil
-    on(:bounds_change){
+    on(:bounds_change) do
       @dirty = true
-    }
+    end
   end
 
   def border
     style&.border
   end
 
-  def render(screen = root_screen, force=false)
+  def render(screen = root_screen, force = false)
     self.dirty = true if force
     return '' unless screen
 
     trigger(:before_render)
-    if (@render_cache && !dirty && @render_cache_data)
+    if @render_cache && !dirty && @render_cache_data
       screen.write @render_cache_data
-    else 
-      @render_cache_data=[
+    else
+      @render_cache_data = [
         render_border(screen),
         render_self(screen),
         render_text(screen)
@@ -50,19 +50,17 @@ module ElementRender
   end
 
   def clear
-    if parent&&root_screen
-      root_screen.rect(x: abs_x, y: abs_y, width: abs_width, height: abs_height, style: parent.final_style)
-    end
+    root_screen.rect(x: abs_x, y: abs_y, width: abs_width, height: abs_height, style: parent.final_style) if parent && root_screen
   end
 
   protected
 
   def render_self(screen)
     screen.rect(
-      x: abs_x + ( border ? 1 : 0),
-      y: abs_y + ( border ? 1 : 0),
-      width: abs_width - ( border ? 2 : 0),
-      height: abs_height - ( border ? 2 : 0),
+      x: abs_x + (border ? 1 : 0),
+      y: abs_y + (border ? 1 : 0),
+      width: abs_width - (border ? 2 : 0),
+      height: abs_height - (border ? 2 : 0),
       ch: get_attribute('ch'),
       style: final_style
     )
@@ -70,13 +68,13 @@ module ElementRender
 
   # IMPORTANT: border is rendered in a +2 bigger rectangle that sourounds actual element bounds (abs_* methods)
   def render_border(screen)
-    border ? screen.box(abs_x, abs_y, abs_width , abs_height , border.style, border_style) : ''
+    border ? screen.box(abs_x, abs_y, abs_width, abs_height, border.style, border_style) : ''
   end
 
   def render_text(screen)
-      (render_text_lines.map.with_index do |line, i|
-        screen.text(x: abs_content_x, y: abs_content_y + i, text: line, style: final_style)
-      end).join('')
+    (render_text_lines.map.with_index do |line, i|
+      screen.text(x: abs_content_x, y: abs_content_y + i, text: line, style: final_style)
+    end).join('')
   end
 
   def render_children(screen)
@@ -87,7 +85,7 @@ module ElementRender
   end
 
   def render_text_lines(text = @text || '')
-    text && text.length ? (style.wrap ? wrap_text(text, abs_content_width) : text.split('\n')) : []
+    text&.length ? (style.wrap ? wrap_text(text, abs_content_width) : text.split('\n')) : []
   end
 
   # can be used by text widgets like labels or buttons to automatically set preffered size according to its text

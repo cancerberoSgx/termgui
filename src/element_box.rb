@@ -7,21 +7,21 @@ module ElementBox
   include ElementBounds
 
   def abs_content_x
-    abs_x + abs_padding.left + ( border ? 1 : 0)
+    abs_x + abs_padding.left + (border ? 1 : 0)
   end
 
   def abs_content_y
-    abs_y + abs_padding.top+ ( border ? 1 : 0)
+    abs_y + abs_padding.top + (border ? 1 : 0)
   end
 
   def abs_content_width
     m = abs_padding
-    abs_width - m.left - m.right - ( border ? 2 : 0)
+    abs_width - m.left - m.right - (border ? 2 : 0)
   end
 
   def abs_content_height
     m = abs_padding
-    abs_height - m.top - m.bottom - ( border ? 2 : 0)
+    abs_height - m.top - m.bottom - (border ? 2 : 0)
   end
 
   def abs_content_bounds

@@ -62,7 +62,7 @@ module ElementBounds
           end
     o = @parent && parent.offset
     val -= o.top if o
-    # val += 1 if border 
+    # val += 1 if border
     val
   end
 
@@ -82,9 +82,9 @@ module ElementBounds
 
   def abs_width
     val = if (is_percent width) && @parent
-      (@parent.abs_width * width).truncate
-    else
-      width.truncate
+            (@parent.abs_width * width).truncate
+          else
+            width.truncate
     end
     val += 2 if border
     val
@@ -100,12 +100,12 @@ module ElementBounds
   end
 
   def abs_height
-    val= if is_percent height
-      (@parent ? @parent.abs_height * height : 0).truncate
-    else
-      height.truncate
+    val = if is_percent height
+            (@parent ? @parent.abs_height * height : 0).truncate
+          else
+            height.truncate
     end
-    val += 2 if border && border.style
+    val += 2 if border&.style
     val
   end
 end

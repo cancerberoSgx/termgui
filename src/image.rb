@@ -21,7 +21,7 @@ module TermGui
       @path = path
     end
 
-    def rgb(x = 0, y = 0, transparent_color=nil)
+    def rgb(x = 0, y = 0, transparent_color = nil)
       p = @image[x, y]
       if transparent_color
         bg = ChunkyPNG::Color.rgb(transparent_color[0], transparent_color[1], transparent_color[2])
@@ -51,6 +51,10 @@ module TermGui
       else
         Image.new(@image.resample_bilinear(width, height), path)
       end
+    end
+
+    def crop(x: 0, y: 0, width: @image.width, height: @image.height)
+      Image.new(@image.crop(x, y, width, height), path)
     end
   end
 end

@@ -33,7 +33,7 @@ def print_string(str)
 end
 
 def print_ms(t0)
-  "#{((Time.now-t0)*1000).to_i} milliseconds"
+  "#{((Time.now - t0) * 1000).to_i} milliseconds"
 end
 
 def parse_integer(s, default = nil)
@@ -66,7 +66,7 @@ def random_int(min = 0, max = 10)
 end
 
 def random_float(min = 0.0, max = 1.0)
-  rand()*(max-min)+min
+  rand * (max - min) + min
 end
 
 CHARS = ('a'..'z').to_a.concat(('A'..'Z').to_a).push('_', '-', '@', '!', '#', '$', '%', '^', '&', '*', '=', '+')

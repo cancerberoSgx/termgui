@@ -70,15 +70,15 @@ class ElementRenderTest < Test::Unit::TestCase
     screen.append_child(e)
     screen.render
     assert_equal(
-      '            \n' + 
-'            \n' + 
-' ┌──────┐   \n' + 
-' │hello·│   \n' + 
-' │······│   \n' + 
-' │······│   \n' + 
-' └──────┘   \n' + 
-'            \n' + 
-'            \n' + 
+      '            \n' \
+'            \n' \
+' ┌──────┐   \n' \
+' │hello·│   \n' \
+' │······│   \n' \
+' │······│   \n' \
+' └──────┘   \n' \
+'            \n' \
+'            \n' \
       '', screen.print
     )
   end
@@ -90,13 +90,13 @@ class ElementRenderTest < Test::Unit::TestCase
     screen.append_child(e)
     screen.render
     assert_equal(
-      '            \n' + 
-      '            \n' + 
-      ' ┌──────┐   \n' + 
-      ' │hello·│   \n' + 
-      ' │world·│   \n' + 
-      ' │······│   \n' + 
-      ' └──────┘   \n' + 
+      '            \n' \
+      '            \n' \
+      ' ┌──────┐   \n' \
+      ' │hello·│   \n' \
+      ' │world·│   \n' \
+      ' │······│   \n' \
+      ' └──────┘   \n' \
       '', screen.print
     )
   end
@@ -109,15 +109,15 @@ class ElementRenderTest < Test::Unit::TestCase
     screen.append_child(e)
     screen.render
     assert_equal(
-      '                \n' + 
-      ' ┌────────────┐ \n' + 
-      ' │as df rf ty·│ \n' + 
-      ' │gh fg sdf ed│ \n' + 
-      ' │············│ \n' + 
-      ' │············│ \n' + 
-      ' │············│ \n' + 
-      ' └────────────┘ \n' + 
-      '                \n' + 
+      '                \n' \
+      ' ┌────────────┐ \n' \
+      ' │as df rf ty·│ \n' \
+      ' │gh fg sdf ed│ \n' \
+      ' │············│ \n' \
+      ' │············│ \n' \
+      ' │············│ \n' \
+      ' └────────────┘ \n' \
+      '                \n' \
       '', screen.print
     )
   end

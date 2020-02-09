@@ -1,9 +1,8 @@
-require_relative '../../src/termgui'
-require_relative '../../src/widget/modal'
+require_relative '../src/termgui'
+require_relative '../src/widget/modal'
 
 def main
   screen = TermGui::Screen.new
-  screen.install_exit_keys
   screen.append_child Button.new(text: 'click', x: 0, y: 8)
   ed = screen.append_child Editor.new(
     value: 'Welcome to this\nhumble editor',
