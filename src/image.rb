@@ -1,5 +1,6 @@
 require 'chunky_png'
-
+require 'fileutils'
+require_relative 'util/imagemagick'
 # small facade for image decoding and processing
 # Right now only supports reading png thanks to chunky_png
 module TermGui
@@ -7,6 +8,15 @@ module TermGui
     attr_reader :path
 
     def initialize(image = nil, path = image.is_a?(String) ? image : 'unknown.png')
+      if image.is_a?(String)
+        if File.extname(image).capitalize != '.png'
+          if !image_magick_available
+            throw 'Cannot create image from non PNG file without imagemagick available'
+          else
+            image = convert(image)
+          end
+        end
+      end
       @image = image.is_a?(String) ? ChunkyPNG::Image.from_file(image) : image
       @path = path
     end

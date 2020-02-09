@@ -25,7 +25,6 @@ def test2
     images = (ARGV.length>0 ? ARGV  : `ls probes/assets/*.png`.split("\n")).map do |f|
       img = TermGui::Image.new(f)
       img.scale(
-        # algorithm: 'nearest_neighbor',
         width: [screen.width - padding_x * 2, img.width].min,
         height: [screen.height - padding_y * 2, img.height].min
       )
@@ -34,7 +33,6 @@ def test2
     render_current = proc {
       screen.clear
       t0 = Time.now
-      # screen.text(text: '                                                                        ')
       screen.text(text: 'Loading...')
       screen.image(x: padding_x, y: padding_y, image: images[current])
       screen.text(text: "'#{images[current].path}' rendered in #{Time.now - t0} seconds.")

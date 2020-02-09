@@ -25,6 +25,19 @@
 
  - [ ] test coverage : https://github.com/colszowka/simplecov
 
+ - [ ] SelectBox
+   - [ ] trigger changeValue event 
+   - [ ] trigger option-focus event
+   - [ ] call change, input and option_focus props
+
+ - [ ] widgets
+    - [ ] inputbox
+    - [ ] checkbox
+    - [ ] InputNumber
+    - [ ] checkbox
+    - [w] textarea- see editorbase
+
+
  - [x]  colors:
   - [x] verify character attributes work in style (see color.rb ATTRIBUTES  Update - removed ). - 
     - [x] test in a realProbe
@@ -40,6 +53,8 @@
  - [ ] DOM stuff
   - [ ] bounds/layout cascade ? 
   - [x] border_final_style
+  - [x] attribute action-on-focus automatically trigger an action event wneh an element is focused. helpful for selectbox so no enter is needed for working
+  - [x] attribute escape-on-blur
   - [ ] final_style performance - always cloning/merging even if elements don't have any focus or border style...
   - [x] fix HashObject#assign so it won't merge nil valued properties. see element_style#merge_style
   - [x] support hash style declarations: `Element.new(x: 0.1, y: 0.2, style: {fg: 'magenta', border: {style: :double}})`
@@ -54,6 +69,10 @@
     - [ ] element's margin
     - [ ] introduce yoga-layout ? (binary)
     - [ ] are there any layout gems ? 
+
+ - [ ] Elements / renderer dirty / fast-re-render
+   - [ ] expensive elements (like images) should have the chance to support print_cache and dirty flags-
+   - [ ] if print_cache==true - Element.render only will be executed if dirty=true - otherwise Element.render output should cached
 
  - [ ] gem
    - [ ] minimally test gem pack from probe project
@@ -95,10 +114,13 @@
    - [x] try not to use binary dependencies like RMagick:  https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
    - [x] pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -
    - [ ] alpha channel ? currently totally ignored - solution : mix fg and bg according with alpha(bg given by user) - maybe this could be handled by tco/colouring and not Image
-   - [ ]a simple image slider widget for demos - auto-resize large images to feet screen first - arrows to switch
+   - [ ] a simple image slider widget for demos - auto-resize large images to feet screen first - arrows to switch
    - [ ] support ascii art chars like ? currently only printing fixed ch
    - [ ] set_pixel, rect, circle, poly, blezier, rotate, trim
    - [ ] an ImageWidget - auto resize img to given dims - or viceversa, set widget bounds to fit given image size.
+     - [ ] support render cache / dirty - just store print() and write it back - this should be done at renderer/nodes
+   - [x] use local imagemagick to support other formats than png
+   - [ ] use local imagemagick to render fonts
 
  - [w] text rendering - use this : https://github.com/piotrmurach/strings#21-align
    - [x] line wrap

@@ -74,7 +74,8 @@ module TermGui
   end
 end
 
-# SelectBox = TermGui::Widget::SelectBox
+SelectBox = TermGui::Widget::SelectBox
+
 # sb=nil
 # s = Screen.new(children: [
 #   Button.new(text: 'hello', x: 0.7, y: 0.6, action: proc {|e|

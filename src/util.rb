@@ -38,6 +38,12 @@ rescue StandardError
   default
 end
 
+def parse_float(s, default = nil)
+  Float(s)
+rescue StandardError
+  default
+end
+
 # returns true if given value is between 0.0 and 1.0
 def is_percent(val)
   val && val > 0 && val < 1

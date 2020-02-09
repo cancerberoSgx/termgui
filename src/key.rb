@@ -87,3 +87,9 @@ ALPHANUMERICS =
 def alphanumeric?(c)
   ALPHANUMERICS.include? c
 end
+
+NUMERICS = ['.'].concat(('0'...'9').to_a)
+
+def numeric?(c)
+  NUMERICS.include? c
+end

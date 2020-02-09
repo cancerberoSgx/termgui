@@ -41,7 +41,7 @@ module TermGui
       def handle_key(event)
         if !super(event)
           if event.key == 'backspace'
-            on_input value.slice(0, value.length - 1), event
+            on_input value.slice(0, [value.length - 1, 0].max), event
             true
           elsif alphanumeric? event.key
             on_input value + event.key, event
