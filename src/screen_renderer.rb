@@ -9,8 +9,12 @@ module ScreenRenderer
     write @renderer.rect(x: x, y: y, width: width, height: height, ch: ch, style: style)
   end
 
-  def image(x: 0, y: 0, image: nil, ch: Pixel.EMPTY_CH, style: Style.new, fg: false, bg: true, transparent_color: nil, h: height - y, w: width - w)
+  def image(x: 0, y: 0, image: nil, ch: Pixel.EMPTY_CH, style: Style.new, fg: false, bg: true, transparent_color: nil, h: self.height - y, w: self.width - x)
     write @renderer.image(x: x, y: y, image: image, ch: ch || Pixel.EMPTY_CH, style: style, fg: fg, bg: bg, transparent_color: transparent_color, h: h, w: w)
+  end
+
+  def circle(x: nil, y: nil, radius: nil, stroke_ch: ' ', stroke: nil, fill: nil, fill_ch: stroke_ch)
+    write @renderer.circle(x: x, y: y, radius: radius, stroke_ch: stroke_ch, stroke: stroke, fill: fill, fill_ch: fill_ch)
   end
 
   def clear
@@ -23,9 +27,9 @@ module ScreenRenderer
     write @renderer.style.print
   end
 
-  def box(x, y, width, height, border_style = :classic, style = nil)
+  def box(x, y, width, height, border_style = :classic, style = nil, content = ' ')
     self.style = style if style
-    box = draw_box(width: width, height: height, style: border_style)
+    box = draw_box(width: width, height: height, style: border_style, content: content)
     (box.map.with_index do |line, index|
       text(x: x, y: y + index, text: line, style: style)
     end).join('')

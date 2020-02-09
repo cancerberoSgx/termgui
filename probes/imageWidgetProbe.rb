@@ -18,13 +18,14 @@ s = Screen.new(
         style: Style.new(
           # border: Border.new(fg: '#aaaa77', bg: '#ee2233', blink: true),
           # padding: Bounds.new(top: random_float(0.1, 0.2), left: random_float(0.1, 0.2), right: random_float(0.1, 0.2), bottom: random_float(0.1, 0.2)),
-          bg: random_color,
-          # fg: random_color
-        )
-        # use_bg: true,
-        # use_fg: true,
-        # ch: ' '
-        # ch: "　",
+          # bg: random_color,
+          fg: random_color,
+          bg: '#ffffff'
+        ),
+        use_bg: true,
+        use_fg: true,
+        chs: BRAILE
+        # ch: "　"
         # ch: ' '
       )}
       s.clear

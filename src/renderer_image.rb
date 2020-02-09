@@ -4,7 +4,8 @@ require_relative 'image'
 module RendererImage
   # renders given Image or file path at given x, y coords. Currently only PNG format supported.
   # by default bg attribute is used and space is printed for each pixel but this could be configured using fg, bg, and ch
-  def image(x: 0, y: 0, image: nil, ch: ' ', style: Style.new, fg: false, bg: true, h: height - y, w: width - w,
+  # ch can be an array of chars in which case a random one is taken for each pixel
+  def image(x: 0, y: 0, image: nil, ch: ' ', style: Style.new, fg: false, bg: true, h: height - y, w: width - x,
             transparent_color: nil) # if a [r,g,b] color is given, then alpha channel will be considered to mix colors accordingly
     output = []
     image = image.is_a?(String) ? TermGui::Image.new(image) : image
@@ -13,7 +14,7 @@ module RendererImage
         pixel = image.rgb(x2 - x, y2 - y, transparent_color)
         style.bg = pixel if bg
         style.fg = pixel if fg
-        output .push text(x: x2, y: y2, text: ch, style: style) if x2 < w && y2 < h
+        output .push text(x: x2, y: y2, text: ch.is_a?(Array) ? ch.sample : ch, style: style) if x2 < w && y2 < h
       end
     end
     output.join('')

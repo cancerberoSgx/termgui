@@ -50,13 +50,13 @@ module TermGui
     end
 
     def terminal_width
-      $stdout.winsize[1]
+      $stdout.winsize[1] + 1
     rescue StandardError
       80
     end
 
     def terminal_height
-      $stdout.winsize[0]
+      $stdout.winsize[0] + 1
     rescue StandardError
       24
     end

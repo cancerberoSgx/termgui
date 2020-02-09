@@ -3,6 +3,7 @@ require_relative 'key'
 require_relative 'renderer_print'
 require_relative 'renderer_cursor'
 require_relative 'renderer_image'
+require_relative 'renderer_draw'
 
 module TermGui
   # Responsible of (TODO: we should split Renderer into several delegate classes
@@ -14,6 +15,7 @@ module TermGui
     include RendererPrint
     include RendererCursor
     include RendererImage
+    include RendererDraw
 
     attr_reader :width, :height, :buffer, :style
     attr_writer :style, :no_buffer

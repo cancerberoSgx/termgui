@@ -22,6 +22,7 @@ module TermGui
         @zoom = args[:zoom] || 1.0
         @pan_x = args[:pan_x] || 0.0
         @pan_y = args[:pan_y] || 0.0
+        @chs = args[:chs] || [get_attribute('ch')||' ']
       end
 
       def image
@@ -62,7 +63,7 @@ module TermGui
             bg: @use_bg,
             fg:  @use_fg,
             style: final_style,
-            ch: get_attribute('ch')
+            ch: @chs
           ) : ''
         ].join('')
       end

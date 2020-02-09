@@ -22,7 +22,7 @@ def test2
     padding_x = 10
     padding_y = 2
     screen.text(text: 'Loading...')
-    images = (ARGV.length>0 ? ARGV  : `ls probes/assets/*.png`.split("\n")).map do |f|
+    images = (ARGV.length>0 ? ARGV  : `ls /Users/wyeworks/Documents/assets/*`.split("\n")).map do |f|
       img = TermGui::Image.new(f)
       img.scale(
         width: [screen.width - padding_x * 2, img.width].min,
@@ -34,7 +34,8 @@ def test2
       screen.clear
       t0 = Time.now
       screen.text(text: 'Loading...')
-      screen.image(x: padding_x, y: padding_y, image: images[current])
+      screen.image(x: padding_x, y: padding_y, image: images[current], ch: CUNEIFORM, bg: false, fg: true, style: Style.new(bg: '#000000'))
+      # screen.image(x: padding_x, y: padding_y, image: images[current], ch: BRAILE_FILLED, bg: true, fg: false, style: Style.new(fg: '#aaaaaa'))
       screen.text(text: "'#{images[current].path}' rendered in #{Time.now - t0} seconds.")
     }
     screen.event.add_key_listener('left') do
@@ -68,4 +69,6 @@ def test2
 end
 
 test2
+
+
 

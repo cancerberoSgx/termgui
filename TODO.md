@@ -10,7 +10,7 @@
  - [ ] investigate similar target projects 
     - [ ] https://github.com/Shopify/cli-ui 
     - [ ]  https://github.com/gavinlaking/vedeu
-    - [ ] input - check this - https://github.com/piotrmurach/tty-reader supports raw mode for multi line - "https://github.com/piotrmurach/tty-reader#22-read_line" - has the key map implemented.
+    - [ ] input - check this - https://github.com/piotrmurach/tty-reader supports raw mode for multi line - "https://github.com/piotrmurach/tty-reader#22-read_line" - has the key map implemented. - 
     - [ ] keys - full map verify https://rubydoc.info/gems/vedeu/Vedeu
     - [ ] check this out - terminal toolkit - many things needed here - research if it targets the same use cases https://ttytoolkit.org/components/
 
@@ -25,16 +25,20 @@
 
  - [ ] test coverage : https://github.com/colszowka/simplecov
 
- - [ ] SelectBox
-   - [ ] trigger changeValue event 
-   - [ ] trigger option-focus event
-   - [ ] call change, input and option_focus props
+ - [ ] notify / responsive when terminal is resized dynamically
 
  - [ ] widgets
-    - [ ] inputbox
-    - [ ] checkbox
-    - [ ] InputNumber
-    - [ ] checkbox
+    - [x] col
+    - [x] row
+    - [x] label
+    - [x] inputbox
+      - [ ] not grabing input - need a way of preventing other global listeners to listen while entered
+    - [x] checkbox
+    - [x] InputNumber
+    - [x] SelectBox
+      - [ ] trigger changeValue event 
+      - [ ] trigger option-focus event
+      - [ ] call change, input and option_focus props
     - [w] textarea- see editorbase
 
 
@@ -74,6 +78,8 @@
    - [x] expensive elements (like images) should have the chance to support render_cache and dirty flags-
    - [x] if render_cache==true - Element.render only will be executed if dirty=true - otherwise Element.render output should cached
 
+ - [ ] mouse ? minimal mouse support possible ? 
+
  - [ ] gem
    - [ ] minimally test gem pack from probe project
    - [ ] publish
@@ -83,11 +89,10 @@
    - [x] simple cursor artificial class set_interval see src/cursor.rb
    - [ ] use ansi escapes - https://github.com/piotrmurach/tty-cursor for cursor_current state
    - [x] hide when screen.start
-   - [ ] widgets responsible of showing/hiding ? or should it be a cursor manager - enterable - cursorable attributes  ? 
+   - [ ] widgets responsible of showing/hiding ? or should it be a cursor manager - enterable - cursorable attributes  ? currently in inputbox, editor_base managing artificial cursor manually
 
  - [ ] data table widget https://www.google.com/search?q=ruby+gem+terminal&oq=ruby+gem+terminal&aqs=chrome..69i57j69i64.3455j0j4&sourceid=chrome&ie=UTF-8#
 
- - 
  - [ ] documentation
    - [x] generate API documentation (using yard)
    - [ ] publish docs/termgui to github pages
@@ -108,15 +113,19 @@
  
  - [ ] terminal capabilities http://github.com/piotrmurach/tty-color
 
+ - [ ] support drawing using morse unicodes like blessed-contrib
+
  - [x] image rendering - see probes/pngProbe.rb using chunky_png
    - [x] add renderer.image
    - [x] improve perf by pre-reading pixels in memory?
    - [x] try not to use binary dependencies like RMagick:  https://github.com/nodanaonlyzuul/asciiart/blob/master/asciiart.gemspec - this other project is not so old also rely on rmagick https://github.com/nathanpc/ascii-image -  also this https://github.com/pazdera/catpix
    - [x] pure ruby https://github.com/wvanbergen/chunky_png maintained project - see https://github.com/wvanbergen/chunky_png/blob/master/spec/chunky_png/canvas_spec.rb -
    - [x] alpha channel ? currently totally ignored - solution : mix fg and bg according with alpha(bg given by user) - maybe this could be handled by tco/colouring and not Image
+      - [ ] currently getting bg color using final_style or parent.final_style but is not correct - we should use renderer.buffer!
    - [x] a simple image slider widget for demos - auto-resize large images to feet screen first - arrows to switch
    - [ ] support ascii art chars like ? currently only printing fixed ch
-   - [ ] set_pixel, rect, circle, poly, blezier, rotate, trim
+   - [w] set_pixel, rect, circle, poly, blezier, rotate, trim
+     - [x] screen.circle()
    - [x] an ImageWidget - auto resize img to given dims - or viceversa, set widget bounds to fit given image size.
      - [x] support render cache / dirty - just store print() and write it back - this should be done at renderer/nodes
    - [x] use local imagemagick to support other formats than png
@@ -131,7 +140,7 @@
    - [ ] right, center (any gem for this?) https://github.com/piotrmurach/strings
    - [ ] node.text_children or all_text - returns this node text plus all its children text recursively in children order (useful for testing)
 
- - [ ] idea: canvas drawing taking advantage of chunky_png Canvas class  bleziers, resize, rotate, ellipse, etc. Example: draw bleziers in png canvas with transparent bg and only render fg.
+ - [w] idea: canvas drawing taking advantage of chunky_png Canvas class  bleziers, resize, rotate, ellipse, etc. Example: draw bleziers in png canvas with transparent bg and only render fg.
 
  - [ ] fix duplicated Event class ... see emitter.rb : " this is the same as event.rb Event. Move Event classes to individual - non dependency file"
 
