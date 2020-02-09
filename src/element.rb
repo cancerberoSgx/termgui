@@ -23,17 +23,17 @@ module TermGui
       super
       install(%i[focus blur action enter escape])
       args[:attributes] = { x: args[:x] || 0, y: args[:y] || 0, width: args[:width] || 0, height: args[:height] || 0 } if args[:attributes] == nil
-      a = {}
-      a.merge!(args)
-      a.merge!(args[:attributes] || {})
-      a[:style] = default_style.clone.assign(Style.from_hash(args[:attributes][:style])).assign(Style.from_hash(args[:style]))
+      a = {}.merge(args, args[:attributes] || {})
+      # a.merge!(args)
+      # a.merge!(args[:attributes] || {})
+      a[:style] = default_style.assign(Style.from_hash(a[:attributes][:style])).assign(Style.from_hash(a[:style]))
       self.attributes = a
       self.style = a[:style]
       on(%i[focus blur action enter escape]) do |e|
         if e.name == 'action'
           set_attribute('actioned', true)
           render
-          root_screen&.set_timeout(get_attribute('actioned-interval') || 0.5) do
+          root_screen&.set_timeout(get_attribute('actioned-interval') || 0.2) do
             set_attribute('actioned', false)
             render
           end
@@ -43,12 +43,8 @@ module TermGui
       end
     end
 
-    def ch
-      get_attribute('ch')
-    end
-
     def focus
-      root_screen&.focus.focused = self if get_attribute('focusable')
+      root_screen&.focus&.focused = self if get_attribute('focusable')
     end
   end
 end

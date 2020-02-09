@@ -77,9 +77,9 @@ module TermGui
     end
 
     def render
-      # @screen.clear
-      @screen.rect(x: x, y: y, width: width, height: height, style: Style.new)
-      # @screen.render
+      @screen.clear
+      # @screen.rect(x: x, y: y, width: width, height: height, style: Style.new)
+      @screen.render
       @lines.each_with_index do |line, i|
         @screen.text(x: @x, y: @y + i, text: line)
       end

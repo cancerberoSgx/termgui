@@ -10,10 +10,8 @@ module TermGui
   end
 
   class ChangeEvent < NodeEvent
-    # attr_accessor :value
     def initialize(target, _value = target.value, original_event = nil)
       super 'change', target, original_event
-      # @value = value
     end
   end
 
@@ -38,10 +36,6 @@ module TermGui
       set_attribute(:enterable, true)
       set_attribute(:actionable, true)
       install(%i[input action enter change escape focus blur])
-      # install(:action)
-      # install(:enter)
-      # install(:change)
-      # install(:escape)
       on(:action) do |event|
         unless get_attribute('entered')
           set_attribute('entered', true)
@@ -67,32 +61,23 @@ module TermGui
         trigger('escape', EscapeEvent.new(self, event))
         root_screen.event.remove_any_key_listener @key_listener
         true
-      # elsif event.key == 'backspace'
-      #   on_input value.slice(0, value.length - 1), event
-      #   true
-      # elsif alphanumeric? event.key
-      #   on_input value + event.key, event
-      #   true
       else
         false
       end
     end
 
-    # def value=(value)
-    #   # @value = value
-    #   throw 'subclass must implementation'
-    # end
+    def value=(value)
+      throw 'subclass must implementation'
+    end
 
-    # def value
-    #   # @value
-    #   throw 'subclass must implementation'
-    # end
+    def value
+      throw 'subclass must implementation'
+    end
 
     protected
 
     def on_input(value, event = nil)
       self.value = value
-      # self.text = self.value
       root_screen.clear # TODO: performance
       root_screen.render
       trigger('input', InputEvent.new(self, value, event))

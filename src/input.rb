@@ -15,7 +15,7 @@ module TermGui
 
     attr_reader :interval, :stdin, :stopped
 
-    def initialize(stdin = $stdin, interval = 0.01)
+    def initialize(stdin = $stdin, interval = 0.0001)
       super
       @interval = interval
       @stdin = stdin
@@ -24,6 +24,7 @@ module TermGui
     end
 
     def stop
+      # super
       @stopped = true
     end
 

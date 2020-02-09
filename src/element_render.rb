@@ -25,7 +25,7 @@ module ElementRender
   end
 
   def root_screen
-    @parent && @parent.root_screen
+    @parent&.root_screen
   end
 
   protected
@@ -37,7 +37,7 @@ module ElementRender
       y: abs_y,
       width: abs_width,
       height: abs_height,
-      ch: ch,
+      ch: get_attribute('ch'),
       style: final_style
     )
   end
@@ -55,7 +55,7 @@ module ElementRender
     end
   end
 
-  def render_text_lines(text = @text||'')
+  def render_text_lines(text = @text || '')
     style.wrap ? wrap_text(text, abs_content_width) : text.split('\n')
   end
 

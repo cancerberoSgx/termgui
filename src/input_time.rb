@@ -79,6 +79,12 @@ module InputTime
       end
     end
   end
+  
+  def stop
+    super
+    @timeout_listeners=[]
+    @interval_listeners=[]
+  end
 
   def dispatch_set_interval
     @interval_listeners.each do |listener|
