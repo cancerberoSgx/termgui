@@ -23,6 +23,31 @@ module TermGui
       merge_hash_into_object hash, Bounds.new
     end
   end
+
+  class Point
+    attr_accessor :x, :y
+    def initialize(x: 0, y: 0)
+      @x = x
+      @y = y
+    end
+  end
+
+  class Rectangle < Point
+    attr_accessor :width, :height
+
+    def initialize(x: 0,  y: 0, width: 0, height: 0)
+      super(x: x, y: y)
+      @width = width
+      @height = height
+    end
+
+    def self.from_hash(hash)
+      merge_hash_into_object hash, Rectangle.new
+    end
+  end
 end
+
 Offset = TermGui::Offset
 Bounds = TermGui::Bounds
+Point = TermGui::Point
+Rectangle = TermGui::Rectangle

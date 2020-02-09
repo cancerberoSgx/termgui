@@ -80,9 +80,6 @@ class ElementStyleTest < Test::Unit::TestCase
     assert_equal false, e.get_attribute('focused')
     e.set_attribute('focused', true)
     assert_equal true, e.get_attribute('focused')
-    # p e.style.focus.bg
-    # e.final_stylew
-    # e.final_style
     assert_equal 'red', e.final_style.bg
   end
 end

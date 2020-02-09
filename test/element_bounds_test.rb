@@ -40,12 +40,12 @@ class ElementBoundsTest < Test::Unit::TestCase
 
     assert_equal(
       '            \n' \
-    '            \n' \
-    '      ┌─────\n' \
-    '      │·····\n' \
-    '      │··hel\n' \
-    '      │·····\n' \
-    '      │·····\n', s.renderer.print
+      '            \n' \
+      '      ┌─────\n' \
+      '      │·····\n' \
+      '      │··hel\n' \
+      '      │·····\n' \
+      '      │·····\n', s.renderer.print
     )
 
     s.offset.left = 5

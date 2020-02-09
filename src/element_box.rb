@@ -24,6 +24,16 @@ module ElementBox
     abs_height - m.top - m.bottom
   end
 
+  def abs_content_bounds
+    y = abs_content_y
+    x = abs_content_x
+    Bounds.new(left: x, right: x + abs_content_width, top: y, bottom: y + abs_content_height)
+  end
+
+  def abs_content_box
+    Rectangle.new(x: abs_content_x, y: abs_content_y, width: abs_content_width, height: abs_content - abs_content_height)
+  end
+
   # returns padding as Offset instance
   def padding
     padding = get_style('padding')
@@ -51,14 +61,4 @@ module ElementBox
       right: is_percent(p.right) ? (p.right * abs_width).truncate : p.right
     )
   end
-
-  # protected
-
-  # def border_x_size
-  #   style.border ? 2 : 0
-  # end
-
-  # def border_y_size
-  #   style.border ? 2 : 0
-  # end
 end
