@@ -9,7 +9,8 @@ module TermGui
     class InputBox < Button
       include Enterable
       def initialize(**args)
-        super({ width: 0.99, height: 1 }.merge(args))
+        super({height: 1, text: args[:value]||args[:text] }.merge(args))
+        # super
         @name = 'input'
         if args[:dynamic_width]
           on(:input) do |e|

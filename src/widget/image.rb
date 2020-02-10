@@ -23,21 +23,23 @@ module TermGui
         @pan_x = args[:pan_x] || 0.0
         @pan_y = args[:pan_y] || 0.0
         @chs = args[:chs] || [get_attribute('ch')||' ']
+        @x_factor = args[:x_factor]||2.0 # to improve non squared terminal "pixels"
+        @y_factor = args[:y_factor]||1.2
       end
 
       def image
         if !@image && @src
           @image = @src.is_a?(String) ? TermGui::Image.new(@src) : @src
         end
-        if @image
-          factor = (@image.width - abs_content_width) < (@image.height - abs_content_height) ?
-          @zoom * @image.width.to_f / abs_content_width.to_f :
-            @zoom * @image.height.to_f / abs_content_height.to_f
+          factor = (@image.width*2.0 - abs_content_width) < (@image.height - abs_content_height) ?
+          @zoom * @x_factor*@image.width.to_f / abs_content_width.to_f :
+            @zoom * @y_factor * @image.height.to_f / abs_content_height.to_f
+
           @resized_image = @image.scale(
-            width: (@image.width.to_f / factor).to_i,
-            height: (@image.height.to_f / factor).to_i
+            width: (@image.width.to_f*@x_factor / factor).to_i,
+            height: (@image.height.to_f* @y_factor  / factor).to_i
           )
-          # root_screen.text(text: factor.to_s)
+          # root_screen.text(text: " #{[factor, @image.height, @image.width, @resized_image.width, @resized_image.height, abs_content_width,abs_content_height, abs_content_x, abs_content_y]}", y: 3, x: 55)
           if @pan_x + @pan_y > 0
             @resized_image = @resized_image.crop(
               x: (@resized_image.width.to_f * @pan_x).to_i,
@@ -46,7 +48,6 @@ module TermGui
               height: (@resized_image.height.to_f - @resized_image.height.to_f * @pan_y).to_i
             )
           end
-      end
         @image
       end
 
@@ -56,8 +57,8 @@ module TermGui
           image ? screen.image(
             x: abs_content_x,
             y: abs_content_y,
-            w: abs_content_width - abs_content_x,
-            h: abs_content_height - abs_content_y,
+            w: abs_content_width,
+            h: abs_content_height ,
             transparent_color: !@ignore_alpha ? TermGui.to_rgb(@transparent_color || final_style.bg || '#000000') : nil,
             image: @resized_image,
             bg: @use_bg,
@@ -78,6 +79,7 @@ module TermGui
         @resized_image = nil
         image
         if force_render
+          self.dirty = true
           clear
           render
         end

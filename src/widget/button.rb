@@ -14,10 +14,12 @@ module TermGui
 
       def default_style
         s = super
-        s.border = Border.new(fg: 'red')
-        s.bg = 'black'
-        s.fg = 'blue'
-        s.focus&.fg = 'green'
+        s.border = Border.new(fg: '#779966')
+        s.bg = '#336688'
+        s.fg = '#111111'
+        s.focus&.fg = 'red'
+        s.focus.bold = true
+        s.focus.underline = true
         s.focus&.bg = 'grey'
         s.focus&.border = Border.new(fg: 'green')
         s.action&.bg = 'red'

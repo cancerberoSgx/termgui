@@ -1,5 +1,7 @@
 ## TODO
 
+ - [ ] issues with bounds andborders is probably solvable by fixing box() by allowing not to print the content and only the border - so can be run after render_self without affecting the content
+ - [ ] this doesn't work: ` style: { padding: Bounds.new(top: 11, left: 11)` nor this: ``this does `style: Style.new(padding: Bounds.new(top: 11, left: 11)`
  - [ ] advance focus
    - [ ] how to support focus hierarchies ? 
      - [ ] alternative 1: use tabs to focus primary panels and arrows to focus internal widgets of current first level focused panel 

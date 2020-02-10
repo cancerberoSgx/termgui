@@ -6,7 +6,7 @@ module TermGui
     class Col < Element
       attr_accessor :gap
       def initialize(**args)
-        # p(({height: 0.99}.merge(args))[:height])
+        # p(({height: 0.99999}.merge(args))[:height])
         super({ height: 0.9999999 }.merge(args))
         # p height, abs_height
         @name = 'col'

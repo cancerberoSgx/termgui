@@ -44,3 +44,5 @@ Layout/HashAlignment:
   Enabled: false
 Style/ConditionalAssignment:
   Enabled: false
+Layout/FirstArrayElementIndentation:
+  Enabled: false

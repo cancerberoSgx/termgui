@@ -33,7 +33,7 @@ def print_string(str)
 end
 
 def print_ms(t0)
-  "#{((Time.now - t0) * 1000).to_i} milliseconds"
+  "#{((Time.now - t0) * 1000).to_i} ms"
 end
 
 def parse_integer(s, default = nil)

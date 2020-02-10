@@ -1,2 +1,2 @@
-sh scripts/test.sh
-filewatcher '**/*.rb' 'sh scripts/test.sh'
+sh bin/test
+filewatcher '**/*.rb' 'sh bin/test'
