@@ -96,3 +96,15 @@ def some(array, predicate)
   end
   value
 end
+
+# TODO: this is the same as event.rb Event. Move Event classes to individual - non dependency file
+module TermGui
+  class Event
+    # @return {String}
+    attr_reader :name
+    # @param {String} name
+    def initialize(name)
+      @name = name
+    end
+end
+end

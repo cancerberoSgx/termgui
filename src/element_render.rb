@@ -31,6 +31,8 @@ module ElementRender
     return '' unless screen
 
     trigger(:before_render)
+
+    layout
     if @render_cache && !dirty && @render_cache_data
       screen.write @render_cache_data
     else
@@ -78,7 +80,6 @@ module ElementRender
   end
 
   def render_children(screen)
-    layout
     (@children.map do |c|
       c.render(screen)
     end).join('')

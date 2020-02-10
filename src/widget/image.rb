@@ -10,7 +10,7 @@ module TermGui
     # use_bg (true by default) will paint pixels using style.bg
     # use_fg (false by default) will paint using style.fg
     class Image < Element
-      attr_accessor :pan_x, :pan_y, :zoom, :chs
+      attr_accessor :pan_x, :pan_y, :zoom
       def initialize(**args)
         super
         @name = 'image'
@@ -22,33 +22,48 @@ module TermGui
         @zoom = args[:zoom] || 1.0
         @pan_x = args[:pan_x] || 0.0
         @pan_y = args[:pan_y] || 0.0
-        @chs = args[:chs] || [get_attribute('ch')||' ']
-        @x_factor = args[:x_factor]||2.0 # to improve non squared terminal "pixels"
-        @y_factor = args[:y_factor]||1.2
+        @chs = args[:chs] || [get_attribute('ch') || ' ']
+        @x_factor = args[:x_factor] || 2.0 # to improve non squared terminal "pixels"
+        @y_factor = args[:y_factor] || 1.2
       end
 
       def image
         if !@image && @src
           @image = @src.is_a?(String) ? TermGui::Image.new(@src) : @src
         end
-          factor = (@image.width*2.0 - abs_content_width) < (@image.height - abs_content_height) ?
-          @zoom * @x_factor*@image.width.to_f / abs_content_width.to_f :
-            @zoom * @y_factor * @image.height.to_f / abs_content_height.to_f
+        factor = (@image.width * 2.0 - abs_content_width) < (@image.height - abs_content_height) ?
+        @zoom * @x_factor * @image.width.to_f / abs_content_width.to_f :
+          @zoom * @y_factor * @image.height.to_f / abs_content_height.to_f
 
-          @resized_image = @image.scale(
-            width: (@image.width.to_f*@x_factor / factor).to_i,
-            height: (@image.height.to_f* @y_factor  / factor).to_i
+        @resized_image = @image.scale(
+          width: (@image.width.to_f * @x_factor / factor).to_i,
+          height: (@image.height.to_f * @y_factor / factor).to_i
+        )
+        # root_screen.text(text: " #{[factor, @image.height, @image.width, @resized_image.width, @resized_image.height, abs_content_width,abs_content_height, abs_content_x, abs_content_y]}", y: 3, x: 55)
+        if @pan_x + @pan_y > 0
+          @resized_image = @resized_image.crop(
+            x: (@resized_image.width.to_f * @pan_x).to_i,
+            y: (@resized_image.height.to_f * @pan_y).to_i,
+            width: (@resized_image.width.to_f - @resized_image.width.to_f * @pan_x).to_i,
+            height: (@resized_image.height.to_f - @resized_image.height.to_f * @pan_y).to_i
           )
-          # root_screen.text(text: " #{[factor, @image.height, @image.width, @resized_image.width, @resized_image.height, abs_content_width,abs_content_height, abs_content_x, abs_content_y]}", y: 3, x: 55)
-          if @pan_x + @pan_y > 0
-            @resized_image = @resized_image.crop(
-              x: (@resized_image.width.to_f * @pan_x).to_i,
-              y: (@resized_image.height.to_f * @pan_y).to_i,
-              width: (@resized_image.width.to_f - @resized_image.width.to_f * @pan_x).to_i,
-              height: (@resized_image.height.to_f - @resized_image.height.to_f * @pan_y).to_i
-            )
-          end
+        end
         @image
+      end
+
+      def chs=(v)
+        if @chs.join != v.join
+          @chs = v
+          self.dirty = true
+        end
+      end
+
+      def original_image
+        @image
+      end
+
+      def current_image
+        @resized_image
       end
 
       def render_self(screen)
@@ -58,7 +73,7 @@ module TermGui
             x: abs_content_x,
             y: abs_content_y,
             w: abs_content_width,
-            h: abs_content_height ,
+            h: abs_content_height,
             transparent_color: !@ignore_alpha ? TermGui.to_rgb(@transparent_color || final_style.bg || '#000000') : nil,
             image: @resized_image,
             bg: @use_bg,

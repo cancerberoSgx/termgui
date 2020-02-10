@@ -1,0 +1,1 @@
+* zoom and pan are not currently in the app state

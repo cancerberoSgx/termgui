@@ -1,14 +1,15 @@
 require_relative 'input'
+require_relative 'util'
 
 module TermGui
-  # Base event class. Independent of Element.
-  class Event
-    attr_reader :name
+  # # Base event class. Independent of Element.
+  # class Event
+  #   attr_reader :name
 
-    def initialize(name)
-      @name = name
-    end
-  end
+  #   def initialize(name)
+  #     @name = name
+  #   end
+  # end
 
   # Event related with a Node (`target`) and a native event (`original_event`).
   class NodeEvent < Event

@@ -51,6 +51,13 @@ def open_modal(
   end
 end
 
+def clode_modal(screen)
+  modals = screen.query_by_attribute('modal-widget', true)
+  # return unless modals.length>0
+  modals.each{|modal|modal.remove}
+  screen.render if modals.length>0
+end
+
 module TermGui
   module Widget
     class Modal

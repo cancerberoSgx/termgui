@@ -70,11 +70,11 @@
   - [ ] overflow: scroll
   - [x] Element#layout() 
     - [x] widgets Col and Row not working correctly - formalize them and test
+    - [x] an inline layout - similar to HTML display: inline - so I can add arbitrary elements. it will break when there is no more space and resize itself. See widget/Inline
     - [ ] GridLayout and GridWidget 
     - [ ] check https://rubydoc.info/gems/terminal-layout
     - [ ] element's margin
     - [ ] introduce yoga-layout ? (binary)
-    - [ ] are there any layout gems ? 
 
  - [x] Elements / renderer dirty / fast-re-render
    - [x] expensive elements (like images) should have the chance to support render_cache and dirty flags-
@@ -135,6 +135,7 @@
 
  - [w] text rendering - use this : https://github.com/piotrmurach/strings#21-align
    - [x] line wrap
+   - [ ] some kind of language so is easy to write stuff with attributes / colors like blessed has - or markdown-like syntax... `<red,bold,underline>Title</>` etc... 
    - [ ] use https://github.com/piotrmurach/strings for align and more sine supports unicode and ansi. 
    - [ ] use https://github.com/piotrmurach/strings also for line wrap and remove current impl.
    - [ ] justified, https://rubydoc.info/gems/justify

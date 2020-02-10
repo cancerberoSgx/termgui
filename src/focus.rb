@@ -74,7 +74,6 @@ module TermGui
 
     def handle_key(e)
       return if @focused&.get_attribute('entered') && !@focused&.get_attribute('escape-on-blur')
-
       if @keys[:next].include? e.key
         focus_next
       elsif @keys[:prev].include? e.key

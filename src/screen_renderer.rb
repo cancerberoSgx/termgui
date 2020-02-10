@@ -9,7 +9,7 @@ module ScreenRenderer
     write @renderer.rect(x: x, y: y, width: width, height: height, ch: ch, style: style)
   end
 
-  def image(x: 0, y: 0, image: nil, ch: Pixel.EMPTY_CH, style: Style.new, fg: false, bg: true, transparent_color: nil, h: self.height - y, w: self.width - x)
+  def image(x: 0, y: 0, image: nil, ch: Pixel.EMPTY_CH, style: Style.new, fg: false, bg: true, transparent_color: nil, h: height - y, w: width - x)
     write @renderer.image(x: x, y: y, image: image, ch: ch || Pixel.EMPTY_CH, style: style, fg: fg, bg: bg, transparent_color: transparent_color, h: h, w: w)
   end
 

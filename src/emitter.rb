@@ -1,16 +1,6 @@
 require_relative 'emitter_state'
 require_relative 'util'
 
-# TODO: this is the same as event.rb Event. Move Event classes to individual - non dependency file
-class Event
-  # @return {String}
-  attr_reader :name
-  # @param {String} name
-  def initialize(name)
-    @name = name
-  end
-end
-
 module TermGui
   # Basic event emitter, similar to Node's Emitter
   # adapted from https://medium.com/@kopilov.vlad/use-event-emitter-in-ruby-6b289fe2e7b4
