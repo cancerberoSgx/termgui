@@ -46,3 +46,5 @@ Style/ConditionalAssignment:
   Enabled: false
 Layout/FirstArrayElementIndentation:
   Enabled: false
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false

@@ -1,4 +1,5 @@
 require_relative '../src/termgui'
+require_relative '../src/util/unicode-categories'
 # menu:
 #  * open imagen original
 #  * select unicode category
@@ -20,12 +21,13 @@ require_relative '../src/termgui'
 MAX = 0.99999999
 
 class State
-  attr_accessor :files, :glob, :current, :images, :render_cache
+  attr_accessor :files, :glob, :current, :images, :render_cache, :chs
   def initialize(glob, files)
     @files = files
     @glob = glob
     @current = 0
     @render_cache = true
+    @chs = :Cuneiform
   end
 end
 
@@ -35,6 +37,30 @@ class App
     @screen = screen
     build_initial_state(glob)
     build_elements
+    install_keyboard_shortcuts
+  end
+
+  def install_keyboard_shortcuts
+    screen.event.add_any_key_listener { |e| handle_key e }
+  end
+
+  def handle_key(e)
+    return if screen.query_one_by_attribute('entered', true)
+    if e.key == '+'
+      handle_zoom_in
+    elsif e.key == '-'
+      handle_zoom_out
+    elsif e.key == 'left'
+      handle_prev
+    elsif e.key == 'right'
+      handle_next
+    elsif e.key == 'up'
+      handle_pan_up
+    elsif e.key == 'down'
+      handle_pan_down
+    elsif e.key == 'w'
+      handle_brush_selection
+    end
   end
 
   def build_elements
@@ -52,11 +78,50 @@ class App
           Button.new(text: 'right', action: proc { handle_pan_right }),
           Button.new(text: 'left', action: proc { handle_pan_left }),
           Button.new(text: 'up', action: proc { handle_pan_up }),
-          Button.new(text: 'down', action: proc { handle_pan_down })
+          Button.new(text: 'down', action: proc { handle_pan_down }),
+          (@brush = Button.new(text: 'brush', action: proc { handle_brush }))
         ]),
         (@image_container = Row.new(height: MAX, width: MAX))
     ])
     )
+  end
+
+  def handle_brush
+    if @brush_select
+      @brush_select&.remove
+      screen.append_child(@brush_select)
+    else   
+       @brush_select = @brush_select || SelectBox.new(
+      x: 0.2,
+      y: 0.01,
+      width: 30,
+      height: 0.9,
+      parent: screen,
+      options: UNICODE_CATEGORIES.keys.map do |k|
+        {
+          value: k,
+          text: k.to_s
+        }
+      end,
+      input: proc {
+        @brush_select.remove
+        handle_brush_selection @brush_select.value&.sample
+      }
+    )
+    end
+    screen.clear
+    @brush_select.focus
+    @brush_select.render
+    # screen.render
+  end
+
+  def handle_brush_selection(sel = UNICODE_CATEGORIES.keys.sample)
+    state.chs = sel|| state.chs
+    log  "Brush #{ state.chs}"
+    image_widgets[state.current].chs = UNICODE_CATEGORIES[state.chs] 
+    render_current
+    screen.clear
+    screen.render
   end
 
   def build_initial_state(glob)
@@ -82,15 +147,13 @@ class App
       image_widgets[state.current] = TermGui::Widget::Image.new(
         render_cache: state.render_cache,
         parent:   image_container,
-        x: 0,
-        y: 0,
         width: MAX,
         height: MAX,
         src: state.files[state.current],
         style: Style.new(bg: '#000000'),
         use_bg: false,
         use_fg: true,
-        chs: BRAILE
+        chs: UNICODE_CATEGORIES[state.chs]
       )
     end
     image_widgets[state.current].refresh(state.render_cache)

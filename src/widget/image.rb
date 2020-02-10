@@ -10,7 +10,7 @@ module TermGui
     # use_bg (true by default) will paint pixels using style.bg
     # use_fg (false by default) will paint using style.fg
     class Image < Element
-      attr_accessor :pan_x, :pan_y, :zoom
+      attr_accessor :pan_x, :pan_y, :zoom, :chs
       def initialize(**args)
         super
         @name = 'image'

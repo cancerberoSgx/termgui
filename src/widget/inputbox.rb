@@ -83,4 +83,3 @@ end
 
 InputBox = TermGui::Widget::InputBox
 
-# p 'sdfsdf'[0..3]

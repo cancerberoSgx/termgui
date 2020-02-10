@@ -11,6 +11,9 @@ module TermGui
         @name = 'select-option'
         set_attribute('focusable', false)
       end
+      # def default_style
+      #   Style.new(fg: 'white', bg: 'yellow')
+      # end
     end
 
     # One line text input box, analog to HTMLInputElement
@@ -51,7 +54,6 @@ module TermGui
         # todo
         # throw 'todo'
       end
-
       def handle_key(event)
         if !super(event)
           if event.key == 'up'

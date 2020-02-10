@@ -39,7 +39,7 @@ module TermGui
       set_attribute(:actionable, true)
       install(%i[input action enter change escape focus blur])
       on(:action) do |event|
-        unless get_attribute('entered')
+        return unless root_screen && get_attribute('entered')
           set_attribute('entered', true)
           @key_listener = proc { |e| handle_key e }
           root_screen.event.add_any_key_listener @key_listener
@@ -47,14 +47,15 @@ module TermGui
           on('input', args[:input]) if args[:input]
           on('escape', args[:escape]) if args[:escape]
           trigger('enter', EnterEvent.new(self, event))
-        end
       end
       on(%i[blur escape change]) do
+        return unless root_screen
         set_attribute('entered', false)
       end
     end
 
     def handle_key(event)
+      return unless root_screen
       if !get_attribute('focused')
         trigger('change', ChangeEvent.new(self, value, event))
         root_screen.event.remove_any_key_listener @key_listener
@@ -79,9 +80,8 @@ module TermGui
     protected
 
     def on_input(value, event = nil)
+      return unless root_screen
       self.value = value
-      # root_screen.clear # TODO: performance
-      # root_screen.render
       trigger('input', InputEvent.new(self, value, event))
     end
   end
