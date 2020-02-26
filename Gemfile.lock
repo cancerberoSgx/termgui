@@ -7,10 +7,9 @@ GEM
     filewatcher (1.1.1)
       optimist (~> 3.0)
     jaro_winkler (1.5.4)
-    justify (1.0.2)
     maruku (0.7.3)
     mini_portile2 (2.4.0)
-    nokogiri (1.10.5)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     optimist (3.0.0)
     parallel (1.19.1)
@@ -60,7 +59,6 @@ PLATFORMS
 DEPENDENCIES
   chunky_png
   filewatcher
-  justify
   rexml
   rubocop
   solargraph
